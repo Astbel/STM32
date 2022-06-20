@@ -10,7 +10,7 @@
 
 #ifndef INC_FLASH_H_
 #define INC_FLASH_H_
-
+#include "main.h"
 /* Private defines------------ -----------------------------------------------*/
 #define ADDR_FLASH_PAGE_0     ((uint32_t)0x08000000) /* Base @ of Page 0, 2 Kbytes */
 #define ADDR_FLASH_PAGE_1     ((uint32_t)0x08000800) /* Base @ of Page 1, 2 Kbytes */
@@ -276,7 +276,16 @@
   * @param  Erase and Write Data
   * @retval	status
   */
-void Flash_Data(void);
+extern void Flash_Data(uint32_t Start_Addr,uint32_t End_Addr,Uint32 write_data);
+
+//User define the Memory Addr
+#define FLASH_USER_START_ADDR  ADDR_FLASH_PAGE_4   /* Start @ of user Flash area */
+#define FLASH_USER_END_ADDR     (ADDR_FLASH_PAGE_5 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
+#define FLASH_RX_START_ADDR  ADDR_FLASH_PAGE_7   /* Start @ of user Flash area */
+#define FLASH_RX_END_ADDR     (ADDR_FLASH_PAGE_10 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
+//Flash Data here 
+#define Initial_DATA               ((uint32_t)0x8456237)
+#define RX_DATA_32                 ((uint32_t)0x4633222)
 #endif /* INC_FLASH_H_ */
 
 /***************************END OF FILE****************************************/

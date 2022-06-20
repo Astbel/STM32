@@ -21,13 +21,17 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g4xx_it.h"
+#include "flash.h"
+#include "uartMsg.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
+//RX adder
 
+//#define RX_DATA_32                 ((uint32_t)0x4633214)
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +61,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim16;
+extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -214,6 +219,60 @@ void TIM1_UP_TIM16_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
+  */
+/*UART Receive  中斷ISR*/
+//void USART1_IRQHandler(void) {
+//	/* USER CODE BEGIN USART1_IRQn 0 */
+//	uart_send_msg("UART IRQ Handler execute\r\n");
+//	// static unsigned char uRx_Data[1024] = { 0 };    //存储数组
+//	// static unsigned char *pRx_Data = uRx_Data;    //指向存储数组将要存储数据的位
+//	// static unsigned char uLength = 0;    //接收数据长度
+//
+//	// /* -1- 接收数据 */
+//	// HAL_UART_Receive(&huart1, pRx_Data, 1, 1000);
+//
+//	// /* -2- 判断数据结尾 */
+//	// if (*pRx_Data == '\n') {
+//	// 	/* -3- 将接收成功的数据通过串口发出去 */
+//	// 	HAL_UART_Transmit(&huart1, uRx_Data, uLength, 0xffff);
+//	// 	/* -4- 初始化指针和数据长度 */
+//	// 	pRx_Data = uRx_Data;   //重新指向数组起始位置
+//	// 	uLength = 0;          //长度清零
+//	// }
+//
+//	// /* -5- 若未结束，指针往下一位移动，长度自增一 */
+//	// else {
+//	// 	pRx_Data++;
+//	// 	uLength++;
+//	// }
+//
+//	/* USER CODE END USART1_IRQn 0 */
+//	HAL_UART_IRQHandler(&huart1);
+//	/* USER CODE BEGIN USART1_IRQn 1 */
+//	HAL_UART_Abort_IT(&huart1);
+//
+//	 HAL_UART_Receive_IT (&huart1, rx_buff, 4);
+//	/* USER CODE END USART1_IRQn 1 */
+//}
+//UART ISR Handler 
+void USART1_IRQHandler(void) {
+//LOG for checking out handler 
+uart_send_msg("UART IRQ Handler execute\r\n");
+//USER DATA
+
+Flash_Data(FLASH_RX_START_ADDR,FLASH_RX_END_ADDR,RX_DATA_32);
+
+
+/* Below is restart the UART ISR*/
+	HAL_UART_IRQHandler(&huart1);
+	HAL_UART_Abort_IT(&huart1);
+	 HAL_UART_Receive_IT (&huart1, rx_buff, 4);
+}
+
+
+
+/**
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
@@ -231,3 +290,9 @@ void EXTI15_10_IRQHandler(void)
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+
+
+
+

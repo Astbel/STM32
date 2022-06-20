@@ -11,10 +11,14 @@
 #ifndef INC_UARTMSG_H_
 #define INC_UARTMSG_H_
 
+#include "main.h"
+
 /* Private defines------------ -----------------------------------------------*/
 #define UART_DELAY	100    //Delay in ms
 #define USE_UART	1
-
+extern Uint8 Flash_done_Flag;
+extern uint8_t rx_buff[10];
+extern uint8_t tx_buff;
 /* Private function prototypes -----------------------------------------------*/
 /**************************uart_send_msg****************************************
  **

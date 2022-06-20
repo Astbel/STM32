@@ -19,11 +19,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+#include "stdio.h"
 #include "uartMsg.h"
 #include "flash.h"
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,7 +71,7 @@ static void MX_TIM16_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+//	Uint8 Flash_done_Flag;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -79,7 +80,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  Flash_done_Flag =0;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -93,14 +94,20 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_TIM16_Init();
-
+  //Flash_Data();
+  Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Initial_DATA);
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim16);
   uart_send_msg("Hello from user app\r\n");
   /* USER CODE END 2 */
- Flash_Data();
+
   /* Infinite loop */
+ uart_send_msg("End of initalize system\r\n");
   /* USER CODE BEGIN WHILE */
+  HAL_UART_Receive_IT (&huart1,rx_buff, 4);
+//  uint8_t str[] = "uploade checker\n\r";
+//  HAL_UART_Transmit(&huart1, (uint8_t*)str, 16, 1000);
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -291,9 +298,11 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	// toggle LED
-	 HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	 uart_send_msg(".");
+  if (Flash_done_Flag==0)
+  {
+   	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  uart_send_msg(".");
+  }
 }
 /* USER CODE END 4 */
 
