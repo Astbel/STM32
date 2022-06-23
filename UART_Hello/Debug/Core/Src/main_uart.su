@@ -1,7 +1,7 @@
-../Core/Src/main_uart.c:70:5:main	8	static
-../Core/Src/main_uart.c:117:6:SystemClock_Config	168	static
-../Core/Src/main_uart.c:171:13:MX_TIM16_Init	8	static
-../Core/Src/main_uart.c:203:13:MX_USART1_UART_Init	8	static
-../Core/Src/main_uart.c:251:13:MX_GPIO_Init	48	static
-../Core/Src/main_uart.c:292:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/main_uart.c:304:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main_uart.c:71:5:main	8	static
+../Core/Src/main_uart.c:119:6:SystemClock_Config	168	static
+../Core/Src/main_uart.c:173:13:MX_TIM16_Init	8	static
+../Core/Src/main_uart.c:205:13:MX_USART1_UART_Init	8	static
+../Core/Src/main_uart.c:254:13:MX_GPIO_Init	48	static
+../Core/Src/main_uart.c:295:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/main_uart.c:309:6:Error_Handler	4	static,ignoring_inline_asm

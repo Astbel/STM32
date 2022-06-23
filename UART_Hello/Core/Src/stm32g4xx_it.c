@@ -29,11 +29,11 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-//RX adder
 
-//#define RX_DATA_32                 ((uint32_t)0x4633214)
 /* USER CODE END TD */
-
+	 unsigned char uRx_Data[1024] = { 0 };    //存储数组
+ unsigned char *pRx_Data = uRx_Data;    //指向存储数组将要存储数据的位
+unsigned char uLength = 0;    //接收数据长度
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
@@ -218,57 +218,23 @@ void TIM1_UP_TIM16_IRQHandler(void)
   /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
 }
 
-/**
-  * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
-  */
-/*UART Receive  中斷ISR*/
-//void USART1_IRQHandler(void) {
-//	/* USER CODE BEGIN USART1_IRQn 0 */
-//	uart_send_msg("UART IRQ Handler execute\r\n");
-//	// static unsigned char uRx_Data[1024] = { 0 };    //存储数组
-//	// static unsigned char *pRx_Data = uRx_Data;    //指向存储数组将要存储数据的位
-//	// static unsigned char uLength = 0;    //接收数据长度
-//
-//	// /* -1- 接收数据 */
-//	// HAL_UART_Receive(&huart1, pRx_Data, 1, 1000);
-//
-//	// /* -2- 判断数据结尾 */
-//	// if (*pRx_Data == '\n') {
-//	// 	/* -3- 将接收成功的数据通过串口发出去 */
-//	// 	HAL_UART_Transmit(&huart1, uRx_Data, uLength, 0xffff);
-//	// 	/* -4- 初始化指针和数据长度 */
-//	// 	pRx_Data = uRx_Data;   //重新指向数组起始位置
-//	// 	uLength = 0;          //长度清零
-//	// }
-//
-//	// /* -5- 若未结束，指针往下一位移动，长度自增一 */
-//	// else {
-//	// 	pRx_Data++;
-//	// 	uLength++;
-//	// }
-//
-//	/* USER CODE END USART1_IRQn 0 */
-//	HAL_UART_IRQHandler(&huart1);
-//	/* USER CODE BEGIN USART1_IRQn 1 */
-//	HAL_UART_Abort_IT(&huart1);
-//
-//	 HAL_UART_Receive_IT (&huart1, rx_buff, 4);
-//	/* USER CODE END USART1_IRQn 1 */
-//}
 //UART ISR Handler 
-void USART1_IRQHandler(void) {
-//LOG for checking out handler 
-uart_send_msg("UART IRQ Handler execute\r\n");
-//USER DATA
+ void USART1_IRQHandler(void) {
+ /* USER CODE BEGIN USART2_IRQn 0 */
+  //  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
+  //  {
+  //     uart_send_msg("UART IRQ Handler execute\r\n");
+  //    __HAL_UART_CLEAR_IDLEFLAG(&huart1); // taken from https://electronics.stackexchange.com/questions/471272/setting-up-stm32-timer-for-uart-idle-detection#comment1353999_480556
+  //    uart1_idleHandler();
 
-Flash_Data(FLASH_RX_START_ADDR,FLASH_RX_END_ADDR,RX_DATA_32);
-
-
-/* Below is restart the UART ISR*/
-	HAL_UART_IRQHandler(&huart1);
-	HAL_UART_Abort_IT(&huart1);
-	 HAL_UART_Receive_IT (&huart1, rx_buff, 4);
-}
+  //  }
+  //  else
+  //  {
+  //   uart_send_msg("UART GG\r\n");
+  //    uart1_handler();
+  //  }
+ 	HAL_UART_IRQHandler(&huart1);
+ }
 
 
 

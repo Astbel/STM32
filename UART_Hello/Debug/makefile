@@ -66,8 +66,8 @@ all: main-build
 main-build: UART_Hello.elf secondary-outputs
 
 # Tool invocations
-UART_Hello.elf UART_Hello.map: $(OBJS) $(USER_OBJS) C:\Users\NBbackup01\Desktop\STM32G474_BOOTLOADER-main\STM32G474_BOOTLOADER-main\UART_Hello\STM32G474RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "UART_Hello.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\NBbackup01\Desktop\STM32G474_BOOTLOADER-main\STM32G474_BOOTLOADER-main\UART_Hello\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART_Hello.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+UART_Hello.elf UART_Hello.map: $(OBJS) $(USER_OBJS) C:\Users\astbe\OneDrive\Desktop\STM32G474\UART_Hello\STM32G474RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "UART_Hello.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\astbe\OneDrive\Desktop\STM32G474\UART_Hello\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART_Hello.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

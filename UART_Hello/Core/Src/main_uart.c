@@ -94,7 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_TIM16_Init();
-  //Flash_Data();
+
   Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Initial_DATA);
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim16);
@@ -102,17 +102,12 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
- uart_send_msg("End of initalize system\r\n");
-  /* USER CODE BEGIN WHILE */
-  HAL_UART_Receive_IT (&huart1,rx_buff, 4);
-//  uint8_t str[] = "uploade checker\n\r";
-//  HAL_UART_Transmit(&huart1, (uint8_t*)str, 16, 1000);
+   uart_send_msg("End of initalize system\r\n");
 
+    HAL_UART_Receive_IT(&huart1,aRxMessage,4);
   while (1)
   {
-    /* USER CODE END WHILE */
-	
-    /* USER CODE BEGIN 3 */
+   
   }
   /* USER CODE END 3 */
 }
@@ -245,7 +240,8 @@ static void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
-
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
+  // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);  // enable idle line detection
   /* USER CODE END USART1_Init 2 */
 
 }

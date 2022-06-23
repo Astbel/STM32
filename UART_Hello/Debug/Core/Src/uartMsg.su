@@ -1,1 +1,5 @@
-../Core/Src/uartMsg.c:26:19:uart_send_msg	24	static
+../Core/Src/uartMsg.c:33:19:uart_send_msg	24	static
+../Core/Src/uartMsg.c:47:19:uart_send_INT	24	static
+../Core/Src/uartMsg.c:62:6:uart1_handler	16	static
+../Core/Src/uartMsg.c:72:6:uart1_idleHandler	4	static
+../Core/Src/uartMsg.c:83:6:HAL_UART_RxCpltCallback	16	static
