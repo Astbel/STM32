@@ -277,15 +277,25 @@
   * @retval	status
   */
 extern void Flash_Data(uint32_t Start_Addr,uint32_t End_Addr,Uint32 write_data);
+extern void Erase_Data(uint32_t Start_Addr,uint32_t End_Addr,Uint32 write_data);
+extern void UART_Send_Data(uint32_t Start_Addr,uint32_t End_Addr,Uint32 write_data);
 
 //User define the Memory Addr
 #define FLASH_USER_START_ADDR  ADDR_FLASH_PAGE_4   /* Start @ of user Flash area */
 #define FLASH_USER_END_ADDR     (ADDR_FLASH_PAGE_5 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
 #define FLASH_RX_START_ADDR  ADDR_FLASH_PAGE_7   /* Start @ of user Flash area */
 #define FLASH_RX_END_ADDR     (ADDR_FLASH_PAGE_10 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
+//
+#define FLASH_UARTSEND1_START_ADDR  ADDR_FLASH_PAGE_11   /* Start @ of user Flash area */
+#define FLASH_UARTSEND1_END_ADDR     (ADDR_FLASH_PAGE_12 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
+#define FLASH_UARTSEND2_START_ADDR  ADDR_FLASH_PAGE_21   /* Start @ of user Flash area */
+#define FLASH_UARTSEND2_END_ADDR     (ADDR_FLASH_PAGE_22 + FLASH_PAGE_SIZE - 1)   /* End @ of user Flash area */
+
 //Flash Data here 
 #define Initial_DATA               ((uint32_t)0x8456237)
 #define RX_DATA_32                 ((uint32_t)0x4633222)
+#define Write_Data                 ((uint32_t)0x12345)
+#define Write_Data_2                ((uint32_t)0x98765)
 #endif /* INC_FLASH_H_ */
 
 /***************************END OF FILE****************************************/

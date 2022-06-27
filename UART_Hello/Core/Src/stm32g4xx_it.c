@@ -63,7 +63,7 @@ unsigned char uLength = 0;    //接收数据长度
 extern TIM_HandleTypeDef htim16;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
-
+extern void Uart_isr (UART_HandleTypeDef *huart);
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -220,20 +220,10 @@ void TIM1_UP_TIM16_IRQHandler(void)
 
 //UART ISR Handler 
  void USART1_IRQHandler(void) {
- /* USER CODE BEGIN USART2_IRQn 0 */
-  //  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
-  //  {
-  //     uart_send_msg("UART IRQ Handler execute\r\n");
-  //    __HAL_UART_CLEAR_IDLEFLAG(&huart1); // taken from https://electronics.stackexchange.com/questions/471272/setting-up-stm32-timer-for-uart-idle-detection#comment1353999_480556
-  //    uart1_idleHandler();
+ 
+	Uart_isr (&huart1);
 
-  //  }
-  //  else
-  //  {
-  //   uart_send_msg("UART GG\r\n");
-  //    uart1_handler();
-  //  }
- 	HAL_UART_IRQHandler(&huart1);
+ 	// HAL_UART_IRQHandler(&huart1);
  }
 
 

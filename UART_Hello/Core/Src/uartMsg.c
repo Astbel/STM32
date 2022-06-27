@@ -12,7 +12,7 @@
 #include <string.h>
 #include "main.h"
 #include "uartMsg.h"
-
+#include "flash.h"
 /* Variables declared elsewhere-----------------------------------------------*/
 extern UART_HandleTypeDef huart1; // defined in usart.c
 __IO ITStatus UartReady = RESET;
@@ -22,7 +22,7 @@ uint8_t rx_buff[10];
 //UART中斷 變數宣告
 char my_uart_buffer[256];
 int my_uart_buffer_index = 0;
-uint8_t aRxMessage[1];
+uint8_t aRxMessage[1024];
 /* Private function prototypes -----------------------------------------------*/
 /**************************uart_send_msg****************************************
  **
@@ -83,20 +83,25 @@ void uart1_idleHandler(){
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
 	HAL_UART_Receive_IT(&huart1,aRxMessage,1);
+  HAL_UART_Transmit(&huart1,aRxMessage,1,100);
 	if(aRxMessage[0]=='1')
 	{
-      uart_send_msg("OK");		
+		Flash_Data(FLASH_UARTSEND2_START_ADDR,FLASH_UARTSEND2_END_ADDR,Write_Data_2);
+      // uart_send_msg("OK");
 	}
 	else if(aRxMessage[0]=='2')
 	{
-		 uart_send_msg("FUCK U");	
+    	Flash_Data(FLASH_UARTSEND1_START_ADDR,FLASH_UARTSEND1_END_ADDR,Write_Data);
+		//  uart_send_msg("FUCK U");
 	}
-  else
+  else if(aRxMessage[0]=='3')
   {
-     uart_send_msg("SO Bad");	
+
+    Erase_Data(FLASH_UARTSEND1_START_ADDR,FLASH_UARTSEND1_END_ADDR,0);
+    //  uart_send_msg("SO Bad");
   }
 	memset(aRxMessage,0,sizeof(aRxMessage));  //清除字串
-
+//	 uart_send_msg("I'm WORKING\r\n");
 }
 
 

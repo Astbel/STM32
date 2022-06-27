@@ -22,6 +22,7 @@
 #include "stdio.h"
 #include "uartMsg.h"
 #include "flash.h"
+#include "UartRingbuffer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -61,7 +62,7 @@ static void MX_TIM16_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+char buffer[5];
 /* USER CODE END 0 */
 
 /**
@@ -93,21 +94,28 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-  MX_TIM16_Init();
+  // MX_TIM16_Init();
 
-  Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Initial_DATA);
+  // Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Initial_DATA);
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim16);
+  // HAL_TIM_Base_Start_IT(&htim16);
+  Ringbuf_init ();
   uart_send_msg("Hello from user app\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
-   uart_send_msg("End of initalize system\r\n");
+  //  uart_send_msg("End of initalize system\r\n");
 
-    HAL_UART_Receive_IT(&huart1,aRxMessage,4);
+    // HAL_UART_Receive_IT(&huart1,aRxMessage,1);
   while (1)
   {
-   
+      if (IsDataAvailable())
+      {
+         int data=Uart_read();
+         Uart_write(data);
+      }
+      
+
   }
   /* USER CODE END 3 */
 }
@@ -240,7 +248,7 @@ static void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
+  // __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
   // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);  // enable idle line detection
   /* USER CODE END USART1_Init 2 */
 

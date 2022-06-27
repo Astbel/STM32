@@ -1,3 +1,5 @@
 ../Core/Src/Flash.c:40:6:Flash_Data	32	static
-../Core/Src/Flash.c:152:17:GetPage	24	static
-../Core/Src/Flash.c:175:18:GetBank	16	static
+../Core/Src/Flash.c:145:6:Erase_Data	32	static
+../Core/Src/Flash.c:251:6:UART_Send_Data	32	static
+../Core/Src/Flash.c:361:17:GetPage	24	static
+../Core/Src/Flash.c:384:18:GetBank	16	static

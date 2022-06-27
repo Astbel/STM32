@@ -32,9 +32,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-extern uint8_t aRxMessage[1];
+extern uint8_t aRxMessage[1024];
 /* USER CODE END Includes */
-
+extern TIM_HandleTypeDef htim16;
+extern UART_HandleTypeDef huart1;
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
     typedef signed char          int8;
