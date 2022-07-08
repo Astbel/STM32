@@ -19,7 +19,6 @@
 "rtos\stm32g4xx_hal_pwr.o"
 "rtos\stm32g4xx_hal_pwr_ex.o"
 "rtos\stm32g4xx_hal_cortex.o"
-"rtos\stm32g4xx_hal_hrtim.o"
 "rtos\stm32g4xx_hal_tim.o"
 "rtos\stm32g4xx_hal_tim_ex.o"
 "rtos\stm32g4xx_hal_uart.o"

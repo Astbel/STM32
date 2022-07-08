@@ -29,11 +29,14 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g4xx_hal.h"
 #include "Flash.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define APP_LOG_DEBUG(...)  printf2(__VA_ARGS__)
 /* USER CODE END Includes */
+/* Compute the prescaler value to have TIM1 counter clock equal to 85000000 Hz */
 
+#define PRESCALER_VALUE     (uint32_t)(((SystemCoreClock) / 85000000) - 1)
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
   typedef signed char          int8;
@@ -48,31 +51,38 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+typedef enum
+{
+  Phase_1,
+  Phase_2,
+  Phase_3,
+  Phase_4
+}PWM_STATE;
 
 /* USER CODE END EC */
 extern UART_HandleTypeDef huart1;
+extern TIM_HandleTypeDef htim1;
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
 
-void HAL_HRTIM_MspPostInit(HRTIM_HandleTypeDef *hhrtim);
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-
+extern uint16_t PWM_Duty;
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
-#define PWM_FEQ 100000
-#define TIMD_DUTY_CYCLE 0.5
-#define HRTIM_INPUT_CLOCK 170000000
-#define TIMD_PERIOD ((uint16_t)((((uint64_t)HRTIM_INPUT_CLOCK) * 32) / PWM_FEQ))
 /* USER CODE BEGIN Private defines */
-
+#define  PERIOD_VALUE       (uint32_t)(1000 - 1)              /* Period Value  */
+#define  PULSE1_VALUE       (uint32_t)(1000 / 2)              /* Capture Compare 1 Value  */
+#define  PULSE2_VALUE       (uint32_t)(1000 * 37.5 / 100)     /* Capture Compare 2 Value  */
+#define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
+#define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

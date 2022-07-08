@@ -24,6 +24,8 @@
 #include "cmsis_os.h"
 
 
+
+
 //Function def here
 void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
@@ -101,7 +103,6 @@ void StartTask02(void *argument)
          int data=Uart_read();
          Uart_write(data);
       }
-    HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_4);
     osDelay(1);
   }
   /* USER CODE END StartTask02 */

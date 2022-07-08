@@ -29,19 +29,33 @@
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
+//SIn table
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* USER CODE END PD */
-
+static int sine_cnt;
+static int inverse_sine_cnt;
+static int phase_state;
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+const uint16_t sine_table[89]=
+{
+  0,   18,   34,  52,  70,  87, 105, 122, 140, 156, 174, 191, 208, 225, 242,
+  259, 276, 292, 309, 325, 342, 359, 375, 391, 407, 423, 438, 454, 469,
+  485, 500, 515, 530, 545, 559, 573, 588, 602, 616, 529, 643, 656, 669,
+  682, 695, 707, 719, 731, 743, 755, 766, 777, 788, 799, 809, 819, 829,
+  839, 848, 858, 875, 883, 891, 899, 906, 914, 921, 927, 934, 940, 946,
+  951, 956, 961, 966, 970, 974, 978, 982, 985, 988, 990, 993, 995, 996,
+  998, 999, 999, 1000
+};
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
- UART_HandleTypeDef huart1;
-HRTIM_HandleTypeDef hhrtim1;
+TIM_HandleTypeDef htim1;
+UART_HandleTypeDef huart1;
+/* Definitions for MyTask01 */
+uint16_t PWM_Duty;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -50,6 +64,7 @@ HRTIM_HandleTypeDef hhrtim1;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM1_Init(void);
 void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
 void RTOS_Thread_Init(void);
@@ -72,12 +87,14 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-
+  sine_cnt=0;
+  inverse_sine_cnt=89;
+  phase_state=1;
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
+  
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -92,18 +109,24 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_TIM1_Init();
   Ringbuf_init ();
-  MX_HRTIM1_Init();//PWM Init
-  //Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Write_Data);
-  osKernelInitialize();
+  /* USER CODE BEGIN 2 */
   RTOS_Thread_Init();
-  HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TD1);
-  HAL_HRTIM_WaveformCounterStart(&hhrtim1, HRTIM_TIMERID_TIMER_D);
-  /* Start scheduler */
-  osKernelStart();
+  osKernelInitialize();
+	//Start PWM
 
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
+  HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_1);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_2);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
+
+
+
+  /*## Start PWM signals generation #######################################*/
+  /* Start channel 1 */
+ 
+  osKernelStart();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
@@ -159,107 +182,95 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
+
+
 /**
-  * @brief HRTIM1 Initialization Function
+  * @brief TIM1 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_HRTIM1_Init(void)
+static void MX_TIM1_Init(void)
 {
-  
-  /* USER CODE BEGIN HRTIM1_Init 0 */
 
-  /* USER CODE END HRTIM1_Init 0 */
+  /* USER CODE BEGIN TIM1_Init 0 */
 
-  HRTIM_TimeBaseCfgTypeDef pTimeBaseCfg = {0};
-  HRTIM_TimerCtlTypeDef pTimerCtl = {0};
-  HRTIM_TimerCfgTypeDef pTimerCfg = {0};
-  HRTIM_CompareCfgTypeDef pCompareCfg = {0};
-  HRTIM_OutputCfgTypeDef pOutputCfg = {0};
+  /* USER CODE END TIM1_Init 0 */
 
-  /* USER CODE BEGIN HRTIM1_Init 1 */
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
-  /* USER CODE END HRTIM1_Init 1 */
-  hhrtim1.Instance = HRTIM1;
-  hhrtim1.Init.HRTIMInterruptResquests = HRTIM_IT_NONE;
-  hhrtim1.Init.SyncOptions = HRTIM_SYNCOPTION_NONE;
-  if (HAL_HRTIM_Init(&hhrtim1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_HRTIM_DLLCalibrationStart(&hhrtim1, HRTIM_CALIBRATIONRATE_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_HRTIM_PollForDLLCalibration(&hhrtim1, 10) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimeBaseCfg.Period = TIMD_PERIOD;
-  pTimeBaseCfg.RepetitionCounter = 0x00;
-  pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_MUL32;
-  pTimeBaseCfg.Mode = HRTIM_MODE_CONTINUOUS;
-  if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, &pTimeBaseCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimerCtl.UpDownMode = HRTIM_TIMERUPDOWNMODE_UP;
-  pTimerCtl.GreaterCMP1 = HRTIM_TIMERGTCMP1_EQUAL;
-  pTimerCtl.DualChannelDacEnable = HRTIM_TIMER_DCDE_DISABLED;
-  if (HAL_HRTIM_WaveformTimerControl(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, &pTimerCtl) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimerCfg.InterruptRequests = HRTIM_TIM_IT_NONE;
-  pTimerCfg.DMARequests = HRTIM_TIM_DMA_NONE;
-  pTimerCfg.DMASrcAddress = 0x0000;
-  pTimerCfg.DMADstAddress = 0x0000;
-  pTimerCfg.DMASize = 0x1;
-  pTimerCfg.HalfModeEnable = HRTIM_HALFMODE_DISABLED;
-  pTimerCfg.InterleavedMode = HRTIM_INTERLEAVED_MODE_DISABLED;
-  pTimerCfg.StartOnSync = HRTIM_SYNCSTART_DISABLED;
-  pTimerCfg.ResetOnSync = HRTIM_SYNCRESET_DISABLED;
-  pTimerCfg.DACSynchro = HRTIM_DACSYNC_NONE;
-  pTimerCfg.PreloadEnable = HRTIM_PRELOAD_DISABLED;
-  pTimerCfg.UpdateGating = HRTIM_UPDATEGATING_INDEPENDENT;
-  pTimerCfg.BurstMode = HRTIM_TIMERBURSTMODE_MAINTAINCLOCK;
-  pTimerCfg.RepetitionUpdate = HRTIM_UPDATEONREPETITION_DISABLED;
-  pTimerCfg.PushPull = HRTIM_TIMPUSHPULLMODE_DISABLED;
-  pTimerCfg.FaultEnable = HRTIM_TIMFAULTENABLE_NONE;
-  pTimerCfg.FaultLock = HRTIM_TIMFAULTLOCK_READWRITE;
-  pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_DISABLED;
-  pTimerCfg.DelayedProtectionMode = HRTIM_TIMER_D_E_DELAYEDPROTECTION_DISABLED;
-  pTimerCfg.UpdateTrigger = HRTIM_TIMUPDATETRIGGER_NONE;
-  pTimerCfg.ResetTrigger = HRTIM_TIMRESETTRIGGER_NONE;
-  pTimerCfg.ResetUpdate = HRTIM_TIMUPDATEONRESET_DISABLED;
-  pTimerCfg.ReSyncUpdate = HRTIM_TIMERESYNC_UPDATE_UNCONDITIONAL;
-  if (HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, &pTimerCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pCompareCfg.CompareValue = TIMD_PERIOD * TIMD_DUTY_CYCLE;
-  if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, HRTIM_COMPAREUNIT_1, &pCompareCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pOutputCfg.Polarity = HRTIM_OUTPUTPOLARITY_HIGH;
-  pOutputCfg.SetSource = HRTIM_OUTPUTSET_TIMPER;
-  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_TIMCMP1;
-  pOutputCfg.IdleMode = HRTIM_OUTPUTIDLEMODE_NONE;
-  pOutputCfg.IdleLevel = HRTIM_OUTPUTIDLELEVEL_INACTIVE;
-  pOutputCfg.FaultLevel = HRTIM_OUTPUTFAULTLEVEL_NONE;
-  pOutputCfg.ChopperModeEnable = HRTIM_OUTPUTCHOPPERMODE_DISABLED;
-  pOutputCfg.BurstModeEntryDelayed = HRTIM_OUTPUTBURSTMODEENTRY_REGULAR;
-  if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D, HRTIM_OUTPUT_TD1, &pOutputCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN HRTIM1_Init 2 */
+  /* USER CODE BEGIN TIM1_Init 1 */
 
-  /* USER CODE END HRTIM1_Init 2 */
-  HAL_HRTIM_MspPostInit(&hhrtim1);
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = PRESCALER_VALUE;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period =PERIOD_VALUE;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse =PULSE1_VALUE;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.Pulse = PULSE1_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.Pulse = PULSE3_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+   sConfigOC.Pulse = PULSE4_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_1;
+  sBreakDeadTimeConfig.DeadTime = 100;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_ENABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.BreakFilter = 0;
+  sBreakDeadTimeConfig.BreakAFMode = TIM_BREAK_AFMODE_INPUT;
+  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
+  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
+  sBreakDeadTimeConfig.Break2Filter = 0;
+  sBreakDeadTimeConfig.Break2AFMode = TIM_BREAK_AFMODE_INPUT;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_ENABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+  HAL_TIM_MspPostInit(&htim1);
 
 }
+
 /**
   * @brief USART1 Initialization Function
   * @param None
@@ -325,7 +336,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_4;
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -333,9 +344,70 @@ static void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
+/* USER CODE END 1 */
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim==&htim1)
+  {
+    //Phase1
+    if (phase_state==1)
+    {
+      TIM1->CCR1=sine_table[sine_cnt++];
+      TIM1->CCR2=sine_table[inverse_sine_cnt--];
+      if ((sine_cnt>=89)&&(inverse_sine_cnt<=0))
+      {
+        phase_state=2;
+      }
+      else
+      {
+        phase_state=1;
+      } 
+    }
+    //Phase2
+    else if (phase_state==2)
+    {
+      TIM1->CCR1=sine_table[sine_cnt--];
+      TIM1->CCR2=sine_table[inverse_sine_cnt++];
+      if ((sine_cnt<=0)&&(inverse_sine_cnt>=89))
+      {
+        phase_state=3;
+      }
+      else
+      {
+        phase_state=2;
+      } 
+    }
+    //Phase3
+    else if (phase_state==3)
+    {
+       TIM1->CCR1=sine_table[sine_cnt++];
+       TIM1->CCR2=sine_table[inverse_sine_cnt--];
+      if ((sine_cnt>=89)&&(inverse_sine_cnt<=0))
+      {
+        phase_state=4;
+      }
+      else
+      {
+        phase_state=3;
+      } 
+    }
+    //Phase4
+    else if (phase_state==4)
+    {
+       TIM1->CCR1=sine_table[sine_cnt--];
+       TIM1->CCR2=sine_table[inverse_sine_cnt++];
+      if ((sine_cnt<=0)&&(inverse_sine_cnt>=89))
+      {
+        phase_state=1;
+      }
+      else
+      {
+        phase_state=4;
+      } 
+    }
+  }
+  
+}
 
 
 /**
