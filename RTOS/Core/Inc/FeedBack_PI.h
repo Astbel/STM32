@@ -4,7 +4,7 @@
 #include "main.h"
 
 //PI
-extern inline void proportional_integral(void)
+extern void proportional_integral(uint16_t Vo);
 
 
 

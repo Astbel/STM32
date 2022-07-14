@@ -78,13 +78,19 @@ extern uint16_t PWM_Duty;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-/* USER CODE BEGIN Private defines */
+/* PWM */
 #define  PERIOD_VALUE       (uint32_t)(1000 - 1)              /* Period Value  */
 #define  PULSE1_VALUE       (uint32_t)(1000 / 2)              /* Capture Compare 1 Value  */
 #define  PULSE2_VALUE       (uint32_t)(1000 * 37.5 / 100)     /* Capture Compare 2 Value  */
 #define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
 #define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
+/*PWM Value*/
+#define  PWM_OUTPUT_Upper_Limit    (1000)
+#define  PWM_OUTPUT_Lowwer_Limit    (100)
+
 /* USER CODE END Private defines */
+
+
 
 #ifdef __cplusplus
 }
