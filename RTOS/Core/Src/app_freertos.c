@@ -103,7 +103,6 @@ void StartTask02(void *argument)
 		 if (IsDataAvailable())
       {
          int data=Uart_read();
-        //  Uart_write(data);
         switch (data)
         {
         case  0x61:  //a   Vo=3V
@@ -118,6 +117,7 @@ void StartTask02(void *argument)
           // Uart_sendstring("PWM duty increase");
           // TIM1->CCR1+=10;
           // TIM1->CCR2+=10;
+
           Vout=6;
 
           break;
@@ -142,6 +142,7 @@ void StartTask02(void *argument)
           Uart_sendstring("Fail receive");
           break;
         }
+         Uart_sendstring("Voltage loop");
         proportional_integral(Vout);
       }
     osDelay(100);

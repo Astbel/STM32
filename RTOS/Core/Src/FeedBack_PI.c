@@ -45,5 +45,4 @@ void proportional_integral(uint16_t Vo)
 	     TIM1->CCR2 =PWM_OUTPUT_Lowwer_Limit;
      }
      
-     
 }

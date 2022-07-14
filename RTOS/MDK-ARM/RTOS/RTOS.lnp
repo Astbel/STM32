@@ -6,6 +6,7 @@
 "rtos\app_freertos.o"
 "rtos\stm32g4xx_it.o"
 "rtos\stm32g4xx_hal_msp.o"
+"rtos\feedback_pi.o"
 "rtos\stm32g4xx_hal.o"
 "rtos\stm32g4xx_hal_rcc.o"
 "rtos\stm32g4xx_hal_rcc_ex.o"

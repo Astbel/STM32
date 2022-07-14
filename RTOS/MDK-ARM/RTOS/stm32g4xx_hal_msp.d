@@ -34,3 +34,4 @@ rtos\stm32g4xx_hal_msp.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart
 rtos\stm32g4xx_hal_msp.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
 rtos\stm32g4xx_hal_msp.o: ../Core/Inc/Flash.h
 rtos\stm32g4xx_hal_msp.o: ../Core/Inc/main.h
+rtos\stm32g4xx_hal_msp.o: ../Core/Inc/Variable.h
