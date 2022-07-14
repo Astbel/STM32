@@ -92,6 +92,9 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask02 */
+/*
+Ascii value test 
+*/
 void StartTask02(void *argument)
 {
   /* USER CODE BEGIN StartTask02 */
@@ -101,9 +104,40 @@ void StartTask02(void *argument)
 		 if (IsDataAvailable())
       {
          int data=Uart_read();
-         Uart_write(data);
+        //  Uart_write(data);
+        switch (data)
+        {
+        case  0x61:  //a   disable one channel
+          Uart_sendstring("PWM close PhaseB");
+          HAL_TIM_PWM_Stop(&htim1,TIM_CHANNEL_2);
+          HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_2);
+          break;
+        
+        case  0x62:  //b   increase duty
+          Uart_sendstring("PWM duty increase");
+          
+          TIM1->CCR1+=10;
+          TIM1->CCR2+=10;
+          break;
+
+        case  0x63:  //c   decrease duty
+          Uart_sendstring("PWM duty decrease");
+          TIM1->CCR1-=10;
+          TIM1->CCR2-=10;
+          break;
+
+        case  0x64:  //d   Ebabke Phase B 
+          Uart_sendstring("PWM Open PhaseB");
+          HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
+          HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
+          break;
+
+        default:
+          Uart_sendstring("Fail receive");
+          break;
+        }
       }
-    osDelay(1);
+    osDelay(100);
   }
   /* USER CODE END StartTask02 */
 }

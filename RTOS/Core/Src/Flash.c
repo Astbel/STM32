@@ -18,7 +18,7 @@ uint32_t Address = 0, PageError = 0;
 __IO uint32_t MemoryProgramStatus = 0;
 __IO uint32_t data32 = 0;    /*!< defines 'read / write' permissions              */ 
 
-Uint8 Flash_done_Flag;
+uint8_t Flash_done_Flag;
 /*Variable used for Erase procedure*/
 static FLASH_EraseInitTypeDef EraseInitStruct;
 
