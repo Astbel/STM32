@@ -92,7 +92,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-  Ringbuf_init ();
+  // Ringbuf_init ();
+  RingBuf_init();
   MX_HRTIM1_Init();//PWM Init
   //Flash_Data(FLASH_USER_START_ADDR,FLASH_USER_END_ADDR,Write_Data);
   osKernelInitialize();

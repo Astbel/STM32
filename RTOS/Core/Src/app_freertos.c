@@ -73,9 +73,9 @@ void StartDefaultTask(void *argument)
 	 if (IsDataAvailable())
       {
          
-         int data_Receive=Uart_read();
-         UART_Send_Data(FLASH_UARTSEND1_START_ADDR,FLASH_UARTSEND1_END_ADDR,data_Receive);
-         Uart_sendstring("Flash Done");
+        //  int data_Receive=Uart_read();
+        //  UART_Send_Data(FLASH_UARTSEND1_START_ADDR,FLASH_UARTSEND1_END_ADDR,data_Receive);
+        //  Uart_sendstring("Flash Done");
       }
     
     osDelay(100);
@@ -98,8 +98,8 @@ void StartTask02(void *argument)
   {
 		 if (IsDataAvailable())
       {
-         int data=Uart_read();
-         Uart_write(data);
+         int data=Uart_read_INT();
+         Uart_write_INT(data);
       }
     HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_4);
     osDelay(1);

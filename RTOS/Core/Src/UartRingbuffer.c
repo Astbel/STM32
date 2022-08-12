@@ -46,6 +46,7 @@ void Ringbuf_init(void)
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 }
 
+//char
 void store_char(unsigned char c, ring_buffer *buffer)
 {
   int i = (unsigned int)(buffer->head + 1) % UART_BUFFER_SIZE;

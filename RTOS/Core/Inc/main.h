@@ -29,6 +29,7 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g4xx_hal.h"
 #include "Flash.h"
+#include "UartRingbuffer_INT.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define APP_LOG_DEBUG(...)  printf2(__VA_ARGS__)
