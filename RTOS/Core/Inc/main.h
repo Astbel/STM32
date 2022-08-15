@@ -30,7 +30,8 @@ extern "C" {
 #include "stm32g4xx_hal.h"
 #include "Flash.h"
 #include "Variable.h"
-
+#include "stdio.h"
+#include "stdlib.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define APP_LOG_DEBUG(...)  printf2(__VA_ARGS__)
@@ -72,7 +73,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-extern uint16_t PWM_Duty;
+extern uint16_t receive_data;
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

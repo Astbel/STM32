@@ -30,9 +30,9 @@ ring_buffer tx_buffer = { { 0 }, 0, 0};
 
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
-
-void store_char(unsigned char c, ring_buffer *buffer);
-
+uint16_t receive_data;
+// void store_char(unsigned char c, ring_buffer *buffer);
+void store_char( char *c, ring_buffer *buffer);
 
 void Ringbuf_init(void)
 {
@@ -46,18 +46,22 @@ void Ringbuf_init(void)
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 }
 
-void store_char(unsigned char c, ring_buffer *buffer)
-{
+void store_char( char *c, ring_buffer *buffer)
+{	
   int i = (unsigned int)(buffer->head + 1) % UART_BUFFER_SIZE;
-
+  unsigned char *get_char=malloc(100);
+  strcpy(get_char,c);
+  receive_data=atoi(get_char);
+  receive_data=atoi(buffer);
   // if we should be storing the received character into the location
   // just before the tail (meaning that the head would advance to the
   // current location of the tail), we're about to overflow the buffer
   // and so we don't write the character or advance the head.
   if(i != buffer->tail) {
-    buffer->buffer[buffer->head] = c;
+    buffer->buffer[buffer->head] = *c;
     buffer->head = i;
   }
+	free(get_char);
 }
 
 int Look_for (char *str, char *buffertolookinto)
@@ -324,7 +328,7 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	 *********************/
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
-        store_char (c, _rx_buffer);  // store data in buffer
+        store_char (&c, _rx_buffer);  // store data in buffer
         return;
     }
 

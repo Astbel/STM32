@@ -3,59 +3,126 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: £gVision V5.15
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: 1111 User, 111, LIC=EPP56-DW2MM-9WK2E-5T3KQ-18VH7-0EFRF
+IDE-Version: £gVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 11 11, 1, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.15.0
-Toolchain Path:  D:\MDK_KEIL\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.05 update 2 (build 169)
-Assembler:       Armasm.exe V5.05 update 2 (build 169)
-Linker/Locator:  ArmLink.exe V5.05 update 2 (build 169)
-Library Manager: ArmAr.exe V5.05 update 2 (build 169)
-Hex Converter:   FromElf.exe V5.05 update 2 (build 169)
-CPU DLL:         SARMCM3.DLL V5.15.0
-Dialog DLL:      DCM.DLL V1.13.2.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.15.0_KEIL
-Dialog DLL:      TCM.DLL V1.14.5.0
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\astbe\OneDrive\Desktop\STM32G474\RTOS\MDK-ARM\RTOS.uvprojx
-Project File Date:  07/06/2022
+C:\Users\NBbackup01\Desktop\SM32G474\RTOS\MDK-ARM\RTOS.uvprojx
+Project File Date:  08/15/2022
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.05 update 2 (build 169)', folder: 'D:\MDK_KEIL\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'RTOS'
 assembling startup_stm32g474xx.s...
-startup_stm32g474xx.s: Error: A9555E: License checkout for feature LIC0=TA...-.....-..... with version 5.0201503 has been denied by Keil back-end. Error code: 1
-startup_stm32g474xx.s: LICENSE ERROR (R207(3): REGISTRY READ ERROR)
-startup_stm32g474xx.s: 
-startup_stm32g474xx.s: Product: MDK Professional 5.15
-startup_stm32g474xx.s: Component: ARM Compiler 5.05 update 2 (build 169)
-startup_stm32g474xx.s: Tool: ArmAsm [4d0f2f]
-"RTOS\RTOS.axf" - 1 Error(s), 0 Warning(s).
+compiling UartRingbuffer.c...
+../Core/Inc/UartRingbuffer.h(67): warning:  #1295-D: Deprecated declaration Uart_peek - give arg types
+  int Uart_peek();
+..\Core\Src\UartRingbuffer.c(52): error:  #137: expression must be a modifiable lvalue
+    buffer->buffer=c;
+..\Core\Src\UartRingbuffer.c(57): error:  #167: argument of type "ring_buffer *" is incompatible with parameter of type "const char *"
+    receive_data=atoi(buffer);
+..\Core\Src\UartRingbuffer.c(62): error:  #20: identifier "i" is undefined
+    if(i != buffer->tail) {
+..\Core\Src\UartRingbuffer.c(66): error:  #20: identifier "get_char" is undefined
+  	free(get_char);
+..\Core\Src\UartRingbuffer.c(333): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+          store_char (&c, _rx_buffer);  // store data in buffer
+..\Core\Src\UartRingbuffer.c: 2 warnings, 4 errors
+compiling stm32g4xx_hal.c...
+compiling stm32g4xx_hal_msp.c...
+compiling Flash.c...
+..\Core\Src\Flash.c(41): warning:  #223-D: function "Uart_sendstring" declared implicitly
+      Uart_sendstring("Start write data to flash memory\r\n");
+..\Core\Src\Flash.c(145): warning:  #223-D: function "Uart_sendstring" declared implicitly
+      Uart_sendstring("Erase memory\r\n");
+..\Core\Src\Flash.c(250): warning:  #223-D: function "Uart_sendstring" declared implicitly
+      Uart_sendstring("Writting memory\r\n");
+..\Core\Src\Flash.c: 3 warnings, 0 errors
+compiling stm32g4xx_it.c...
+../Core/Src/stm32g4xx_it.c(196): warning:  #223-D: function "Uart_isr" declared implicitly
+     Uart_isr (&huart1);
+../Core/Src/stm32g4xx_it.c: 1 warning, 0 errors
+compiling main.c...
+../Core/Src/main.c(113): warning:  #223-D: function "Ringbuf_init" declared implicitly
+    Ringbuf_init ();
+../Core/Src/main.c(71): warning:  #177-D: function "MX_HRTIM1_Init"  was declared but never referenced
+  static void MX_HRTIM1_Init(void);
+../Core/Src/main.c: 2 warnings, 0 errors
+compiling app_freertos.c...
+../Core/Src/app_freertos.c(104): warning:  #223-D: function "IsDataAvailable" declared implicitly
+  		 if (IsDataAvailable())
+../Core/Src/app_freertos.c(106): warning:  #223-D: function "Uart_read" declared implicitly
+           int data=Uart_read();
+../Core/Src/app_freertos.c(111): warning:  #223-D: function "Uart_sendstring" declared implicitly
+            Uart_sendstring("PWM close PhaseB");
+../Core/Src/app_freertos.c: 3 warnings, 0 errors
+compiling stm32g4xx_hal_exti.c...
+compiling stm32g4xx_hal_gpio.c...
+compiling stm32g4xx_hal_rcc.c...
+compiling stm32g4xx_hal_flash_ramfunc.c...
+compiling stm32g4xx_hal_flash.c...
+compiling stm32g4xx_hal_flash_ex.c...
+compiling stm32g4xx_hal_rcc_ex.c...
+compiling stm32g4xx_hal_dma_ex.c...
+compiling stm32g4xx_hal_cortex.c...
+compiling stm32g4xx_hal_pwr.c...
+compiling stm32g4xx_hal_dma.c...
+compiling croutine.c...
+compiling event_groups.c...
+compiling stm32g4xx_hal_pwr_ex.c...
+compiling list.c...
+compiling queue.c...
+compiling stream_buffer.c...
+compiling stm32g4xx_hal_tim_ex.c...
+compiling timers.c...
+compiling tasks.c...
+compiling heap_4.c...
+compiling port.c...
+compiling stm32g4xx_hal_tim.c...
+compiling system_stm32g4xx.c...
+compiling stm32g4xx_hal_uart_ex.c...
+compiling stm32g4xx_hal_uart.c...
+compiling cmsis_os2.c...
+"RTOS\RTOS.axf" - 4 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
-                ARM::CMSIS:CORE:5.4.0
-                CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.4.0
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.5.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32G4xx_DFP.1.4.0.pack
+                Keil.STM32G4xx_DFP.1.4.0
+                STMicroelectronics STM32G4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\astbe\OneDrive\Desktop\STM32G474\RTOS\MDK-ARM\RTE
-  D:\MDK_KEIL\ARM\CMSIS\5.7.0\CMSIS\Core\Include
-  D:\MDK_KEIL\Keil\STM32G4xx_DFP\1.2.0\Drivers\CMSIS\Device\ST\STM32G4xx\Include
+  .\RTE\_RTOS
+  C:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32G4xx_DFP\1.4.0\Drivers\CMSIS\Device\ST\STM32G4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:5.4.0
-      Source file:   CMSIS\Core\Template\ARMv8-M\main_s.c
-      Source file:   CMSIS\Core\Template\ARMv8-M\tz_context.c
+   * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
 Target not created.
+Build Time Elapsed:  00:01:02
 </pre>
 </body>
 </html>
