@@ -34,6 +34,9 @@ rtos\main.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h
 rtos\main.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
 rtos\main.o: ../Core/Inc/Flash.h
 rtos\main.o: ../Core/Inc/main.h
+rtos\main.o: ../Core/Inc/Variable.h
+rtos\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+rtos\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 rtos\main.o: ../Core/Inc/FreeRTOSConfig.h
@@ -45,3 +48,4 @@ rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+rtos\main.o: ../Core/Inc/UartRingbuffer.h

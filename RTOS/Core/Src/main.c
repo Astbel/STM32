@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "UartRingbuffer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -124,7 +124,7 @@ int main(void)
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 
 
-
+ HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
  

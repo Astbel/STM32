@@ -11,7 +11,7 @@
 // #include "stm32f4xx_hal.h"
 #include "stm32g4xx_hal.h"
 /* change the size of the buffer */
-#define UART_BUFFER_SIZE 64
+#define UART_BUFFER_SIZE 5
 
 typedef struct
 {
@@ -20,7 +20,7 @@ typedef struct
   volatile unsigned int tail;
 } ring_buffer;
 
-
+extern uint8_t RX_Buffer[5];
 /* Initialize the ring buffer */
 void Ringbuf_init(void);
 

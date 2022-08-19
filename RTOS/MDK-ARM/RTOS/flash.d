@@ -34,3 +34,6 @@ rtos\flash.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h
 rtos\flash.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
 rtos\flash.o: ../Core/Inc/Flash.h
 rtos\flash.o: ../Core/Inc/main.h
+rtos\flash.o: ../Core/Inc/Variable.h
+rtos\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+rtos\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
