@@ -46,21 +46,32 @@ void Ringbuf_init(void)
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 }
 
+// void store_char(unsigned char c, ring_buffer *buffer)
+// {
+//   int i = (unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
+
+//   // if we should be storing the received character into the location
+//   // just before the tail (meaning that the head would advance to the
+//   // current location of the tail), we're about to overflow the buffer
+//   // and so we don't write the character or advance the head.
+//    if(i != buffer->tail) {
+//     buffer->buffer[buffer->head] = c;
+//     buffer->head = i;
+//  }
+// }
+//TEST stored data
 void store_char(unsigned char c, ring_buffer *buffer)
 {
-  int i = (unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
 
-  // if we should be storing the received character into the location
-  // just before the tail (meaning that the head would advance to the
-  // current location of the tail), we're about to overflow the buffer
-  // and so we don't write the character or advance the head.
-   if(i != buffer->tail) {
-    buffer->buffer[buffer->head] = c;
-    buffer->head = i;
+	int i=(unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
+
+	 buffer->buffer[buffer->head]=c;
+
+	buffer->head=i;
 
 	
- }
 }
+
 
 int Look_for (char *str, char *buffertolookinto)
 {

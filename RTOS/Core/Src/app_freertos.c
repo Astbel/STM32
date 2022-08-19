@@ -55,7 +55,7 @@ void RTOS_Thread_Init(void)
   MyTask01Handle = osThreadNew(StartDefaultTask, NULL, &MyTask01_attributes);
 
   /* creation of myTask02 */
-  myTask02Handle = osThreadNew(StartTask02, NULL, &myTask02_attributes);
+  // myTask02Handle = osThreadNew(StartTask02, NULL, &myTask02_attributes);
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
