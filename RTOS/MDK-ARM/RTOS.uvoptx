@@ -163,12 +163,7 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>c</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>huart-&gt;Instance-&gt;RDR</ItemText>
+          <ItemText>RX_Buffer</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

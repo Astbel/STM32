@@ -23,7 +23,7 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 */
 
 /****************=======================>>>>>>>>>>> NO CHANGES AFTER THIS =======================>>>>>>>>>>>**********************/
-
+uint16_t Receive_data;
 uint8_t RX_Buffer[5]={0};
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
@@ -32,7 +32,7 @@ ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
 
 void store_char(unsigned char c, ring_buffer *buffer);
-uint8_t receive_data;
+
 
 void Ringbuf_init(void)
 {
@@ -68,6 +68,9 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	 buffer->buffer[buffer->head]=c;
 
 	buffer->head=i;
+
+	//Transfer data string to interger
+    Receive_data=atoi(buffer->buffer);
 
 	
 }
@@ -377,14 +380,6 @@ void Uart_isr (UART_HandleTypeDef *huart)
     }
 }
 
-/*STATE for Flash memory */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	HAL_UART_Transmit(&huart1,RX_Buffer,5,100);
-	HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
-	receive_data=atoi(RX_Buffer);
-	memset(RX_Buffer,0,sizeof(RX_Buffer));
-}
 
 
 

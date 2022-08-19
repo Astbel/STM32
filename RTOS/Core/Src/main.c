@@ -50,7 +50,7 @@ const uint16_t sine_table[89]=
   998, 999, 999, 1000
 };
 /* USER CODE END PM */
-
+  uint16_t receive_data;
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
@@ -87,6 +87,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  receive_data=0;
   sine_cnt=0;
   inverse_sine_cnt=89;
   phase_state=1;
@@ -124,7 +125,7 @@ int main(void)
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 
 
-//  HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
+ HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
  
@@ -410,7 +411,14 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
   }
   
 }
-
+/*STATE for Flash memory */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	HAL_UART_Transmit(&huart1,RX_Buffer,5,100);
+	HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
+	receive_data=atoi(RX_Buffer);
+	memset(RX_Buffer,0,sizeof(RX_Buffer));
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

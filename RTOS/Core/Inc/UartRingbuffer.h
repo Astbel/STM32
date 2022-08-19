@@ -19,7 +19,7 @@ typedef struct
   volatile unsigned int head;
   volatile unsigned int tail;
 } ring_buffer;
-
+extern uint16_t Receive_data;
 extern uint8_t RX_Buffer[5];
 /* Initialize the ring buffer */
 void Ringbuf_init(void);
