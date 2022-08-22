@@ -37,3 +37,4 @@ rtos\stm32g4xx_hal_msp.o: ../Core/Inc/main.h
 rtos\stm32g4xx_hal_msp.o: ../Core/Inc/Variable.h
 rtos\stm32g4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\stm32g4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+rtos\stm32g4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

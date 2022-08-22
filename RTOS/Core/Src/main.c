@@ -50,13 +50,14 @@ const uint16_t sine_table[89]=
   998, 999, 999, 1000
 };
 /* USER CODE END PM */
-  uint16_t receive_data;
+char test_BUFFER[3];
+uint8_t RX_Buffer[3]={0};
+ uint16_t receive_data;
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 /* Definitions for MyTask01 */
 uint16_t PWM_Duty;
-/* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
@@ -125,17 +126,14 @@ int main(void)
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 
 
- HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
+ HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
- 
   osKernelStart();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+    
   }
   /* USER CODE END 3 */
 }
@@ -414,10 +412,13 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 /*STATE for Flash memory */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	HAL_UART_Transmit(&huart1,RX_Buffer,5,100);
-	HAL_UART_Receive_IT(&huart1,RX_Buffer,5);
+	HAL_UART_Transmit(&huart1,RX_Buffer,3,100);
+	HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
 	receive_data=atoi(RX_Buffer);
 	memset(RX_Buffer,0,sizeof(RX_Buffer));
+  //Duty transfer 
+  PWM_Duty=(receive_data*MAX_DUTY)/MAX_DUTY_percentage;
+  TIM1->CCR1=PWM_Duty;
 }
 
 /**

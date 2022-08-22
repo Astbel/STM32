@@ -37,6 +37,7 @@ rtos\stm32g4xx_it.o: ../Core/Inc/main.h
 rtos\stm32g4xx_it.o: ../Core/Inc/Variable.h
 rtos\stm32g4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\stm32g4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+rtos\stm32g4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 rtos\stm32g4xx_it.o: ../Core/Inc/stm32g4xx_it.h
 rtos\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 rtos\stm32g4xx_it.o: ../Core/Inc/FreeRTOSConfig.h

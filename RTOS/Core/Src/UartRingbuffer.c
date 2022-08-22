@@ -24,7 +24,7 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 
 /****************=======================>>>>>>>>>>> NO CHANGES AFTER THIS =======================>>>>>>>>>>>**********************/
 uint16_t Receive_data;
-uint8_t RX_Buffer[5]={0};
+
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
 
@@ -71,7 +71,7 @@ void store_char(unsigned char c, ring_buffer *buffer)
 
 	//Transfer data string to interger
     Receive_data=atoi(buffer->buffer);
-
+     
 	
 }
 

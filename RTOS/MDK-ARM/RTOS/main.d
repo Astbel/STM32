@@ -37,6 +37,7 @@ rtos\main.o: ../Core/Inc/main.h
 rtos\main.o: ../Core/Inc/Variable.h
 rtos\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+rtos\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 rtos\main.o: ../Core/Inc/FreeRTOSConfig.h

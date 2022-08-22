@@ -32,6 +32,7 @@ extern "C" {
 #include "Variable.h"
 #include "stdlib.h"
 #include "stdio.h"
+#include "string.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define APP_LOG_DEBUG(...)  printf2(__VA_ARGS__)
@@ -74,7 +75,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 extern uint16_t PWM_Duty;
-extern uint16_t receive_data;
+extern  uint16_t receive_data;
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
@@ -87,6 +88,9 @@ extern uint16_t receive_data;
 #define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
 #define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
 /* USER CODE END Private defines */
+//UART control duty  HEX value convert
+#define  MAX_DUTY             (0x03E8)
+#define  MAX_DUTY_percentage  (0x0064)
 
 #ifdef __cplusplus
 }
