@@ -8,7 +8,6 @@
  */
 
 #include "UartRingbuffer.h"
-#include <string.h>
 #include "main.h"
 /**** define the UART you are using  ****/
 
@@ -25,17 +24,29 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 /****************=======================>>>>>>>>>>> NO CHANGES AFTER THIS =======================>>>>>>>>>>>**********************/
 uint16_t Receive_data;
 
+char Targert_Buff_Head[4];
+char Targert_Buff_Tail[1];
+uint16_t Str_Start;
+uint16_t Str_End;
+
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
 
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
-
+char output_Buff[UART_BUFFER_SIZE];
 void store_char(unsigned char c, ring_buffer *buffer);
 
 
 void Ringbuf_init(void)
 {
+     //Target string set
+	 Str_Start	=0;
+	 Str_End	=0;
+     strcpy(Targert_Buff_Head,"Duty");
+	 strcpy(Targert_Buff_Tail,"F");
+	 memset(output_Buff,'\0', UART_BUFFER_SIZE);
+	//
   _rx_buffer = &rx_buffer;
   _tx_buffer = &tx_buffer;
 
@@ -62,16 +73,20 @@ void Ringbuf_init(void)
 //TEST stored data
 void store_char(unsigned char c, ring_buffer *buffer)
 {
-
+    
 	int i=(unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
 
-	 buffer->buffer[buffer->head]=c;
-
+	buffer->buffer[buffer->head]=c;
+	 
 	buffer->head=i;
 
+    // Search_String(rx_buffer.buffer,Targert_Buff_Head);
+    Search_String(rx_buffer.buffer,Targert_Buff_Head,output_Buff,0, 4);
+    // Receive_data=atoi(output_Buff);
 	//Transfer data string to interger
-    Receive_data=atoi(buffer->buffer);
-     
+    // Receive_data=atoi(buffer->buffer);
+    // PWM_Duty=(Receive_data*MAX_DUTY)/MAX_DUTY_percentage;
+    // TIM1->CCR1=PWM_Duty;
 	
 }
 
@@ -380,6 +395,46 @@ void Uart_isr (UART_HandleTypeDef *huart)
     }
 }
 
+//find C# string method
+//
+//Parameter:ring_buffer *buffer 接收端主字串
+//			char Target[]   目標字串
+//
+void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l)
+{
+     int8_t cnt=0;
+	/*strcspn*/
+    char *sTmp;
+    if (Target_Head!=0)
+	{
+	    sTmp=strstr(s,Target_Head);
+		p+=strlen(Target_Head);
+	}
+	else
+	{
+		sTmp=s;
+	}
+	
+
+
+     while (cnt<l)
+	 {
+		out[cnt]=*(sTmp+p+cnt);
+	    cnt ++;
+	 }
+	 out[cnt]='\0';
+    
+    //   int location=strcspn(s,Target_Head);
+	//   Str_Start=location+1;
+	 /*strstr*/
+
+    // char *String_Len_1=strstr(s,"y");
+	// int position=String_Len_1-s;
+	// int substringLength = strlen(s) - position;
+    
+	//  Str_Start=substringLength;
+	
+}
 
 
 

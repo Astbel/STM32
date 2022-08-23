@@ -10,8 +10,9 @@
 
 // #include "stm32f4xx_hal.h"
 #include "stm32g4xx_hal.h"
+#include <string.h>
 /* change the size of the buffer */
-#define UART_BUFFER_SIZE 4
+#define UART_BUFFER_SIZE 8
 
 typedef struct
 {
@@ -21,7 +22,16 @@ typedef struct
 } ring_buffer;
 extern uint16_t Receive_data;
 extern uint8_t RX_Buffer[3];
+extern char output_Buff[UART_BUFFER_SIZE];
+//Search string buffer
+extern uint16_t Str_Start;
+extern uint16_t Str_End;
+extern char Targert_Buff_Head[4];
+extern char Targert_Buff_Tail[1];
 
+/*字串搜尋*/
+void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l);
+// void Search_String(char s[],char Target_Head[],int8_t l);
 /* Initialize the ring buffer */
 void Ringbuf_init(void);
 
@@ -103,7 +113,6 @@ void Uart_isr (UART_HandleTypeDef *huart);
 
 /* once you hit 'enter' (\r\n), it copies the entire string to the buffer*/
 //void Get_string (char *buffer);
-
 
 
 #endif /* UARTRINGBUFFER_H_ */
