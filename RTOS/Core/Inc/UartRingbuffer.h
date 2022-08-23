@@ -13,7 +13,7 @@
 #include <string.h>
 /* change the size of the buffer */
 #define UART_BUFFER_SIZE 8
-
+#define BUFFER_SIZE 4
 typedef struct
 {
   unsigned char buffer[UART_BUFFER_SIZE];
@@ -21,8 +21,8 @@ typedef struct
   volatile unsigned int tail;
 } ring_buffer;
 extern uint16_t Receive_data;
-extern uint8_t RX_Buffer[3];
-extern char output_Buff[UART_BUFFER_SIZE];
+extern char Test_Buff[BUFFER_SIZE];
+extern char output_Buff[BUFFER_SIZE];
 //Search string buffer
 extern uint16_t Str_Start;
 extern uint16_t Str_End;

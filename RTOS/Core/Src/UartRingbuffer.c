@@ -34,7 +34,8 @@ ring_buffer tx_buffer = { { 0 }, 0, 0};
 
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
-char output_Buff[UART_BUFFER_SIZE];
+char output_Buff[BUFFER_SIZE];
+char Test_Buff[BUFFER_SIZE];
 void store_char(unsigned char c, ring_buffer *buffer);
 
 
@@ -45,7 +46,8 @@ void Ringbuf_init(void)
 	 Str_End	=0;
      strcpy(Targert_Buff_Head,"Duty");
 	 strcpy(Targert_Buff_Tail,"F");
-	 memset(output_Buff,'\0', UART_BUFFER_SIZE);
+	 memset(output_Buff,'\0', BUFFER_SIZE);
+	 memset(Test_Buff,'\0', BUFFER_SIZE);
 	//
   _rx_buffer = &rx_buffer;
   _tx_buffer = &tx_buffer;
@@ -79,14 +81,13 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
-
+     
     // Search_String(rx_buffer.buffer,Targert_Buff_Head);
     Search_String(rx_buffer.buffer,Targert_Buff_Head,output_Buff,0, 4);
-    // Receive_data=atoi(output_Buff);
-	//Transfer data string to interger
-    // Receive_data=atoi(buffer->buffer);
-    // PWM_Duty=(Receive_data*MAX_DUTY)/MAX_DUTY_percentage;
-    // TIM1->CCR1=PWM_Duty;
+	strncpy(Test_Buff, output_Buff, 4);
+	// Receive_data=atoi(output_Buff);
+     Str_Start  =atoi(Test_Buff);
+
 	
 }
 
