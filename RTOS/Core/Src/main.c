@@ -50,7 +50,7 @@ const uint16_t sine_table[89]=
   998, 999, 999, 1000
 };
 /* USER CODE END PM */
-char test_BUFFER[3];
+
 uint8_t RX_Buffer[3]={0};
  uint16_t receive_data;
 /* Private variables ---------------------------------------------------------*/

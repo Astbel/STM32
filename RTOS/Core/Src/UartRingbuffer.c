@@ -25,7 +25,6 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 
 uint8_t status_flag;
 char Targert_Buff[BUFFER_SIZE];
-
 uint16_t Str_PWM;
 uint16_t Str_Freq;
 
@@ -430,6 +429,9 @@ void Check_Status(void)
 	 strcpy(Targert_Buff,"Duty");
 	 Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
      Str_PWM  =atoi(output_Buff);
+	 //跟新PWM
+	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    TIM1->CCR1=PWM_Duty;
   }
   //Freq
   else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
@@ -438,6 +440,7 @@ void Check_Status(void)
 	strcpy(Targert_Buff,"Freq");
 	Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
     Str_Freq  =atoi(output_Buff);
+	//跟新Freq
   }
   
 //   else
