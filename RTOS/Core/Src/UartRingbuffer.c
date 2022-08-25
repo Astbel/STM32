@@ -22,12 +22,12 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 */
 
 /****************=======================>>>>>>>>>>> NO CHANGES AFTER THIS =======================>>>>>>>>>>>**********************/
-uint16_t Receive_data;
 
-char Targert_Buff_Head[4];
-char Targert_Buff_Tail[1];
-uint16_t Str_Start;
-uint16_t Str_End;
+uint8_t status_flag;
+char Targert_Buff[BUFFER_SIZE];
+
+uint16_t Str_PWM;
+uint16_t Str_Freq;
 
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
@@ -35,19 +35,17 @@ ring_buffer tx_buffer = { { 0 }, 0, 0};
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
 char output_Buff[BUFFER_SIZE];
-char Test_Buff[BUFFER_SIZE];
-void store_char(unsigned char c, ring_buffer *buffer);
 
+void store_char(unsigned char c, ring_buffer *buffer);
+void Check_Status(void);
 
 void Ringbuf_init(void)
 {
      //Target string set
-	 Str_Start	=0;
-	 Str_End	=0;
-     strcpy(Targert_Buff_Head,"Duty");
-	 strcpy(Targert_Buff_Tail,"F");
+	 status_flag=0;
+	 Str_PWM	=0;
+	 Str_Freq	=0;
 	 memset(output_Buff,'\0', BUFFER_SIZE);
-	 memset(Test_Buff,'\0', BUFFER_SIZE);
 	//
   _rx_buffer = &rx_buffer;
   _tx_buffer = &tx_buffer;
@@ -81,14 +79,8 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
-     
-    // Search_String(rx_buffer.buffer,Targert_Buff_Head);
-    Search_String(rx_buffer.buffer,Targert_Buff_Head,output_Buff,0, 4);
-	strncpy(Test_Buff, output_Buff, 4);
-	// Receive_data=atoi(output_Buff);
-     Str_Start  =atoi(Test_Buff);
-
-	
+	//確認BUFFER內字串進行轉換
+     Check_Status();
 }
 
 
@@ -424,21 +416,38 @@ void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l)
 	    cnt ++;
 	 }
 	 out[cnt]='\0';
-    
-    //   int location=strcspn(s,Target_Head);
-	//   Str_Start=location+1;
-	 /*strstr*/
-
-    // char *String_Len_1=strstr(s,"y");
-	// int position=String_Len_1-s;
-	// int substringLength = strlen(s) - position;
-    
-	//  Str_Start=substringLength;
 	
 }
 
 
-
+//check status
+void Check_Status(void)
+{
+   //PWM
+  if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y'))
+  {
+     status_flag=1;
+	 strcpy(Targert_Buff,"Duty");
+	 Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
+     Str_PWM  =atoi(output_Buff);
+  }
+  //Freq
+  else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
+  {
+	status_flag=2;
+	strcpy(Targert_Buff,"Freq");
+	Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
+    Str_Freq  =atoi(output_Buff);
+  }
+  
+//   else
+//   {
+// 	status_flag=0;
+// 	Uart_flush();
+// 	memset(output_Buff,'\0', BUFFER_SIZE);
+// 	memset(Targert_Buff_Head,'\0', BUFFER_SIZE);
+//   }
+}
 
 
 

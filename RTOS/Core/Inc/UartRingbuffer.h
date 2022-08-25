@@ -20,15 +20,15 @@ typedef struct
   volatile unsigned int head;
   volatile unsigned int tail;
 } ring_buffer;
-extern uint16_t Receive_data;
-extern char Test_Buff[BUFFER_SIZE];
+
+
 extern char output_Buff[BUFFER_SIZE];
 //Search string buffer
-extern uint16_t Str_Start;
-extern uint16_t Str_End;
-extern char Targert_Buff_Head[4];
-extern char Targert_Buff_Tail[1];
+extern uint16_t Str_PWM;
+extern uint16_t Str_Freq;
+extern char Targert_Buff[BUFFER_SIZE];
 
+extern uint8_t status_flag;
 /*字串搜尋*/
 void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l);
 // void Search_String(char s[],char Target_Head[],int8_t l);
