@@ -90,34 +90,24 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	
 }
 
-
-int Look_for (char *str, char *buffertolookinto)
+void Uart_flush (void)
 {
-	int stringlength = strlen (str);
-	int bufferlength = strlen (buffertolookinto);
-	int so_far = 0;
-	int indx = 0;
-repeat:
-	while (str[so_far] != buffertolookinto[indx]) indx++;
-	if (str[so_far] == buffertolookinto[indx])
-	{
-		while (str[so_far] == buffertolookinto[indx])
-		{
-			so_far++;
-			indx++;
-		}
-	}
-
-	else
-	{
-		so_far =0;
-		if (indx >= bufferlength) return -1;
-		goto repeat;
-	}
-
-	if (so_far == stringlength) return 1;
-	else return -1;
+	memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
+	_rx_buffer->head = 0;
 }
+
+int Uart_peek()
+{
+  if(_rx_buffer->head == _rx_buffer->tail)
+  {
+    return -1;
+  }
+  else
+  {
+    return _rx_buffer->buffer[_rx_buffer->tail];
+  }
+}
+
 
 int Uart_read(void)
 {
@@ -161,149 +151,6 @@ void Uart_sendstring (const char *s)
 {
 	while(*s) Uart_write(*s++);
 }
-
-void Uart_printbase (long n, uint8_t base)
-{
-  char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
-  char *s = &buf[sizeof(buf) - 1];
-
-  *s = '\0';
-
-  // prevent crash if called with base == 1
-  if (base < 2) base = 10;
-
-  do {
-    unsigned long m = n;
-    n /= base;
-    char c = m - base * n;
-    *--s = c < 10 ? c + '0' : c + 'A' - 10;
-  } while(n);
-
-  while(*s) Uart_write(*s++);
-}
-
-void GetDataFromBuffer (char *startString, char *endString, char *buffertocopyfrom, char *buffertocopyinto)
-{
-	int startStringLength = strlen (startString);
-	int endStringLength   = strlen (endString);
-	int so_far = 0;
-	int indx = 0;
-	int startposition = 0;
-	int endposition = 0;
-
-repeat1:
-	while (startString[so_far] != buffertocopyfrom[indx]) indx++;
-	if (startString[so_far] == buffertocopyfrom[indx])
-	{
-		while (startString[so_far] == buffertocopyfrom[indx])
-		{
-			so_far++;
-			indx++;
-		}
-	}
-
-	if (so_far == startStringLength) startposition = indx;
-	else
-	{
-		so_far =0;
-		goto repeat1;
-	}
-
-	so_far = 0;
-
-repeat2:
-	while (endString[so_far] != buffertocopyfrom[indx]) indx++;
-	if (endString[so_far] == buffertocopyfrom[indx])
-	{
-		while (endString[so_far] == buffertocopyfrom[indx])
-		{
-			so_far++;
-			indx++;
-		}
-	}
-
-	if (so_far == endStringLength) endposition = indx-endStringLength;
-	else
-	{
-		so_far =0;
-		goto repeat2;
-	}
-
-	so_far = 0;
-	indx=0;
-
-	for (int i=startposition; i<endposition; i++)
-	{
-		buffertocopyinto[indx] = buffertocopyfrom[i];
-		indx++;
-	}
-}
-
-void Uart_flush (void)
-{
-	memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
-	_rx_buffer->head = 0;
-}
-
-int Uart_peek()
-{
-  if(_rx_buffer->head == _rx_buffer->tail)
-  {
-    return -1;
-  }
-  else
-  {
-    return _rx_buffer->buffer[_rx_buffer->tail];
-  }
-}
-
-
-int Copy_upto (char *string, char *buffertocopyinto)
-{
-	int so_far =0;
-	int len = strlen (string);
-	int indx = 0;
-
-again:
-	while (!IsDataAvailable());
-	while (Uart_peek() != string[so_far])
-		{
-			buffertocopyinto[indx] = _rx_buffer->buffer[_rx_buffer->tail];
-			_rx_buffer->tail = (unsigned int)(_rx_buffer->tail + 1) % UART_BUFFER_SIZE;
-			indx++;
-			while (!IsDataAvailable());
-
-		}
-	while (Uart_peek() == string [so_far])
-	{
-		so_far++;
-		buffertocopyinto[indx++] = Uart_read();
-		if (so_far == len) return 1;
-		while (!IsDataAvailable());
-	}
-
-	if (so_far != len)
-	{
-		so_far = 0;
-		goto again;
-	}
-
-	if (so_far == len) return 1;
-	else return -1;
-}
-
-int Get_after (char *string, uint8_t numberofchars, char *buffertosave)
-{
-
-	while (Wait_for(string) != 1);
-	for (int indx=0; indx<numberofchars; indx++)
-	{
-		while (!(IsDataAvailable()));
-		buffertosave[indx] = Uart_read();
-	}
-	return 1;
-}
-
 
 int Wait_for (char *string)
 {
@@ -471,65 +318,4 @@ void Buffer_store(ring_buffer *buffer)
 }
 
 
-/*** Depreciated For now. This is not needed, try using other functions to meet the requirement ***/
-/*
-uint16_t Get_position (char *string)
-{
-  static uint8_t so_far;
-  uint16_t counter;
-  int len = strlen (string);
-  if (_rx_buffer->tail>_rx_buffer->head)
-  {
-	  if (Uart_read() == string[so_far])
-	  		{
-	  		  counter=UART_BUFFER_SIZE-1;
-	  		  so_far++;
-	  		}
-	  else so_far=0;
-  }
-  unsigned int start = _rx_buffer->tail;
-  unsigned int end = _rx_buffer->head;
-  for (unsigned int i=start; i<end; i++)
-  {
-	  if (Uart_read() == string[so_far])
-		{
-		  counter=i;
-		  so_far++;
-		}
-	  else so_far =0;
-  }
 
-  if (so_far == len)
-	{
-	  so_far =0;
-	  return counter;
-	}
-  else return -1;
-}
-
-
-void Get_string (char *buffer)
-{
-	int index=0;
-
-	while (_rx_buffer->tail>_rx_buffer->head)
-	{
-		if ((_rx_buffer->buffer[_rx_buffer->head-1] == '\n')||((_rx_buffer->head == 0) && (_rx_buffer->buffer[UART_BUFFER_SIZE-1] == '\n')))
-			{
-				buffer[index] = Uart_read();
-				index++;
-			}
-	}
-	unsigned int start = _rx_buffer->tail;
-	unsigned int end = (_rx_buffer->head);
-	if ((_rx_buffer->buffer[end-1] == '\n'))
-	{
-
-		for (unsigned int i=start; i<end; i++)
-		{
-			buffer[index] = Uart_read();
-			index++;
-		}
-	}
-}
-*/

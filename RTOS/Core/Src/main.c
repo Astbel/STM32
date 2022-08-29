@@ -129,7 +129,7 @@ int main(void)
 //  HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
-  // osKernelStart();
+  osKernelStart();
   /* USER CODE BEGIN WHILE */
   while (1)
   {

@@ -47,17 +47,8 @@ void Uart_sendstring(const char *s);
  * base can be 10, 8 etc*/
 void Uart_printbase (long n, uint8_t base);
 
-
-
 /* Checks if the data is available to read in the rx_buffer */
 int IsDataAvailable(void);
-
-
-/* Look for a particular string in the given buffer
- * @return 1, if the string is found and -1 if not found
- * @USAGE:: if (Look_for ("some string", buffer)) do something
- */
-int Look_for (char *str, char *buffertolookinto);
 
 /* Copies the required data from a buffer
  * @startString: the string after which the data need to be copied
@@ -66,32 +57,9 @@ int Look_for (char *str, char *buffertolookinto);
  */
 void GetDataFromBuffer (char *startString, char *endString, char *buffertocopyfrom, char *buffertocopyinto);
 
-
 /* Resets the entire ring buffer, the new data will start from position 0 */
 void Uart_flush (void);
-
-/* Peek for the data in the Rx Bffer without incrementing the tail count 
-* Returns the character
-* USAGE: if (Uart_peek () == 'M') do something 
-*/
 int Uart_peek();
-
-
-/* Copy the data from the Rx buffer into the bufferr, Upto and including the entered string 
-* This copying will take place in the blocking mode, so you won't be able to perform any other operations
-* Returns 1 on success and -1 otherwise
-* USAGE: while (!(Copy_Upto ("some string", buffer)));
-*/
-int Copy_upto (char *string, char *buffertocopyinto);
-
-
-/* Copies the entered number of characters (blocking mode) from the Rx buffer into the buffer, after some particular string is detected
-* Returns 1 on success and -1 otherwise
-* USAGE: while (!(Get_after ("some string", 6, buffer)));
-*/
-int Get_after (char *string, uint8_t numberofchars, char *buffertosave);
-
-
 /* Wait until a paricular string is detected in the Rx Buffer
 * Return 1 on success and -1 otherwise
 * USAGE: while (!(Wait_for("some string")));
