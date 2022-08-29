@@ -37,7 +37,7 @@ char output_Buff[BUFFER_SIZE];
 
 void store_char(unsigned char c, ring_buffer *buffer);
 void Check_Status(void);
-
+void Buffer_store(ring_buffer *buffer);
 void Ringbuf_init(void)
 {
      //Target string set
@@ -72,14 +72,16 @@ void Ringbuf_init(void)
 //TEST stored data
 void store_char(unsigned char c, ring_buffer *buffer)
 {
-    
+    static int cnt;
 	int i=(unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
 
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
+
+	
 	//確認BUFFER內字串進行轉換
-     Check_Status();
+    //  Check_Status();
 }
 
 
@@ -348,7 +350,8 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
         store_char (c, _rx_buffer);  // store data in buffer
-        return;
+        Buffer_store(_rx_buffer);
+	    return;
     }
 
     /*If interrupt is caused due to Transmit Data Register Empty */
@@ -425,34 +428,41 @@ void Check_Status(void)
    //PWM
   if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y'))
   {
-     status_flag=1;
 	 strcpy(Targert_Buff,"Duty");
 	 Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
-    TIM1->CCR1=PWM_Duty;
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    // TIM1->CCR1=PWM_Duty;
   }
   //Freq
   else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
   {
-	status_flag=2;
 	strcpy(Targert_Buff,"Freq");
 	Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
     Str_Freq  =atoi(output_Buff);
 	//跟新Freq
   }
-  
-//   else
-//   {
-// 	status_flag=0;
-// 	Uart_flush();
-// 	memset(output_Buff,'\0', BUFFER_SIZE);
-// 	memset(Targert_Buff_Head,'\0', BUFFER_SIZE);
-//   }
+
 }
 
+// //填補當資料未被填滿時
+void Buffer_store(ring_buffer *buffer)
+{
+	static int j;
 
+    if(buffer->head==6)
+	{
+		for (j=buffer->head; j < UART_BUFFER_SIZE; j++)
+		{
+			buffer->buffer[j]='\0';
+		}
+		buffer->head=0;
+		buffer->tail=0;
+        //Reset status
+        status_flag=0;
+	}
+}
 
 
 /*** Depreciated For now. This is not needed, try using other functions to meet the requirement ***/

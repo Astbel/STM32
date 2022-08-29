@@ -27,16 +27,16 @@ Project File Date:  08/19/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'RTOS'
-compiling UartRingbuffer.c...
-../Core/Inc/UartRingbuffer.h(77): warning:  #1295-D: Deprecated declaration Uart_peek - give arg types
-  int Uart_peek();
-..\Core\Src\UartRingbuffer.c(430): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  	 Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
-..\Core\Src\UartRingbuffer.c(441): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  	Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
-..\Core\Src\UartRingbuffer.c: 3 warnings, 0 errors
+compiling app_freertos.c...
+../Core/Src/app_freertos.c(97): warning:  #223-D: function "IsDataAvailable" declared implicitly
+  		 if (IsDataAvailable())
+../Core/Src/app_freertos.c(99): warning:  #223-D: function "Uart_read" declared implicitly
+           int data=Uart_read();
+../Core/Src/app_freertos.c(104): warning:  #223-D: function "Uart_sendstring" declared implicitly
+            Uart_sendstring("PWM close PhaseB");
+../Core/Src/app_freertos.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=19602 RO-data=1066 RW-data=192 ZI-data=8240  
+Program Size: Code=19218 RO-data=1066 RW-data=196 ZI-data=8244  
 FromELF: creating hex file...
 "RTOS\RTOS.axf" - 0 Error(s), 3 Warning(s).
 
@@ -62,7 +62,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
