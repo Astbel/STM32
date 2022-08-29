@@ -126,10 +126,10 @@ int main(void)
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 
 
- HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
+//  HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
-  osKernelStart();
+  // osKernelStart();
   /* USER CODE BEGIN WHILE */
   while (1)
   {

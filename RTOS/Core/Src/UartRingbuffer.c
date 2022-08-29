@@ -78,10 +78,16 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
-
+    
+	cnt++;
 	
-	//確認BUFFER內字串進行轉換
-    //  Check_Status();
+	if (cnt>buffer->head)
+	{
+		cnt=0;
+	  //確認BUFFER內字串進行轉換
+      Check_Status();
+	}
+	
 }
 
 
@@ -450,8 +456,8 @@ void Check_Status(void)
 void Buffer_store(ring_buffer *buffer)
 {
 	static int j;
-
-    if(buffer->head==6)
+    //  memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
+    if(buffer->head>=6)
 	{
 		for (j=buffer->head; j < UART_BUFFER_SIZE; j++)
 		{
