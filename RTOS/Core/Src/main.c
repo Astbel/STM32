@@ -34,21 +34,10 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* USER CODE END PD */
-static int sine_cnt;
-static int inverse_sine_cnt;
-static int phase_state;
+
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-const uint16_t sine_table[89]=
-{
-  0,   18,   34,  52,  70,  87, 105, 122, 140, 156, 174, 191, 208, 225, 242,
-  259, 276, 292, 309, 325, 342, 359, 375, 391, 407, 423, 438, 454, 469,
-  485, 500, 515, 530, 545, 559, 573, 588, 602, 616, 529, 643, 656, 669,
-  682, 695, 707, 719, 731, 743, 755, 766, 777, 788, 799, 809, 819, 829,
-  839, 848, 858, 875, 883, 891, 899, 906, 914, 921, 927, 934, 940, 946,
-  951, 956, 961, 966, 970, 974, 978, 982, 985, 988, 990, 993, 995, 996,
-  998, 999, 999, 1000
-};
+
 /* USER CODE END PM */
 
 uint8_t RX_Buffer[3]={0};
@@ -89,9 +78,6 @@ int main(void)
 
   /* USER CODE END 1 */
   receive_data=0;
-  sine_cnt=0;
-  inverse_sine_cnt=89;
-  phase_state=1;
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -348,66 +334,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END 1 */
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim==&htim1)
-  {
-    //Phase1
-    if (phase_state==1)
-    {
-      TIM1->CCR1=sine_table[sine_cnt++];
-      TIM1->CCR2=sine_table[inverse_sine_cnt--];
-      if ((sine_cnt>=89)&&(inverse_sine_cnt<=0))
-      {
-        phase_state=2;
-      }
-      else
-      {
-        phase_state=1;
-      } 
-    }
-    //Phase2
-    else if (phase_state==2)
-    {
-      TIM1->CCR1=sine_table[sine_cnt--];
-      TIM1->CCR2=sine_table[inverse_sine_cnt++];
-      if ((sine_cnt<=0)&&(inverse_sine_cnt>=89))
-      {
-        phase_state=3;
-      }
-      else
-      {
-        phase_state=2;
-      } 
-    }
-    //Phase3
-    else if (phase_state==3)
-    {
-       TIM1->CCR1=sine_table[sine_cnt++];
-       TIM1->CCR2=sine_table[inverse_sine_cnt--];
-      if ((sine_cnt>=89)&&(inverse_sine_cnt<=0))
-      {
-        phase_state=4;
-      }
-      else
-      {
-        phase_state=3;
-      } 
-    }
-    //Phase4
-    else if (phase_state==4)
-    {
-       TIM1->CCR1=sine_table[sine_cnt--];
-       TIM1->CCR2=sine_table[inverse_sine_cnt++];
-      if ((sine_cnt<=0)&&(inverse_sine_cnt>=89))
-      {
-        phase_state=1;
-      }
-      else
-      {
-        phase_state=4;
-      } 
-    }
-  }
-  
+ 
 }
 /*STATE for Flash memory */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)

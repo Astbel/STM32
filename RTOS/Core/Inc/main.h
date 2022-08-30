@@ -91,7 +91,8 @@ extern  uint16_t receive_data;
 //UART control duty  HEX value convert
 #define  MAX_DUTY             (0x03E8)
 #define  MAX_DUTY_percentage  (0x0064)
-
+#define  True  (1)
+#define  False (0)
 #ifdef __cplusplus
 }
 #endif

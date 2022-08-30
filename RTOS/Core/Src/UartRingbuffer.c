@@ -23,30 +23,29 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 
 /****************=======================>>>>>>>>>>> NO CHANGES AFTER THIS =======================>>>>>>>>>>>**********************/
 
-uint8_t status_flag;
+
 char Targert_Buff[BUFFER_SIZE];
 uint16_t Str_PWM;
 uint16_t Str_Freq;
-
+uint8_t string_length;
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
 
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
-char output_Buff[BUFFER_SIZE];
+ char output_Buff[BUFFER_SIZE];
+
 //Method
-unsigned int Check_Length(ring_buffer *buffer);
 void store_char(unsigned char c, ring_buffer *buffer);
 void Check_Status(void);
-void Buffer_store(ring_buffer *buffer);
-
+unsigned int Check_Length(ring_buffer *buffer);
 
 void Ringbuf_init(void)
 {
      //Target string set
-	 status_flag=0;
 	 Str_PWM	=0;
 	 Str_Freq	=0;
+	 string_length=0;
 	 memset(output_Buff,'\0', BUFFER_SIZE);
 	//
   _rx_buffer = &rx_buffer;
@@ -80,12 +79,6 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
-    
-	if (buffer->head>=6)
-	{
-	  //確認BUFFER內字串進行轉換
-      Check_Status();
-	}
 }
 
 void Uart_flush (void)
@@ -201,11 +194,13 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
         store_char (c, _rx_buffer);  // store data in buffer
-       //全部資料進去後才重制Buffer
-	//    if (status_flag==1)
-	//    {
-	// 	 Buffer_store(_rx_buffer);
-	//    }
+        //判斷目前接收的字串長度,當head 以及計算長度相等時則為收完資料
+		Check_Length(_rx_buffer);
+		if (_rx_buffer->head==string_length)
+		{
+			Check_Status();
+		}
+		
 	    return;
     }
 
@@ -314,35 +309,24 @@ void Check_Status(void)
     Str_Freq  =atoi(output_Buff);
 	//跟新Freq
   }
-
-}
-
-// //填補當資料未被填滿時
-void Buffer_store(ring_buffer *buffer)
-{
-	static int j;
-    //  memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
-    if(buffer->head>=6)
-	{
-		for (j=buffer->head; j < UART_BUFFER_SIZE; j++)
-		{
-			buffer->buffer[j]='\0';
-		}
-		buffer->head=0;
-		buffer->tail=0;
-		// buffer->head=buffer->tail;
-        //Reset status
-        status_flag=0;
-	}
+  //重製Head & Tail 
+  rx_buffer.head=0;
+  rx_buffer.tail=0;
 }
 
 //check length  method
 unsigned int Check_Length(ring_buffer *buffer)
 {
 	if (buffer->head>=buffer->tail)
-	return (uint8_t)(buffer->head-buffer->tail);
+	{
+		string_length= (uint8_t)(buffer->head-buffer->tail);
+		return string_length;
+	}
 	else
-	return(uint8_t)(UART_BUFFER_SIZE-(buffer->head+buffer->tail));
+	{
+		string_length=(uint8_t)(UART_BUFFER_SIZE-(buffer->head+buffer->tail));
+		return string_length;
+	}
 }
 
 

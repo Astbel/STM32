@@ -22,16 +22,17 @@ typedef struct
 } ring_buffer;
 
 
-extern char output_Buff[BUFFER_SIZE];
+// extern volatile char output_Buff[BUFFER_SIZE];
 //Search string buffer
 extern uint16_t Str_PWM;
 extern uint16_t Str_Freq;
 extern char Targert_Buff[BUFFER_SIZE];
-extern uint8_t status_flag;
+/*確認字串結束傳送*/
+// int Check_Data_Receive(ring_buffer *buffer)
 /*字串搜尋*/
 void Search_String(char s[],char out[],uint16_t p,uint16_t l);
-// void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l);
-// void Search_String(char s[],char Target_Head[],int8_t l);
+//Method 確認長度
+unsigned int Check_Length(ring_buffer *buffer);
 /* Initialize the ring buffer */
 void Ringbuf_init(void);
 
