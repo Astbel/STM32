@@ -29,7 +29,8 @@ extern uint16_t Str_Freq;
 extern char Targert_Buff[BUFFER_SIZE];
 extern uint8_t status_flag;
 /*字串搜尋*/
-void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l);
+void Search_String(char s[],char out[],uint16_t p,uint16_t l);
+// void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l);
 // void Search_String(char s[],char Target_Head[],int8_t l);
 /* Initialize the ring buffer */
 void Ringbuf_init(void);

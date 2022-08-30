@@ -34,10 +34,13 @@ ring_buffer tx_buffer = { { 0 }, 0, 0};
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
 char output_Buff[BUFFER_SIZE];
-
+//Method
+unsigned int Check_Length(ring_buffer *buffer);
 void store_char(unsigned char c, ring_buffer *buffer);
 void Check_Status(void);
 void Buffer_store(ring_buffer *buffer);
+
+
 void Ringbuf_init(void)
 {
      //Target string set
@@ -80,14 +83,14 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->head=i;
     
 	cnt++;
-	
-	if (cnt>buffer->head)
-	{
-		cnt=0;
-	  //確認BUFFER內字串進行轉換
-      Check_Status();
-	}
-	
+
+	// if(Check_Length(buffer->buffer))
+	// // if ((cnt>=6)&&(buffer->head>=6))
+	// {
+	// 	cnt=0;
+	//   //確認BUFFER內字串進行轉換
+    //   Check_Status();
+	// }
 }
 
 void Uart_flush (void)
@@ -203,7 +206,11 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
         store_char (c, _rx_buffer);  // store data in buffer
-        Buffer_store(_rx_buffer);
+       //全部資料進去後才重制Buffer
+	//    if (status_flag==1)
+	//    {
+	// 	 Buffer_store(_rx_buffer);
+	//    }
 	    return;
     }
 
@@ -248,22 +255,24 @@ void Uart_isr (UART_HandleTypeDef *huart)
 //Parameter:ring_buffer *buffer 接收端主字串
 //			char Target[]   目標字串
 //
-void Search_String(char s[],char Target_Head[],char out[],uint16_t p,uint16_t l)
+void Search_String(char s[],char out[],uint16_t p,uint16_t l)
 {
      int8_t cnt=0;
 	/*strcspn*/
     char *sTmp;
-    if (Target_Head!=0)
-	{
-	    sTmp=strstr(s,Target_Head);
-		p+=strlen(Target_Head);
-	}
-	else
-	{
-		sTmp=s;
-	}
-	
+    // if (Target_Head!=0)
+	// {
+	    // sTmp=strstr(s,Target_Head);
+		// p+=strlen(Target_Head);
+	// }
+	// else
+	// {
+		// sTmp=s;
+	// }
 
+	//指標直接指向字串陣列
+	
+    sTmp=s;
 
      while (cnt<l)
 	 {
@@ -281,8 +290,8 @@ void Check_Status(void)
    //PWM
   if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y'))
   {
-	 strcpy(Targert_Buff,"Duty");
-	 Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
+	 status_flag=1;
+	 Search_String(rx_buffer.buffer,output_Buff,4,1);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
 	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
@@ -291,8 +300,7 @@ void Check_Status(void)
   //Freq
   else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
   {
-	strcpy(Targert_Buff,"Freq");
-	Search_String(rx_buffer.buffer,Targert_Buff,output_Buff,0, 4);
+	Search_String(rx_buffer.buffer,output_Buff,4,4);
     Str_Freq  =atoi(output_Buff);
 	//跟新Freq
   }
@@ -312,9 +320,19 @@ void Buffer_store(ring_buffer *buffer)
 		}
 		buffer->head=0;
 		buffer->tail=0;
+		// buffer->head=buffer->tail;
         //Reset status
         status_flag=0;
 	}
+}
+
+//check length  method
+unsigned int Check_Length(ring_buffer *buffer)
+{
+	if (buffer->head>=buffer->tail)
+	return (uint8_t)(buffer->head-buffer->tail);
+	else
+	return(uint8_t)(UART_BUFFER_SIZE-(buffer->head+buffer->tail));
 }
 
 
