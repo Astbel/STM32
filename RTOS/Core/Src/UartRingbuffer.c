@@ -75,22 +75,17 @@ void Ringbuf_init(void)
 //TEST stored data
 void store_char(unsigned char c, ring_buffer *buffer)
 {
-    static int cnt;
 	int i=(unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
 
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
     
-	cnt++;
-
-	// if(Check_Length(buffer->buffer))
-	// // if ((cnt>=6)&&(buffer->head>=6))
-	// {
-	// 	cnt=0;
-	//   //確認BUFFER內字串進行轉換
-    //   Check_Status();
-	// }
+	if (buffer->head>=6)
+	{
+	  //確認BUFFER內字串進行轉換
+      Check_Status();
+	}
 }
 
 void Uart_flush (void)
@@ -257,41 +252,56 @@ void Uart_isr (UART_HandleTypeDef *huart)
 //
 void Search_String(char s[],char out[],uint16_t p,uint16_t l)
 {
-     int8_t cnt=0;
+     int8_t cnt=0;				//取值得計數
+	 int8_t out_last_length=l;  //要寫入的位置
+	 int8_t j=0;					//補 0的計數
 	/*strcspn*/
     char *sTmp;
-    // if (Target_Head!=0)
-	// {
-	    // sTmp=strstr(s,Target_Head);
-		// p+=strlen(Target_Head);
-	// }
-	// else
-	// {
-		// sTmp=s;
-	// }
-
-	//指標直接指向字串陣列
-	
+	//指標致receive端
     sTmp=s;
-
-     while (cnt<l)
-	 {
-		out[cnt]=*(sTmp+p+cnt);
+	//填入Buffer
+    while (cnt<l)
+	{
+		out[out_last_length]=*(sTmp+p+cnt);
 	    cnt ++;
-	 }
-	 out[cnt]='\0';
-	
+		out_last_length++;
+	}
+	//剩下位數補0
+	while (j<l)
+	{
+		out[j]='0';
+		j++;
+	}
 }
 
 
-//check status
+/*
+狀態確認  判斷Receive Buffer端的末段結尾來判斷是幾位數
+*/
 void Check_Status(void)
 {
-   //PWM
-  if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y'))
+   //PWM  個位數
+  if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[5]=='\0')&&(_rx_buffer->buffer[6]=='\0')&&(_rx_buffer->buffer[7]=='\0'))
   {
-	 status_flag=1;
 	 Search_String(rx_buffer.buffer,output_Buff,4,1);
+     Str_PWM  =atoi(output_Buff);
+	 //跟新PWM
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    // TIM1->CCR1=PWM_Duty;
+  }
+  //PWM  十位數
+  else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[6]=='\0')&&(_rx_buffer->buffer[7]=='\0'))
+  {
+	 Search_String(rx_buffer.buffer,output_Buff,4,2);
+     Str_PWM  =atoi(output_Buff);
+	 //跟新PWM
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    // TIM1->CCR1=PWM_Duty;
+  }
+   //PWM  百位數
+  else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[7]=='\0'))
+  {
+	 Search_String(rx_buffer.buffer,output_Buff,4,3);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
 	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;

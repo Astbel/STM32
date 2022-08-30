@@ -30,14 +30,19 @@ Build target 'RTOS'
 compiling UartRingbuffer.c...
 ../Core/Inc/UartRingbuffer.h(63): warning:  #1295-D: Deprecated declaration Uart_peek - give arg types
   int Uart_peek();
-..\Core\Src\UartRingbuffer.c(86): error:  #167: argument of type "ring_buffer" is incompatible with parameter of type "ring_buffer *"
-  	Check_Length(rx_buffer);
-..\Core\Src\UartRingbuffer.c(294): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+..\Core\Src\UartRingbuffer.c(291): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
   	 Search_String(rx_buffer.buffer,output_Buff,4,1);
-..\Core\Src\UartRingbuffer.c(303): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+..\Core\Src\UartRingbuffer.c(300): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	 Search_String(rx_buffer.buffer,output_Buff,4,2);
+..\Core\Src\UartRingbuffer.c(309): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	 Search_String(rx_buffer.buffer,output_Buff,4,3);
+..\Core\Src\UartRingbuffer.c(318): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
   	Search_String(rx_buffer.buffer,output_Buff,4,4);
-..\Core\Src\UartRingbuffer.c: 3 warnings, 1 error
-"RTOS\RTOS.axf" - 1 Error(s), 3 Warning(s).
+..\Core\Src\UartRingbuffer.c: 5 warnings, 0 errors
+linking...
+Program Size: Code=17654 RO-data=1066 RW-data=192 ZI-data=8240  
+FromELF: creating hex file...
+"RTOS\RTOS.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,8 +66,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
