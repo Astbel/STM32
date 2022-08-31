@@ -27,7 +27,24 @@ Project File Date:  08/29/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'RTOS'
-"RTOS\RTOS.axf" - 0 Error(s), 0 Warning(s).
+compiling UartRingbuffer.c...
+../Core/Inc/UartRingbuffer.h(59): warning:  #1295-D: Deprecated declaration Uart_peek - give arg types
+  int Uart_peek();
+..\Core\Src\UartRingbuffer.c(173): warning:  #177-D: variable "timeout_counter"  was declared but never referenced
+  	  static uint8_t   timeout_counter=0;
+..\Core\Src\UartRingbuffer.c(275): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	 Search_String(rx_buffer.buffer,output_Buff,4,1);
+..\Core\Src\UartRingbuffer.c(284): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	 Search_String(rx_buffer.buffer,output_Buff,4,2);
+..\Core\Src\UartRingbuffer.c(293): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	 Search_String(rx_buffer.buffer,output_Buff,4,3);
+..\Core\Src\UartRingbuffer.c(302): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  	Search_String(rx_buffer.buffer,output_Buff,4,4);
+..\Core\Src\UartRingbuffer.c: 6 warnings, 0 errors
+linking...
+Program Size: Code=17652 RO-data=936 RW-data=184 ZI-data=8240  
+FromELF: creating hex file...
+"RTOS\RTOS.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +68,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

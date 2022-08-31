@@ -275,8 +275,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,1);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
-    // TIM1->CCR1=PWM_Duty;
+	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    TIM1->CCR1=PWM_Duty;
   }
   //PWM  十位數
   else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[6]=='\0')&&(_rx_buffer->buffer[7]=='\0'))
@@ -284,8 +284,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,2);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
-    // TIM1->CCR1=PWM_Duty;
+	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+    TIM1->CCR1=PWM_Duty;
   }
    //PWM  百位數
   else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[7]=='\0'))
@@ -293,8 +293,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,3);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
-    // TIM1->CCR1=PWM_Duty;
+	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage);
+    TIM1->CCR1=PWM_Duty;
   }
   //Freq
   else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
@@ -306,10 +306,9 @@ void Check_Status(void)
   //重製Head & Tail 
   rx_buffer.head=0;
   rx_buffer.tail=0;
+  memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
   //清除全部收完旗標等待下一次
   Data_Flag=0;
-  //重製下一輪
-  time_out_flag=1;
 }
 
 //check length  method

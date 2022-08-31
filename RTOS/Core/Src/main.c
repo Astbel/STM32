@@ -81,7 +81,6 @@ int main(void)
 
   /* USER CODE END 1 */
   receive_data =0;
-  time_out_flag=1;
   time_out_cnt =0;
   Data_Flag    =0;
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */

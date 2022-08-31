@@ -76,7 +76,7 @@ void StartDefaultTask(void *argument)
       time_out_cnt--;
       if (time_out_cnt==0)
       {
-          time_out_flag=0;     //下一輪
+         // time_out_flag=0;     //下一輪
           Data_Flag=1;        //資料全部收完
       }
     }
