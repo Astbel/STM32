@@ -76,6 +76,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 extern uint16_t PWM_Duty;
 extern  uint16_t receive_data;
+
+/*Uart Time out variable*/
+extern uint16_t time_out_total_cnt;  //總資料timeout計數
+extern uint16_t time_out_cnt;        //單筆timeout計數
+extern uint8_t time_out_flag;       //timeout 旗標
+extern uint8_t  Data_Flag;          //整組資料旗標
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

@@ -47,7 +47,10 @@ TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 /* Definitions for MyTask01 */
 uint16_t PWM_Duty;
-
+uint16_t time_out_total_cnt;
+uint16_t time_out_cnt;
+uint8_t time_out_flag;
+uint8_t  Data_Flag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,16 +80,17 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  receive_data=0;
-  /* MCU Configuration--------------------------------------------------------*/
-
+  receive_data =0;
+  time_out_flag=1;
+  time_out_cnt =0;
+  Data_Flag    =0;
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
   
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
-
+  //Timeout 倒數
   /* Configure the system clock */
   SystemClock_Config();
 

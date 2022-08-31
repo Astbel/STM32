@@ -1,9 +1,3 @@
-/*
- * UartRingbuffer.h
- *
- *  Created on: 10-Jul-2019
- *      Author: Controllerstech
- */
 
 #ifndef UARTRINGBUFFER_H_
 #define UARTRINGBUFFER_H_

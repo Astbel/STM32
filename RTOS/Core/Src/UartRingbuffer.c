@@ -1,11 +1,4 @@
-/*
- * UartRingbuffer.c
- *
- *  Created on: 10-Jul-2019
- *      Author: Controllerstech
- *
- *  Modified on: 11-April-2020
- */
+
 
 #include "UartRingbuffer.h"
 #include "main.h"
@@ -34,7 +27,7 @@ ring_buffer tx_buffer = { { 0 }, 0, 0};
 ring_buffer *_rx_buffer;
 ring_buffer *_tx_buffer;
  char output_Buff[BUFFER_SIZE];
-
+// uint8_t time_out_flag;
 //Method
 void store_char(unsigned char c, ring_buffer *buffer);
 void Check_Status(void);
@@ -176,7 +169,8 @@ void Uart_isr (UART_HandleTypeDef *huart)
 {
 	  uint32_t isrflags   = READ_REG(huart->Instance->ISR);
 	  uint32_t cr1its     = READ_REG(huart->Instance->CR1);
-
+    //TImeout Register
+	  static uint8_t   timeout_counter=0;
     /* if DR is not empty and the Rx Int is enabled */
     if (((isrflags & USART_ISR_RXNE_RXFNE) != RESET) && ((cr1its & USART_CR1_RXNEIE_RXFNEIE) != RESET))
     {
@@ -193,17 +187,30 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	 *********************/
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
-        store_char (c, _rx_buffer);  // store data in buffer
+		
+		if ((time_out_flag==1)&&(time_out_cnt==0))
+		{
+			 store_char (c, _rx_buffer); 
+			//等待下一筆的旗標
+			// time_out_flag=0;
+			 //設置&重制Timeout計數,設定為一個Byte時間
+	 		  time_out_cnt=10;
+		}
+		
         //判斷目前接收的字串長度,當head 以及計算長度相等時則為收完資料
-		Check_Length(_rx_buffer);
-		if (_rx_buffer->head==string_length)
+		// Check_Length(_rx_buffer);
+		
+		//判斷致Timeout
+		if (Data_Flag==1)
 		{
 			Check_Status();
 		}
+		//Wait for Timeout for reset
+		
 		
 	    return;
     }
-
+    
     /*If interrupt is caused due to Transmit Data Register Empty */
     if (((isrflags & USART_ISR_TXE_TXFNF) != RESET) && ((cr1its & USART_CR1_TXEIE_TXFNFIE) != RESET))
     {
@@ -312,6 +319,10 @@ void Check_Status(void)
   //重製Head & Tail 
   rx_buffer.head=0;
   rx_buffer.tail=0;
+  //清除全部收完旗標等待下一次
+  Data_Flag=0;
+  //重製下一輪
+  time_out_flag=1;
 }
 
 //check length  method

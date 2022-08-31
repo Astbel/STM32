@@ -72,10 +72,24 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
     HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-    
-    osDelay(100);
+    if (time_out_cnt>0)
+    {
+      time_out_flag=0;   //期間內不收任何資料
+      time_out_cnt--;
+      if (time_out_cnt==0)
+      {
+        // time_out_cnt=10;
+        time_out_total_cnt++;//總計數
+        if (time_out_total_cnt==7)//一筆8.68ms ,總total則為69ms
+        {
+          time_out_flag=0;     //下一輪
+          time_out_total_cnt=0;//重制timeout總計數
+          Data_Flag=1;        //資料全部收完
+        }
+      }
+    }
+    osDelay(1);
   }
-  /* USER CODE END 5 */
 }
 
 /* USER CODE BEGIN Header_StartTask02 */

@@ -153,22 +153,22 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>output_Buff</ItemText>
+          <ItemText>rx_buffer</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>rx_buffer</ItemText>
+          <ItemText>time_out_cnt</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Str_PWM</ItemText>
+          <ItemText>time_out_total_cnt</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>string_length</ItemText>
+          <ItemText>Data_Flag</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
