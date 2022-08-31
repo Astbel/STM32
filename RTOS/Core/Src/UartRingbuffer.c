@@ -187,26 +187,13 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	 *********************/
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
+	    store_char (c, _rx_buffer); 
+	
+	 	time_out_cnt=10;
 		
-		if ((time_out_flag==1)&&(time_out_cnt==0))
-		{
-			 store_char (c, _rx_buffer); 
-			//等待下一筆的旗標
-			// time_out_flag=0;
-			 //設置&重制Timeout計數,設定為一個Byte時間
-	 		  time_out_cnt=10;
-		}
 		
         //判斷目前接收的字串長度,當head 以及計算長度相等時則為收完資料
 		// Check_Length(_rx_buffer);
-		
-		//判斷致Timeout
-		if (Data_Flag==1)
-		{
-			Check_Status();
-		}
-		//Wait for Timeout for reset
-		
 		
 	    return;
     }

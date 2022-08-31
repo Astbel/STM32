@@ -18,6 +18,7 @@ typedef struct
 
 // extern volatile char output_Buff[BUFFER_SIZE];
 //Search string buffer
+extern void Check_Status(void);
 extern uint16_t Str_PWM;
 extern uint16_t Str_Freq;
 extern char Targert_Buff[BUFFER_SIZE];

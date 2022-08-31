@@ -163,11 +163,6 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>time_out_total_cnt</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
           <ItemText>Data_Flag</ItemText>
         </Ww>
       </WatchWindow1>
