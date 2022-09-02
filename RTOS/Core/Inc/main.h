@@ -76,7 +76,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 extern uint16_t PWM_Duty;
 extern  uint16_t receive_data;
-
+extern uint32_t MAX_DUTY_Calculate;
+extern uint32_t ARR_LAST_TIME_SAVE;
 /*Uart Time out variable*/
 extern uint16_t time_out_cnt;        //單筆timeout計數      //timeout 旗標
 extern uint8_t  Data_Flag;          //整組資料旗標

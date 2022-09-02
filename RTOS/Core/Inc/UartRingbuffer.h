@@ -20,7 +20,7 @@ typedef struct
 //Search string buffer
 extern void Check_Status(void);
 extern uint16_t Str_PWM;
-extern uint16_t Str_Freq;
+extern uint32_t Str_Freq;
 extern char Targert_Buff[BUFFER_SIZE];
 /*確認字串結束傳送*/
 // int Check_Data_Receive(ring_buffer *buffer)

@@ -51,6 +51,8 @@ uint16_t time_out_total_cnt;
 uint16_t time_out_cnt;
 uint8_t time_out_flag;
 uint8_t  Data_Flag;
+uint32_t MAX_DUTY_Calculate;
+uint32_t ARR_LAST_TIME_SAVE;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

@@ -19,7 +19,7 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 
 char Targert_Buff[BUFFER_SIZE];
 uint16_t Str_PWM;
-uint16_t Str_Freq;
+uint32_t Str_Freq;
 uint8_t string_length;
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 ring_buffer tx_buffer = { { 0 }, 0, 0};
@@ -189,7 +189,7 @@ void Uart_isr (UART_HandleTypeDef *huart)
         unsigned char c = huart->Instance->RDR;     /* Read data register */
 	    store_char (c, _rx_buffer); 
 	
-	 	time_out_cnt=10;
+	 	time_out_cnt=200;
 		
 		
         //判斷目前接收的字串長度,當head 以及計算長度相等時則為收完資料
@@ -275,7 +275,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,1);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+	PWM_Duty=((Str_PWM*MAX_DUTY_Calculate)/MAX_DUTY_percentage)+0x032;
     TIM1->CCR1=PWM_Duty;
   }
   //PWM  十位數
@@ -284,7 +285,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,2);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
+	PWM_Duty=((Str_PWM*MAX_DUTY_Calculate)/MAX_DUTY_percentage)+0x032;
     TIM1->CCR1=PWM_Duty;
   }
    //PWM  百位數
@@ -293,7 +295,8 @@ void Check_Status(void)
 	 Search_String(rx_buffer.buffer,output_Buff,4,3);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
-	PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage);
+	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage);
+	PWM_Duty=((Str_PWM*MAX_DUTY_Calculate)/MAX_DUTY_percentage)+0x032;
     TIM1->CCR1=PWM_Duty;
   }
   //Freq
@@ -301,7 +304,14 @@ void Check_Status(void)
   {
 	Search_String(rx_buffer.buffer,output_Buff,4,4);
     Str_Freq  =atoi(output_Buff);
+	//存入當筆ARR值
+	ARR_LAST_TIME_SAVE=TIM1->ARR;
 	//跟新Freq
+	Str_Freq=Str_Freq*1000;
+	TIM1->ARR=(uint32_t)((SystemCoreClock)/((TIM1->PSC+1)*Str_Freq));
+	//刷新DUTY對應此狀態下的值
+	TIM1->CCR1=((TIM1->CCR1*TIM1->ARR)/ARR_LAST_TIME_SAVE);//等比跟新DUTY
+	MAX_DUTY_Calculate=TIM1->ARR;      //跟新最大DUTY
   }
   //重製Head & Tail 
   rx_buffer.head=0;
