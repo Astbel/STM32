@@ -27,19 +27,16 @@ Project File Date:  09/06/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'RTOS'
-compiling app_freertos.c...
 compiling main.c...
-../Core/Src/main.c(448): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
-  	receive_data=atoi(RX_Buffer);
-../Core/Src/main.c(369): warning:  #177-D: function "MX_USART3_UART_Init"  was declared but never referenced
-  static void MX_USART3_UART_Init(void)
+../Core/Src/main.c(502): warning:  #940-D: missing return statement at end of non-void function "uart_send_msg" 
+  }
 ../Core/Src/main.c(70): warning:  #177-D: function "MX_HRTIM1_Init"  was declared but never referenced
   static void MX_HRTIM1_Init(void);
-../Core/Src/main.c: 3 warnings, 0 errors
+../Core/Src/main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=18200 RO-data=936 RW-data=200 ZI-data=8560  
+Program Size: Code=13898 RO-data=570 RW-data=84 ZI-data=3372  
 FromELF: creating hex file...
-"RTOS\RTOS.axf" - 0 Error(s), 3 Warning(s).
+"RTOS\RTOS.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -63,7 +60,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

@@ -40,7 +40,7 @@
 
 /* USER CODE END PM */
 
-uint8_t RX_Buffer[3]={0};
+uint8_t RX_Buffer[10]={0};
  uint16_t receive_data;
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
@@ -68,6 +68,7 @@ void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
 void RTOS_Thread_Init(void);
 static void MX_HRTIM1_Init(void);
+HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -107,30 +108,38 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  // MX_USART3_UART_Init();
+  MX_USART3_UART_Init();
   MX_TIM1_Init();
-  Ringbuf_init ();
+__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
+__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  // enable receive intterupts
+__HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);  // enable receive intterupts
+
+  HAL_UART_Receive_IT(&huart1,RX_Buffer,4);
+  HAL_UART_Receive_IT(&huart2,RX_Buffer,4);
+  HAL_UART_Receive_IT(&huart3,RX_Buffer,4);
+  // Ringbuf_init ();
    /* USER CODE BEGIN 2 */
-  RTOS_Thread_Init();
-  osKernelInitialize();
+  // RTOS_Thread_Init();
+  // osKernelInitialize();
 	//Start PWM
 
-  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
+  // HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
   // HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_1);
-  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
+  // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+  // HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
   // HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_2);
-  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
+  // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 
 
 //  HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
   /*## Start PWM signals generation #######################################*/
   /* Start channel 1 */
-  osKernelStart();
+  // osKernelStart();
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
+     uart_send_msg("Hello",wifi_uart);
+      uart_send_msg("Hello",device_uart);
   }
   /* USER CODE END 3 */
 }
@@ -445,11 +454,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	HAL_UART_Transmit(&huart1,RX_Buffer,3,100);
 	HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
-	receive_data=atoi(RX_Buffer);
 	memset(RX_Buffer,0,sizeof(RX_Buffer));
-  //Duty transfer 
-  PWM_Duty=(receive_data*MAX_DUTY)/MAX_DUTY_percentage;
-  TIM1->CCR1=PWM_Duty;
 }
 
 /**
@@ -466,6 +471,51 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+/* Private function prototypes -----------------------------------------------*/
+/**************************uart_send_msg****************************************
+ **
+  * @brief	Sends a message through UART
+  * @param	user_data
+  * @retval	status
+  */
+HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart)
+{
+if (huart==device_uart)
+{
+  	// HAL_StatusTypeDef Status;
+	 HAL_UART_Transmit_IT(&huart1, (uint8_t*)user_data,
+			strlen(user_data));
+}
+else if (huart==test_uart)
+{
+  	// HAL_StatusTypeDef Status;
+ HAL_UART_Transmit_IT(&huart2, (uint8_t*)user_data,
+			strlen(user_data));
+}
+else if (huart==wifi_uart)
+{
+  	// HAL_StatusTypeDef Status;
+	 HAL_UART_Transmit_IT(&huart3, (uint8_t*)user_data,
+			strlen(user_data));
+}
+	// return Status;
+}
+
+HAL_StatusTypeDef uart_send_INT(int *user_data)
+{
+#ifndef USE_UART
+	// do nothing
+	return HAL_OK;
+#else
+	HAL_StatusTypeDef Status;
+	Status = HAL_UART_Transmit_IT(&huart1, (uint8_t*)user_data,
+			sizeof(user_data));
+
+	return Status;
+#endif
+}
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**
