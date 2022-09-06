@@ -64,6 +64,8 @@ typedef enum
 
 /* USER CODE END EC */
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
 extern TIM_HandleTypeDef htim1;
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */

@@ -22,7 +22,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "UartRingbuffer.h"
 
 
 
@@ -80,6 +80,7 @@ void StartDefaultTask(void *argument)
           Data_Flag=1;        //資料全部收完
       }
     }
+
     osDelay(1);
   }
 }
@@ -101,7 +102,8 @@ void StartTask02(void *argument)
 		{
 			Check_Status();
 		}
-      
+    //Test uart3
+      Uart_sendstring("Check UART3 is working",device_uart);
     osDelay(100);
   }
   /* USER CODE END StartTask02 */

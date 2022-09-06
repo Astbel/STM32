@@ -21,11 +21,19 @@ char Targert_Buff[BUFFER_SIZE];
 uint16_t Str_PWM;
 uint32_t Str_Freq;
 uint8_t string_length;
-ring_buffer rx_buffer = { { 0 }, 0, 0};
-ring_buffer tx_buffer = { { 0 }, 0, 0};
 
-ring_buffer *_rx_buffer;
-ring_buffer *_tx_buffer;
+//Multi channel here
+ring_buffer rx_buffer1 = { { 0 }, 0, 0};
+ring_buffer tx_buffer1 = { { 0 }, 0, 0};
+ring_buffer rx_buffer2 = { { 0 }, 0, 0};
+ring_buffer tx_buffer2 = { { 0 }, 0, 0};
+
+ring_buffer *_rx_buffer1;
+ring_buffer *_tx_buffer1;
+ring_buffer *_rx_buffer2;
+ring_buffer *_tx_buffer2;
+
+
  char output_Buff[BUFFER_SIZE];
 // uint8_t time_out_flag;
 //Method
@@ -41,14 +49,17 @@ void Ringbuf_init(void)
 	 string_length=0;
 	 memset(output_Buff,'\0', BUFFER_SIZE);
 	//
-  _rx_buffer = &rx_buffer;
-  _tx_buffer = &tx_buffer;
+  _rx_buffer1 = &rx_buffer1;
+  _tx_buffer1 = &tx_buffer1;
+  _rx_buffer2 = &rx_buffer2;
+  _tx_buffer2 = &tx_buffer2;
 
   /* Enable the UART Error Interrupt: (Frame error, noise error, overrun error) */
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_ERR);
-
+  __HAL_UART_ENABLE_IT(device_uart,UART_IT_ERR);
+  __HAL_UART_ENABLE_IT(wifi_uart,UART_IT_ERR);
   /* Enable the UART Data Register not empty Interrupt */
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+  __HAL_UART_ENABLE_IT(device_uart,UART_IT_RXNE);
+  __HAL_UART_ENABLE_IT(wifi_uart,UART_IT_RXNE);
 }
 
 // void store_char(unsigned char c, ring_buffer *buffer)
@@ -74,88 +85,156 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->head=i;
 }
 
-void Uart_flush (void)
+void Uart_flush (UART_HandleTypeDef *uart)
 {
-	memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
-	_rx_buffer->head = 0;
-}
-
-int Uart_peek()
-{
-  if(_rx_buffer->head == _rx_buffer->tail)
-  {
-    return -1;
-  }
-  else
-  {
-    return _rx_buffer->buffer[_rx_buffer->tail];
-  }
+	if (uart == device_uart)
+	{
+		memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
+		_rx_buffer1->head = 0;
+	}
+	if (uart ==  wifi_uart)
+	{
+		memset(_rx_buffer2->buffer,'\0', UART_BUFFER_SIZE);
+		_rx_buffer2->head = 0;
+	}
 }
 
 
-int Uart_read(void)
+int Uart_peek(UART_HandleTypeDef *uart)
 {
-  // if the head isn't ahead of the tail, we don't have any characters
-  if(_rx_buffer->head == _rx_buffer->tail)
-  {
-    return -1;
-  }
-  else
-  {
-    unsigned char c = _rx_buffer->buffer[_rx_buffer->tail];
-    _rx_buffer->tail = (unsigned int)(_rx_buffer->tail + 1) % UART_BUFFER_SIZE;
-    return c;
-  }
+	if (uart == device_uart)
+	{
+		  if(_rx_buffer1->head == _rx_buffer1->tail)
+		  {
+		    return -1;
+		  }
+		  else
+		  {
+		    return _rx_buffer1->buffer[_rx_buffer1->tail];
+		  }
+	}
+
+	else if (uart ==  wifi_uart)
+	{
+		  if(_rx_buffer2->head == _rx_buffer2->tail)
+		  {
+		    return -1;
+		  }
+		  else
+		  {
+		    return _rx_buffer2->buffer[_rx_buffer2->tail];
+		  }
+	}
+
+	return -1;
 }
 
-void Uart_write(int c)
+
+int Uart_read(UART_HandleTypeDef *uart)
+{
+	if (uart == device_uart)
+	{
+		  // if the head isn't ahead of the tail, we don't have any characters
+		  if(_rx_buffer1->head == _rx_buffer1->tail)
+		  {
+		    return -1;
+		  }
+		  else
+		  {
+		    unsigned char c = _rx_buffer1->buffer[_rx_buffer1->tail];
+		    _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+		    return c;
+		  }
+	}
+
+	else if (uart == wifi_uart)
+	{
+		  // if the head isn't ahead of the tail, we don't have any characters
+		  if(_rx_buffer2->head == _rx_buffer2->tail)
+		  {
+		    return -1;
+		  }
+		  else
+		  {
+		    unsigned char c = _rx_buffer2->buffer[_rx_buffer2->tail];
+		    _rx_buffer2->tail = (unsigned int)(_rx_buffer2->tail + 1) % UART_BUFFER_SIZE;
+		    return c;
+		  }
+	}
+
+	else return -1;
+}
+
+void Uart_write(int c, UART_HandleTypeDef *uart)
 {
 	if (c>=0)
 	{
-		int i = (_tx_buffer->head + 1) % UART_BUFFER_SIZE;
+		if (uart == device_uart){
+		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
 
 		// If the output buffer is full, there's nothing for it other than to
 		// wait for the interrupt handler to empty it a bit
 		// ???: return 0 here instead?
-		while (i == _tx_buffer->tail);
+		while (i == _tx_buffer1->tail);
 
-		_tx_buffer->buffer[_tx_buffer->head] = (uint8_t)c;
-		_tx_buffer->head = i;
+		_tx_buffer1->buffer[_tx_buffer1->head] = (uint8_t)c;
+		_tx_buffer1->head = i;
 
-		__HAL_UART_ENABLE_IT(&huart1, UART_IT_TXE); // Enable UART transmission interrupt
+		__HAL_UART_ENABLE_IT(device_uart, UART_IT_TXE); // Enable UART transmission interrupt
+		}
+
+		else if (uart == wifi_uart){
+			int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
+
+			// If the output buffer is full, there's nothing for it other than to
+			// wait for the interrupt handler to empty it a bit
+			// ???: return 0 here instead?
+			while (i == _tx_buffer2->tail);
+
+			_tx_buffer2->buffer[_tx_buffer2->head] = (uint8_t)c;
+			_tx_buffer2->head = i;
+
+			__HAL_UART_ENABLE_IT(wifi_uart, UART_IT_TXE); // Enable UART transmission interrupt
+			}
 	}
 }
 
-int IsDataAvailable(void)
+int IsDataAvailable(UART_HandleTypeDef *uart)
 {
-  return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer->head - _rx_buffer->tail) % UART_BUFFER_SIZE;
+	if (uart == device_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer1->head - _rx_buffer1->tail) % UART_BUFFER_SIZE;
+	else if (uart == wifi_uart) return (uint16_t)(UART_BUFFER_SIZE + _rx_buffer2->head - _rx_buffer2->tail) % UART_BUFFER_SIZE;
+	return -1;
+}
+void Uart_sendstring (const char *s, UART_HandleTypeDef *uart)
+{
+	while(*s!='\0') Uart_write(*s++, uart);
 }
 
-void Uart_sendstring (const char *s)
-{
-	while(*s) Uart_write(*s++);
-}
-
-int Wait_for (char *string)
+int Wait_for (char *string,UART_HandleTypeDef *uart)
 {
 	int so_far =0;
 	int len = strlen (string);
 
-again:
-	while (!IsDataAvailable());
-	while (Uart_peek() != string[so_far]) _rx_buffer->tail = (unsigned int)(_rx_buffer->tail + 1) % UART_BUFFER_SIZE;
-	while (Uart_peek() == string [so_far])
+again_device:
+	while (!IsDataAvailable(uart));
+	if (Uart_peek(uart) != string[so_far])
+	{
+		 _rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE ;
+		goto again_device;
+
+	}
+	while (Uart_peek(uart) == string [so_far])
 	{
 		so_far++;
-		Uart_read();
+		Uart_read(uart);
 		if (so_far == len) return 1;
-		while (!IsDataAvailable());
+		while (!IsDataAvailable(uart));
 	}
 
 	if (so_far != len)
 	{
 		so_far = 0;
-		goto again;
+		goto again_device;
 	}
 
 	if (so_far == len) return 1;
@@ -187,11 +266,18 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	 *********************/
     	huart->Instance->ISR;                       /* Read status register */
         unsigned char c = huart->Instance->RDR;     /* Read data register */
-	    store_char (c, _rx_buffer); 
-	
+		 if (huart == device_uart)
+        {
+        	store_char (c, _rx_buffer1);  // store data in buffer
+        }
+
+        else if (huart == wifi_uart)
+        {
+           	store_char (c, _rx_buffer2);  // store data in buffer
+        }
+	   
 	 	time_out_cnt=200;
-		
-		
+
         //判斷目前接收的字串長度,當head 以及計算長度相等時則為收完資料
 		// Check_Length(_rx_buffer);
 		
@@ -199,9 +285,10 @@ void Uart_isr (UART_HandleTypeDef *huart)
     }
     
     /*If interrupt is caused due to Transmit Data Register Empty */
-    if (((isrflags & USART_ISR_TXE_TXFNF) != RESET) && ((cr1its & USART_CR1_TXEIE_TXFNFIE) != RESET))
+   if (((isrflags & USART_ISR_TXE_TXFNF) != RESET) && ((cr1its & USART_CR1_TXEIE_TXFNFIE) != RESET))
     {
-    	if(tx_buffer.head == tx_buffer.tail)
+    	if (huart == device_uart){
+    	if(tx_buffer1.head == tx_buffer1.tail)
     	    {
     	      // Buffer empty, so disable interrupts
     	      __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
@@ -211,8 +298,8 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	 else
     	    {
     	      // There is more data in the output buffer. Send the next byte
-    	      unsigned char c = tx_buffer.buffer[tx_buffer.tail];
-    	      tx_buffer.tail = (tx_buffer.tail + 1) % UART_BUFFER_SIZE;
+    	      unsigned char c = tx_buffer1.buffer[tx_buffer1.tail];
+    	      tx_buffer1.tail = (tx_buffer1.tail + 1) % UART_BUFFER_SIZE;
 
     	      /******************
     	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
@@ -230,6 +317,39 @@ void Uart_isr (UART_HandleTypeDef *huart)
     	      huart->Instance->TDR = c;
 
     	    }
+    	}
+
+    	else if (huart == wifi_uart){
+        	if(tx_buffer2.head == tx_buffer2.tail)
+        	    {
+        	      // Buffer empty, so disable interrupts
+        	      __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+
+        	    }
+
+        	 else
+        	    {
+        	      // There is more data in the output buffer. Send the next byte
+        	      unsigned char c = tx_buffer2.buffer[tx_buffer2.tail];
+        	      tx_buffer2.tail = (tx_buffer2.tail + 1) % UART_BUFFER_SIZE;
+
+        	      /******************
+        	      *  @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (Overrun
+        	      *          error) and IDLE (Idle line detected) flags are cleared by software
+        	      *          sequence: a read operation to USART_SR register followed by a read
+        	      *          operation to USART_DR register.
+        	      * @note   RXNE flag can be also cleared by a read to the USART_DR register.
+        	      * @note   TC flag can be also cleared by software sequence: a read operation to
+        	      *          USART_SR register followed by a write operation to USART_DR register.
+        	      * @note   TXE flag is cleared only by a write to the USART_DR register.
+
+        	      *********************/
+
+        	      huart->Instance->ISR;
+        	      huart->Instance->TDR = c;
+
+        	    }
+        	}
     	return;
     }
 }
@@ -270,9 +390,9 @@ void Search_String(char s[],char out[],uint16_t p,uint16_t l)
 void Check_Status(void)
 {
    //PWM  個位數
-  if ((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[5]=='\0')&&(_rx_buffer->buffer[6]=='\0')&&(_rx_buffer->buffer[7]=='\0'))
+  if ((_rx_buffer1->buffer[0]=='D')&&(_rx_buffer1->buffer[1]=='u')&&(_rx_buffer1->buffer[2]=='t')&&(_rx_buffer1->buffer[3]=='y')&&(_rx_buffer1->buffer[5]=='\0')&&(_rx_buffer1->buffer[6]=='\0')&&(_rx_buffer1->buffer[7]=='\0'))
   {
-	 Search_String(rx_buffer.buffer,output_Buff,4,1);
+	 Search_String(rx_buffer1.buffer,output_Buff,4,1);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
 	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
@@ -280,9 +400,9 @@ void Check_Status(void)
     TIM1->CCR1=PWM_Duty;
   }
   //PWM  十位數
-  else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[6]=='\0')&&(_rx_buffer->buffer[7]=='\0'))
+  else if((_rx_buffer1->buffer[0]=='D')&&(_rx_buffer1->buffer[1]=='u')&&(_rx_buffer1->buffer[2]=='t')&&(_rx_buffer1->buffer[3]=='y')&&(_rx_buffer1->buffer[6]=='\0')&&(_rx_buffer1->buffer[7]=='\0'))
   {
-	 Search_String(rx_buffer.buffer,output_Buff,4,2);
+	 Search_String(rx_buffer1.buffer,output_Buff,4,2);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
 	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage)+0x032;
@@ -290,9 +410,9 @@ void Check_Status(void)
     TIM1->CCR1=PWM_Duty;
   }
    //PWM  百位數
-  else if((_rx_buffer->buffer[0]=='D')&&(_rx_buffer->buffer[1]=='u')&&(_rx_buffer->buffer[2]=='t')&&(_rx_buffer->buffer[3]=='y')&&(_rx_buffer->buffer[7]=='\0'))
+  else if((_rx_buffer1->buffer[0]=='D')&&(_rx_buffer1->buffer[1]=='u')&&(_rx_buffer1->buffer[2]=='t')&&(_rx_buffer1->buffer[3]=='y')&&(_rx_buffer1->buffer[7]=='\0'))
   {
-	 Search_String(rx_buffer.buffer,output_Buff,4,3);
+	 Search_String(rx_buffer1.buffer,output_Buff,4,3);
      Str_PWM  =atoi(output_Buff);
 	 //跟新PWM
 	// PWM_Duty=((Str_PWM*MAX_DUTY)/MAX_DUTY_percentage);
@@ -300,9 +420,9 @@ void Check_Status(void)
     TIM1->CCR1=PWM_Duty;
   }
   //Freq
-  else if ((_rx_buffer->buffer[0]=='F')&&(_rx_buffer->buffer[1]=='r')&&(_rx_buffer->buffer[2]=='e')&&(_rx_buffer->buffer[3]=='q'))
+  else if ((_rx_buffer1->buffer[0]=='F')&&(_rx_buffer1->buffer[1]=='r')&&(_rx_buffer1->buffer[2]=='e')&&(_rx_buffer1->buffer[3]=='q'))
   {
-	Search_String(rx_buffer.buffer,output_Buff,4,4);
+	Search_String(rx_buffer1.buffer,output_Buff,4,4);
     Str_Freq  =atoi(output_Buff);
 	//存入當筆ARR值
 	ARR_LAST_TIME_SAVE=TIM1->ARR;
@@ -314,9 +434,9 @@ void Check_Status(void)
 	MAX_DUTY_Calculate=TIM1->ARR;      //跟新最大DUTY
   }
   //重製Head & Tail 
-  rx_buffer.head=0;
-  rx_buffer.tail=0;
-  memset(_rx_buffer->buffer,'\0', UART_BUFFER_SIZE);
+  rx_buffer1.head=0;
+  rx_buffer1.tail=0;
+  memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
   //清除全部收完旗標等待下一次
   Data_Flag=0;
 }
