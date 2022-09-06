@@ -167,36 +167,26 @@ int Uart_read(UART_HandleTypeDef *uart)
 
 void Uart_write(int c, UART_HandleTypeDef *uart)
 {
-	if (c>=0)
+	if ((c>=0)&&(uart==device_uart))
 	{
-		if (uart == device_uart){
 		int i = (_tx_buffer1->head + 1) % UART_BUFFER_SIZE;
-
-		// If the output buffer is full, there's nothing for it other than to
-		// wait for the interrupt handler to empty it a bit
-		// ???: return 0 here instead?
-		while (i == _tx_buffer1->tail);
 
 		_tx_buffer1->buffer[_tx_buffer1->head] = (uint8_t)c;
 		_tx_buffer1->head = i;
 
 		__HAL_UART_ENABLE_IT(device_uart, UART_IT_TXE); // Enable UART transmission interrupt
-		}
-
-		else if (uart == wifi_uart){
-			int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
-
-			// If the output buffer is full, there's nothing for it other than to
-			// wait for the interrupt handler to empty it a bit
-			// ???: return 0 here instead?
-			while (i == _tx_buffer2->tail);
-
-			_tx_buffer2->buffer[_tx_buffer2->head] = (uint8_t)c;
-			_tx_buffer2->head = i;
-
-			__HAL_UART_ENABLE_IT(wifi_uart, UART_IT_TXE); // Enable UART transmission interrupt
-			}
 	}
+	if ((c>=0)&&(uart==wifi_uart))
+	{
+		int i = (_tx_buffer2->head + 1) % UART_BUFFER_SIZE;
+		
+		_tx_buffer2->buffer[_tx_buffer2->head] = (uint8_t)c;
+		_tx_buffer2->head = i;
+
+		__HAL_UART_ENABLE_IT(wifi_uart, UART_IT_TXE); // Enable UART transmission interrupt
+			
+	}
+	
 }
 
 int IsDataAvailable(UART_HandleTypeDef *uart)

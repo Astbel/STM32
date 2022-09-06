@@ -107,18 +107,22 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-  MX_USART2_UART_Init();
+  // MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM1_Init();
-__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
-__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  // enable receive intterupts
-__HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);  // enable receive intterupts
+  // MX_TIM1_Init();
 
-  HAL_UART_Receive_IT(&huart1,RX_Buffer,4);
-  HAL_UART_Receive_IT(&huart2,RX_Buffer,4);
-  HAL_UART_Receive_IT(&huart3,RX_Buffer,4);
-  // Ringbuf_init ();
-   /* USER CODE BEGIN 2 */
+  //HAL UART labiray
+// __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
+// __HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  // enable receive intterupts
+// __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);  // enable receive intterupts
+
+//   HAL_UART_Receive_IT(&huart1,RX_Buffer,4);
+//   HAL_UART_Receive_IT(&huart2,RX_Buffer,4);
+//   HAL_UART_Receive_IT(&huart3,RX_Buffer,4);
+    //HAL UART labiray end
+
+
+  Ringbuf_init ();
   // RTOS_Thread_Init();
   // osKernelInitialize();
 	//Start PWM
@@ -138,8 +142,9 @@ __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);  // enable receive intterupts
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-     uart_send_msg("Hello",wifi_uart);
-      uart_send_msg("Hello",device_uart);
+    Uart_sendstring("TEST",device_uart);
+
+
   }
   /* USER CODE END 3 */
 }
