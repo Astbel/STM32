@@ -38,3 +38,4 @@ rtos\flash.o: ../Core/Inc/Variable.h
 rtos\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 rtos\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+rtos\flash.o: ../Core/Inc/ESP8266_HAL.h

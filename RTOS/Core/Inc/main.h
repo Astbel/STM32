@@ -33,6 +33,7 @@ extern "C" {
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
+#include "ESP8266_HAL.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define APP_LOG_DEBUG(...)  printf2(__VA_ARGS__)
@@ -77,7 +78,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 extern uint16_t PWM_Duty;
-extern  uint16_t receive_data;
 extern uint32_t MAX_DUTY_Calculate;
 extern uint32_t ARR_LAST_TIME_SAVE;
 /*Uart Time out variable*/

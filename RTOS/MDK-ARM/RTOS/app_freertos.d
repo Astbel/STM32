@@ -47,6 +47,7 @@ rtos\app_freertos.o: ../Core/Inc/Variable.h
 rtos\app_freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\app_freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 rtos\app_freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+rtos\app_freertos.o: ../Core/Inc/ESP8266_HAL.h
 rtos\app_freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 rtos\app_freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 rtos\app_freertos.o: ../Core/Inc/UartRingbuffer.h

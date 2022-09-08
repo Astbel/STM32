@@ -41,7 +41,6 @@
 /* USER CODE END PM */
 
 uint8_t RX_Buffer[10]={0};
- uint16_t receive_data;
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
@@ -49,12 +48,9 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 /* Definitions for MyTask01 */
 uint16_t PWM_Duty;
-uint16_t time_out_total_cnt;
 uint16_t time_out_cnt;
-uint8_t time_out_flag;
 uint8_t  Data_Flag;
-uint32_t MAX_DUTY_Calculate;
-uint32_t ARR_LAST_TIME_SAVE;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,25 +80,11 @@ HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-  receive_data =0;
   time_out_cnt =0;
   Data_Flag    =0;
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
   
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-  //Timeout 倒數
-  /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
@@ -111,38 +93,14 @@ int main(void)
   MX_USART3_UART_Init();
   // MX_TIM1_Init();
 
-  //HAL UART labiray
-// __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  // enable receive intterupts
-// __HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);  // enable receive intterupts
-// __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);  // enable receive intterupts
-
-//   HAL_UART_Receive_IT(&huart1,RX_Buffer,4);
-//   HAL_UART_Receive_IT(&huart2,RX_Buffer,4);
-//   HAL_UART_Receive_IT(&huart3,RX_Buffer,4);
-    //HAL UART labiray end
-
-
-  Ringbuf_init ();
+  // Ringbuf_init ();
   // RTOS_Thread_Init();
   // osKernelInitialize();
-	//Start PWM
-
-  // HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
-  // HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_1);
-  // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
-  // HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
-  // HAL_TIM_PWM_Start_IT(&htim1,TIM_CHANNEL_2);
-  // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
-
-
-//  HAL_UART_Receive_IT(&huart1,RX_Buffer,3);
-  /*## Start PWM signals generation #######################################*/
-  /* Start channel 1 */
+  ESP_Init("Astbel","a4633214");
   // osKernelStart();
-  /* USER CODE BEGIN WHILE */
+
   while (1)
   {
-    Uart_sendstring("TEST",device_uart);
 
 
   }
@@ -504,20 +462,6 @@ else if (huart==wifi_uart)
 			strlen(user_data));
 }
 	// return Status;
-}
-
-HAL_StatusTypeDef uart_send_INT(int *user_data)
-{
-#ifndef USE_UART
-	// do nothing
-	return HAL_OK;
-#else
-	HAL_StatusTypeDef Status;
-	Status = HAL_UART_Transmit_IT(&huart1, (uint8_t*)user_data,
-			sizeof(user_data));
-
-	return Status;
-#endif
 }
 
 

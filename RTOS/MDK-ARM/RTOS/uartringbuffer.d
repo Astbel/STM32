@@ -39,3 +39,4 @@ rtos\uartringbuffer.o: ../Core/Inc/main.h
 rtos\uartringbuffer.o: ../Core/Inc/Variable.h
 rtos\uartringbuffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rtos\uartringbuffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+rtos\uartringbuffer.o: ../Core/Inc/ESP8266_HAL.h

@@ -71,7 +71,24 @@ int Wait_for (char *string,UART_HandleTypeDef *uart);
 /* the ISR for the uart. put it in the IRQ handler */
 void Uart_isr (UART_HandleTypeDef *huart);
 
+/* Copy the data from the Rx buffer into the buffer, Upto and including the entered string
+* This copying will take place in the blocking mode, so you won't be able to perform any other operations
+* Returns 1 on success and -1 otherwise
+* USAGE: while (!(Copy_Upto ("some string", buffer, uart)));
+*/
+int Copy_upto (char *string, char *buffertocopyinto, UART_HandleTypeDef *uart);
 
+/* Copies the entered number of characters (blocking mode) from the Rx buffer into the buffer, after some particular string is detected
+* Returns 1 on success and -1 otherwise
+* USAGE: while (!(Get_after ("some string", 6, buffer, uart)));
+*/
+int Get_after (char *string, uint8_t numberofchars, char *buffertosave, UART_HandleTypeDef *uart);
+
+/* Look for a particular string in the given buffer
+ * @return 1, if the string is found and -1 if not found
+ * @USAGE:: if (Look_for ("some string", buffer)) do something
+ */
+int Look_for (char *str, char *buffertolookinto);
 
 /*** Depreciated For now. This is not needed, try using other functions to meet the requirement ***/
 /* get the position of the given string within the incoming data.

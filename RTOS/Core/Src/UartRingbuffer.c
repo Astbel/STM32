@@ -21,7 +21,8 @@ char Targert_Buff[BUFFER_SIZE];
 uint16_t Str_PWM;
 uint32_t Str_Freq;
 uint8_t string_length;
-
+uint32_t MAX_DUTY_Calculate;
+uint32_t ARR_LAST_TIME_SAVE;
 //Multi channel here
 ring_buffer rx_buffer1 = { { 0 }, 0, 0};
 ring_buffer tx_buffer1 = { { 0 }, 0, 0};
@@ -62,19 +63,6 @@ void Ringbuf_init(void)
   __HAL_UART_ENABLE_IT(wifi_uart,UART_IT_RXNE);
 }
 
-// void store_char(unsigned char c, ring_buffer *buffer)
-// {
-//   int i = (unsigned int)(buffer->head +1) % UART_BUFFER_SIZE;
-
-//   // if we should be storing the received character into the location
-//   // just before the tail (meaning that the head would advance to the
-//   // current location of the tail), we're about to overflow the buffer
-//   // and so we don't write the character or advance the head.
-//    if(i != buffer->tail) {
-//     buffer->buffer[buffer->head] = c;
-//     buffer->head = i;
-//  }
-// }
 //TEST stored data
 void store_char(unsigned char c, ring_buffer *buffer)
 {
@@ -83,6 +71,53 @@ void store_char(unsigned char c, ring_buffer *buffer)
 	buffer->buffer[buffer->head]=c;
 	 
 	buffer->head=i;
+}
+
+int Copy_upto (char *string, char *buffertocopyinto, UART_HandleTypeDef *uart)
+{
+	int so_far =0;
+	int len = strlen (string);
+	int indx = 0;
+
+again:
+	while (!IsDataAvailable(uart));
+	while (Uart_peek(uart) != string[so_far])
+		{
+			buffertocopyinto[indx] = _rx_buffer1->buffer[_rx_buffer1->tail];
+			_rx_buffer1->tail = (unsigned int)(_rx_buffer1->tail + 1) % UART_BUFFER_SIZE;
+			indx++;
+			while (!IsDataAvailable(uart));
+
+		}
+	while (Uart_peek(uart) == string [so_far])
+	{
+		so_far++;
+		buffertocopyinto[indx++] = Uart_read(uart);
+		if (so_far == len) return 1;
+		while (!IsDataAvailable(uart));
+	}
+
+	if (so_far != len)
+	{
+		so_far = 0;
+		goto again;
+	}
+
+	if (so_far == len) return 1;
+	else return -1;
+
+}
+
+int Get_after (char *string, uint8_t numberofchars, char *buffertosave, UART_HandleTypeDef *uart)
+{
+
+	while (Wait_for(string, uart) != 1);
+	for (int indx=0; indx<numberofchars; indx++)
+	{
+		while (!(IsDataAvailable(uart)));
+		buffertosave[indx] = Uart_read(uart);
+	}
+	return 1;
 }
 
 void Uart_flush (UART_HandleTypeDef *uart)
@@ -127,6 +162,33 @@ int Uart_peek(UART_HandleTypeDef *uart)
 	}
 
 	return -1;
+}
+
+int Look_for (char *str, char *buffertolookinto)
+{
+	int stringlength = strlen (str);
+	int bufferlength = strlen (buffertolookinto);
+	int so_far = 0;
+	int indx = 0;
+repeat:
+	while (str[so_far] != buffertolookinto[indx]) indx++;
+	if (str[so_far] == buffertolookinto[indx]){
+	while (str[so_far] == buffertolookinto[indx])
+	{
+		so_far++;
+		indx++;
+	}
+	}
+
+	else
+		{
+			so_far =0;
+			if (indx >= bufferlength) return -1;
+			goto repeat;
+		}
+
+	if (so_far == stringlength) return 1;
+	else return -1;
 }
 
 
