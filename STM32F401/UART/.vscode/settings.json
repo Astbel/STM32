@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "uartringbuffer_multi.h": "c",
+        "main.h": "c",
+        "string.h": "c",
+        "stm32f4xx_hal.h": "c"
+    }
+}
