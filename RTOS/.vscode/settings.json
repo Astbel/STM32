@@ -9,7 +9,8 @@
         "uartringbuffer.h": "c",
         "arm_math.h": "c",
         "stm32g4xx_it.h": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "task.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

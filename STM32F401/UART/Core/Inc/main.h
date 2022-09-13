@@ -31,7 +31,11 @@ extern "C" {
 #include <string.h>
 #include <stdio.h>
 #include "UartRingbuffer_multi.h"
+#include "ESP8266_HAL.h"
 /* Private includes ----------------------------------------------------------*/
+ extern UART_HandleTypeDef huart1;
+ extern UART_HandleTypeDef huart2;
+ extern UART_HandleTypeDef huart6;
 /* USER CODE BEGIN Includes */
 #define device_uart &huart1
 #define pc_uart &huart6

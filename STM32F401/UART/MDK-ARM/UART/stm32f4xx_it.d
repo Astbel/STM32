@@ -32,4 +32,14 @@ uart\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 uart\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 uart\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 uart\stm32f4xx_it.o: ../Core/Inc/UartRingbuffer_multi.h
+uart\stm32f4xx_it.o: ../Core/Inc/ESP8266_HAL.h
 uart\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+uart\stm32f4xx_it.o: ../Core/Inc/FreeRTOSConfig.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+uart\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

@@ -32,3 +32,4 @@ uart\stm32f4xx_hal_msp.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart
 uart\stm32f4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 uart\stm32f4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 uart\stm32f4xx_hal_msp.o: ../Core/Inc/UartRingbuffer_multi.h
+uart\stm32f4xx_hal_msp.o: ../Core/Inc/ESP8266_HAL.h

@@ -94,10 +94,10 @@ int main(void)
   // MX_TIM1_Init();
 
   // Ringbuf_init ();
-  // RTOS_Thread_Init();
-  // osKernelInitialize();
+  RTOS_Thread_Init();
+  osKernelInitialize();
   ESP_Init("Astbel","a4633214");
-  // osKernelStart();
+  osKernelStart();
 
   while (1)
   {

@@ -18,7 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "UartRingbuffer_multi.h"
+#include "cmsis_os.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -36,13 +37,14 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
+/* GPIO Struct Define here */
+static GPIO_InitTypeDef  GPIO_InitStruct;
+/* UART Channel Define here*/
  UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart6;
-uint8_t RX_Buffer[10]={0};
+
+
 /* USER CODE BEGIN PV */
 HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart);
 /* USER CODE END PV */
@@ -53,10 +55,11 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+void RTOS_Initliaze(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
-char buffer[10];
+
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
@@ -91,47 +94,31 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   MX_USART6_UART_Init();
+  /* USER CODE BEGIN 2 */
+  // ESP_Init("Astbel","a4633214");
+  /* USER CODE END 2 */
+  RTOS_Initliaze();
+  
+  
 
-  Ringbuf_init();
+  // osKernelInitialize();
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // Uart_sendstring("Channel 1",device_uart);
-    // Uart_sendstring("Channel 2",pc_uart);
-  //  if (IsDataAvailable(pc_uart))
-	//   {
-	// 	  int data = Uart_read(pc_uart);
-	// 	  Uart_write(data, pc_uart);
-	//   }
+    /* USER CODE END WHILE */
 
-  // if (IsDataAvailable(device_uart))
-	//   {
-	// 	  int data = Uart_read(device_uart);
-	// 	  Uart_write(data, device_uart);
-	//   }
-
-
-    //GUI sending test
-    if (IsDataAvailable(pc_uart))
-	  {
-		  int data = Uart_read(pc_uart);
-		  Uart_write(data, device_uart);
-	  }
-
-    
-    if (IsDataAvailable(device_uart))
-	  {
-		  // if (Get_after("AT version:", 8, buffer, device_uart))
-		  // {
-			//   Uart_sendstring("AT VERSION=", pc_uart);
-			//   Uart_sendstring(buffer, pc_uart);
-		  // }
-      	int data = Uart_read(device_uart);
-		    Uart_write(data, pc_uart);
-	  }
-
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -293,6 +280,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
+    /*Configure GPIO pin Output Level */
+  /*Configure GPIO pin : PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -313,6 +308,8 @@ else if (huart==test_uart)
 
 }
 /* USER CODE END 4 */
+
+
 
 /**
   * @brief  This function is executed in case of error occurrence.
