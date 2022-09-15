@@ -5,6 +5,8 @@
         "main.h": "c",
         "string.h": "c",
         "stm32f4xx_hal.h": "c",
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "transport.h": "c",
+        "esp8266_hal.h": "c"
     }
 }

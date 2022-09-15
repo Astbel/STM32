@@ -22,12 +22,20 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\NBbackup01\Desktop\SM32G474\STM32F401\UART\MDK-ARM\UART.uvprojx
-Project File Date:  09/13/2022
+Project File Date:  09/15/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'UART'
-"UART\UART.axf" - 0 Error(s), 0 Warning(s).
+compiling freertos.c...
+../Core/Src/freertos.c(159): error:  #167: argument of type "int" is incompatible with parameter of type "char *"
+      Mqtt_connect(4,"TCP,","test.mosquitto.org,",1883);
+../Core/Src/freertos.c(159): error:  #167: argument of type "int" is incompatible with parameter of type "char *"
+      Mqtt_connect(4,"TCP,","test.mosquitto.org,",1883);
+../Core/Src/freertos.c(199): warning:  #175-D: subscript out of range
+  buf[30]= 0x43;//"C"
+../Core/Src/freertos.c: 1 warning, 2 errors
+"UART\UART.axf" - 2 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,6 +59,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
+Target not created.
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

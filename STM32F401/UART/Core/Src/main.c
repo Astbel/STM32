@@ -51,6 +51,7 @@ HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart);
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MQTT_Init(void);
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
@@ -98,6 +99,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   ESP_Init("Astbel","a4633214");
+  // MQTT_Init();
   /* USER CODE END 2 */
   RTOS_Initliaze();
   
@@ -307,7 +309,22 @@ else if (huart==test_uart)
 }
 /* USER CODE END 4 */
 
+void MQTT_Init(void)
+{
 
+	/********* AT+CWMODE=1 **********/
+	//set module as Station mode Access Point 
+	Uart_sendstring("AT+CIPMUX=1\r\n", device_uart);
+	while (!(Wait_for("AT+CIPMUX=1\r\r\n\r\nOK\r\n", device_uart)));
+	Uart_sendstring("CW MODE---->1\n\n", pc_uart);
+
+    /********* AT+CIPSTART **********/
+	//WIFI Connect to server
+	Uart_sendstring("AT+CIPSTART=,\"4\",\"TEST\",\"test.mosquitto.org\",1883\r\n",device_uart);
+	while(!(Wait_for("AT\r\r\n\r\nOK\r\n", device_uart)));
+	Uart_sendstring("Connect---->OK\n\n", pc_uart);
+
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

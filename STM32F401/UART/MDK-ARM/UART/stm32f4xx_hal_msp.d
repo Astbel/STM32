@@ -30,6 +30,16 @@ uart\stm32f4xx_hal_msp.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.
 uart\stm32f4xx_hal_msp.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 uart\stm32f4xx_hal_msp.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 uart\stm32f4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+uart\stm32f4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 uart\stm32f4xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 uart\stm32f4xx_hal_msp.o: ../Core/Inc/UartRingbuffer_multi.h
 uart\stm32f4xx_hal_msp.o: ../Core/Inc/ESP8266_HAL.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTPacket.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTConnect.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTPublish.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTSubscribe.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTUnsubscribe.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTFormat.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\StackTrace.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\MQTTPacket.h
+uart\stm32f4xx_hal_msp.o: ..\MQTT\transport.h

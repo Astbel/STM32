@@ -31,5 +31,15 @@ uart\uartringbuffer_multi.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_p
 uart\uartringbuffer_multi.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 uart\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 uart\uartringbuffer_multi.o: ../Core/Inc/main.h
+uart\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 uart\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 uart\uartringbuffer_multi.o: ../Core/Inc/ESP8266_HAL.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTPacket.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTConnect.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTPublish.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTSubscribe.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTUnsubscribe.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTFormat.h
+uart\uartringbuffer_multi.o: ..\MQTT\StackTrace.h
+uart\uartringbuffer_multi.o: ..\MQTT\MQTTPacket.h
+uart\uartringbuffer_multi.o: ..\MQTT\transport.h

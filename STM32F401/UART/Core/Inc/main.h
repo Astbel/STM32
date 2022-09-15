@@ -29,9 +29,12 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include <string.h>
+#include "stdlib.h"
 #include <stdio.h>
 #include "UartRingbuffer_multi.h"
 #include "ESP8266_HAL.h"
+#include "MQTTPacket.h"
+#include "transport.h"
 /* Private includes ----------------------------------------------------------*/
  extern UART_HandleTypeDef huart1;
  extern UART_HandleTypeDef huart2;

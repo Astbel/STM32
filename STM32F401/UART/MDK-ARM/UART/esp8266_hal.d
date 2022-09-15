@@ -32,4 +32,14 @@ uart\esp8266_hal.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 uart\esp8266_hal.o: ../Core/Inc/ESP8266_HAL.h
 uart\esp8266_hal.o: ../Core/Inc/main.h
 uart\esp8266_hal.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+uart\esp8266_hal.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 uart\esp8266_hal.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+uart\esp8266_hal.o: ..\MQTT\MQTTPacket.h
+uart\esp8266_hal.o: ..\MQTT\MQTTConnect.h
+uart\esp8266_hal.o: ..\MQTT\MQTTPublish.h
+uart\esp8266_hal.o: ..\MQTT\MQTTSubscribe.h
+uart\esp8266_hal.o: ..\MQTT\MQTTUnsubscribe.h
+uart\esp8266_hal.o: ..\MQTT\MQTTFormat.h
+uart\esp8266_hal.o: ..\MQTT\StackTrace.h
+uart\esp8266_hal.o: ..\MQTT\MQTTPacket.h
+uart\esp8266_hal.o: ..\MQTT\transport.h

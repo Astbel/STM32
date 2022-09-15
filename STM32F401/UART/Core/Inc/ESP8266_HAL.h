@@ -13,5 +13,6 @@ void ESP_Init (char *SSID, char *PASSWD);
 
 void Server_Start (void);
 
+// extern void MQTT_Init(void);
 
 #endif /* INC_ESP8266_HAL_H_ */

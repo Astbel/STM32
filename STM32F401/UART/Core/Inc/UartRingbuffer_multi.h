@@ -12,7 +12,7 @@
 #include "stm32f4xx_hal.h"
 
 /* change the size of the buffer */
-#define UART_BUFFER_SIZE 256
+#define UART_BUFFER_SIZE 1024
 typedef struct
 {
   unsigned char buffer[UART_BUFFER_SIZE];
