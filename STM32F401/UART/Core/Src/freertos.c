@@ -121,7 +121,24 @@ void StartTask02(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+     if (IsDataAvailable(pc_uart))
+	  {
+		  int data = Uart_read(pc_uart);
+		  Uart_write(data, device_uart);
+	  }
+
+	  if (IsDataAvailable(device_uart))
+	  {
+		  // if (Get_after("AT version:", 8, buffer, wifi_uart))
+		  // {
+			//   Uart_sendstring("AT VERSION=", pc_uart);
+			//   Uart_sendstring(buffer, pc_uart);
+		  // }
+
+		  int data = Uart_read(device_uart);
+		  Uart_write(data, pc_uart);
+	  }
+    osDelay(200);
   }
   /* USER CODE END StartTask02 */
 }
