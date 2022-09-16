@@ -28,14 +28,21 @@ Project File Date:  09/15/2022
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'UART'
 compiling freertos.c...
-../Core/Src/freertos.c(159): error:  #167: argument of type "int" is incompatible with parameter of type "char *"
-      Mqtt_connect(4,"TCP,","test.mosquitto.org,",1883);
-../Core/Src/freertos.c(159): error:  #167: argument of type "int" is incompatible with parameter of type "char *"
-      Mqtt_connect(4,"TCP,","test.mosquitto.org,",1883);
-../Core/Src/freertos.c(199): warning:  #175-D: subscript out of range
+../Core/Src/freertos.c(171): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
+    char mqtt_data[80];
+../Core/Src/freertos.c: 1 warning, 0 errors
+compiling main.c...
+../Core/Src/main.c(161): warning:  #175-D: subscript out of range
   buf[30]= 0x43;//"C"
-../Core/Src/freertos.c: 1 warning, 2 errors
-"UART\UART.axf" - 2 Error(s), 1 Warning(s).
+../Core/Src/main.c(347): warning:  #940-D: missing return statement at end of non-void function "uart_send_msg" 
+  }
+../Core/Src/main.c(353): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
+    char mqtt_data[80];
+../Core/Src/main.c: 3 warnings, 0 errors
+linking...
+Program Size: Code=10812 RO-data=580 RW-data=148 ZI-data=22260  
+FromELF: creating hex file...
+"UART\UART.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -59,8 +66,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

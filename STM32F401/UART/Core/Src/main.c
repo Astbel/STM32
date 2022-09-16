@@ -44,7 +44,7 @@ static GPIO_InitTypeDef  GPIO_InitStruct;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart6;
 
-
+uint16_t buf[30];
 /* USER CODE BEGIN PV */
 HAL_StatusTypeDef uart_send_msg(char *user_data,UART_HandleTypeDef *huart);
 /* USER CODE END PV */
@@ -57,8 +57,8 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART6_UART_Init(void);
 void RTOS_Initliaze(void);
-/* USER CODE BEGIN PFP */
-
+/* Connect to MQTT server method */
+void Mqtt_connect(char*A,char *MQTTID, char *Server_Host,char *PORT);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -99,7 +99,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   ESP_Init("Astbel","a4633214");
-  // MQTT_Init();
+   Mqtt_connect("4","TCP,","test.mosquitto.org,","1883");
   /* USER CODE END 2 */
   RTOS_Initliaze();
   
@@ -121,6 +121,44 @@ int main(void)
    
   }
 
+}
+
+
+//Test Buffer
+void mqtt_buff(void)
+{
+buf[0] = 16;   //mqtt連線判別byte
+buf[1] = 28;
+buf[2] = 0x00;
+buf[3] = 6;//協定長度(MQIsdp 所以是6)
+buf[4] = 0x4d;//(這邊是ASCII) M
+buf[5] = 0x51;//(這邊是ASCII) Q
+buf[6] = 0x49;//(這邊是ASCII) I
+buf[7] = 0x73;//(這邊是ASCII) s
+buf[8] = 0x64;//(這邊是ASCII) d
+buf[9] = 0x70;//(這邊是ASCII) p
+buf[9] = 0x03 ;//(MQTT 版本  3就是 3.0版  4是3.1版)
+buf[10]= 0xC2;  //(實際上後面運算是有設定帳號密碼才要但是這邊設了也沒差)
+buf[11]= 0x00 ;// (keep Alive Time High byte)
+buf[12]= 0x30 ;//(keep Alive Time Low byte)
+buf[13]= 0x00 ;// (自訂ID長度 High Byte)
+buf[14]= 0x0A ;//(自訂ID長度 Low Byte)
+buf[15]= 0x41;//"A"
+buf[16]= 0x73;//"s"
+buf[17]= 0x74;//"t"
+buf[18]= 0x62;//"b"
+buf[19]= 0x65;//"e"
+buf[20]= 0x6c;//"l"
+buf[21]= 0x54;//"T"
+buf[22]= 0x65;//"e"
+buf[23]= 0x73;//"s"
+buf[24]= 0x54;//"T"
+buf[25]= 0x41;//"A"
+buf[26]= 0x42;//"B"
+buf[27]= 0x43;//"C"
+buf[28]= 0x41;//"A"
+buf[29]= 0x42;//"B"
+buf[30]= 0x43;//"C"
 }
 
 /**
@@ -309,20 +347,22 @@ else if (huart==test_uart)
 }
 /* USER CODE END 4 */
 
-void MQTT_Init(void)
+//Connect to MQtt server
+void Mqtt_connect(char*A,char *MQTTID, char *Server_Host,char *PORT)
 {
-
-	/********* AT+CWMODE=1 **********/
-	//set module as Station mode Access Point 
+  char mqtt_data[80];
+  /********* AT+CIPMUX=1 **********/
 	Uart_sendstring("AT+CIPMUX=1\r\n", device_uart);
 	while (!(Wait_for("AT+CIPMUX=1\r\r\n\r\nOK\r\n", device_uart)));
-	Uart_sendstring("CW MODE---->1\n\n", pc_uart);
+	Uart_sendstring("set as multiconnect mode\n\n", pc_uart);
 
-    /********* AT+CIPSTART **********/
-	//WIFI Connect to server
-	Uart_sendstring("AT+CIPSTART=,\"4\",\"TEST\",\"test.mosquitto.org\",1883\r\n",device_uart);
-	while(!(Wait_for("AT\r\r\n\r\nOK\r\n", device_uart)));
-	Uart_sendstring("Connect---->OK\n\n", pc_uart);
+  /********* AT+CIPSTART **********/
+  Uart_sendstring("connecting... to mqtt broker\n", pc_uart);
+  // sprintf (mqtt_data,"AT+CIPSTART=\"%s\",\"%s\",\"%s\",\"%s\"\r\n",A,MQTTID,Server_Host,PORT);
+  // Uart_sendstring(mqtt_data, device_uart);
+  Uart_sendstring("AT+CIPSTART=4,\"TCP\",\"test.mosquitto.org\",1883\r\n", device_uart);
+  while (!(Wait_for("OK\r\n", device_uart)));
+  Uart_sendstring("STM32 Connect server complete\n\n", pc_uart);
 
 }
 
