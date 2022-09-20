@@ -550,6 +550,7 @@ int16_t Get_position (char *string, UART_HandleTypeDef *uart)
 	 else return -1;
 }
 */
+/******************************************************MQTT connect to server*********************************************************/
 uint8_t MQTT_Connect(void)
 {
 	tx_buffer1.buffer[MQTT_TxLen++] = 0x10;        	// MQTT 連線判別
@@ -650,4 +651,46 @@ void MQTT_SendBuf(uint8_t *buf,uint16_t len)
 	 Uart_write_data((uint8_t)buf,device_uart);
 	// HAL_UART_Transmit_IT(&huart1, buf, len);
 }
+/******************************************************MQTT Publish Data*********************************************************/
+void Publish_MQTT(void)
+{
+	tx_buffer1.buffer[MQTT_TxLen++] = 48;        	// MQTT 連線判別
+	tx_buffer1.buffer[MQTT_TxLen++] = 9;           //2 + topic length + message length(資料長度(如果大於128則要拆兩個BYTE下一個BYTE也是)    )
+	tx_buffer1.buffer[MQTT_TxLen++] = 0;		  
+	tx_buffer1.buffer[MQTT_TxLen++]=  2;       	//TOPIC長度
+	/*TOPIC name*/
+	tx_buffer1.buffer[MQTT_TxLen++] = 'S';        	   
+	tx_buffer1.buffer[MQTT_TxLen++] = 'I';      
+	/*Topic message*/     
+	tx_buffer1.buffer[MQTT_TxLen++] = 'A';        	
+	tx_buffer1.buffer[MQTT_TxLen++] = 'B';      
+	tx_buffer1.buffer[MQTT_TxLen++] = 'C';        
+	tx_buffer1.buffer[MQTT_TxLen++] = 'D';        
+	tx_buffer1.buffer[MQTT_TxLen++] = 'E';   
+
+	MQTT_Buffer_RX_CLEAN();
+	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,10);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

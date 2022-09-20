@@ -63,6 +63,8 @@ static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
 //Send Data to Mqtt server method
 void ESP_Send_Data(void);
+void Publish_TO_MQTT(void);
+
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
 {
@@ -157,6 +159,7 @@ void StartTask03(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    // Publish_TO_MQTT();
     // ESP_Send_Data();
     osDelay(200);
   }
@@ -193,4 +196,16 @@ void ESP_Send_Data(void)
 
    
 }
+
+void Publish_TO_MQTT(void)
+{
+   /********* AT+CIPSEND **********/
+  Uart_sendstring("AT+CIPSEND=4,10\r\n", device_uart);
+  while (!(Wait_for(">",device_uart)));
+
+  //publish 
+  Publish_MQTT();
+}
+
+
 
