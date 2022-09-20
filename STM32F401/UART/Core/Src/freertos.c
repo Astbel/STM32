@@ -157,7 +157,7 @@ void StartTask03(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    ESP_Send_Data();
+    // ESP_Send_Data();
     osDelay(200);
   }
   /* USER CODE END StartTask03 */
@@ -177,11 +177,11 @@ void ESP_Send_Data(void)
   /********* AT+CIPSTART  connect to mqtt broker**********/
   Uart_sendstring("connecting... to mqtt broker\n", pc_uart);
   Uart_sendstring("AT+CIPSTART=4,\"TCP\",\"test.mosquitto.org\",1883\r\n", device_uart);
-  while (!(Wait_for("OK\r\n", device_uart)));
+  while (!(Wait_for("CONNECT\r\n\r\nOK\r\n", device_uart)));
   Uart_sendstring("STM32 Connect server complete\n\n", pc_uart);
 
   /********* AT+CIPSEND **********/
-  Uart_sendstring("AT+CIPSEND=4,31\r\n", device_uart);
+  Uart_sendstring("AT+CIPSEND=4,35\r\n", device_uart);
   while (!(Wait_for(">",device_uart)));
  
   //connect to mqtt server

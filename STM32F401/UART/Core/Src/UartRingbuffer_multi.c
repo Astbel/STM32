@@ -552,35 +552,8 @@ int16_t Get_position (char *string, UART_HandleTypeDef *uart)
 */
 uint8_t MQTT_Connect(void)
 {
-//   uint16_t ClientIDLen,UsernameLen,PasswordLen,DataLen = 0;
-//   uint8_t encodedByte = 0,cnt = 10,wait;
-	
-// 	ClientIDLen = strlen(ClientID);
-// 	UsernameLen = strlen(Username);
-// 	PasswordLen = strlen(Password);
-// 	MQTT_TxLen = 0;
-// 	//可变报头+Payload  每个字段包含两个字节的长度标识
-//   DataLen = 10 + (ClientIDLen+2) + (UsernameLen+2) + (PasswordLen+2);
-
-// 	//固定报头
-// 	//控制报文类型
-//   tx_buffer1.buffer[MQTT_TxLen++] = 0x10;		//MQTT Message Type CONNECT
-// 	//剩余长度(不包括固定头部)
-	
-// 	do
-// 	{
-// 		encodedByte = DataLen % 0x80;
-// 		DataLen = DataLen / 0x80;
-// 		// if there are more data to encode, set the top bit of this byte
-// 		if ( DataLen > 0 )
-// 			encodedByte = encodedByte | 0x80;
-// 	  tx_buffer1.buffer[MQTT_TxLen++]= encodedByte;
-// 	}while ( DataLen > 0 );
-    	
-	//可变报头
-	//协议名
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x0F;        	// MQTT 連線判別
-	tx_buffer1.buffer[MQTT_TxLen++] = 28;           //協定長度 MQIsdp + 自訂名稱長度 + UserName + password
+	tx_buffer1.buffer[MQTT_TxLen++] = 0x10;        	// MQTT 連線判別
+	tx_buffer1.buffer[MQTT_TxLen++] = 32;           //6 + 協定長度 MQIsdp(6) + 自訂名稱長度(10) + 2 + UserName(3) +  2 + password(3)
 	tx_buffer1.buffer[MQTT_TxLen++] = 0x00;         
 	tx_buffer1.buffer[MQTT_TxLen++]=  6;       
 	tx_buffer1.buffer[MQTT_TxLen++] = 'M';        	// ASCII Code for M    
@@ -589,17 +562,16 @@ uint8_t MQTT_Connect(void)
 	tx_buffer1.buffer[MQTT_TxLen++] = 's';        	// ASCII Code for s
 	tx_buffer1.buffer[MQTT_TxLen++] = 'd';        	// ASCII Code for d
 	tx_buffer1.buffer[MQTT_TxLen++] = 'p';        	// ASCII Code for p
-	//协议级别
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x03;        		// MQTT Protocol version = 3    
-	//连接标志
+	
+	tx_buffer1.buffer[MQTT_TxLen++] = 0x03;        	// MQTT Protocol version = 3    
+	
 	tx_buffer1.buffer[MQTT_TxLen++] = 0xc2;        	// conn flags 
 	tx_buffer1.buffer[MQTT_TxLen++] = 0x00;         // Keep-alive Time Length MSB    
 	tx_buffer1.buffer[MQTT_TxLen++] = 0x30;         // Keep-alive Time Length LSB  
-
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x00;// Client ID length MSB    
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x0A;// Client ID length LSB  	
-
-	/*Username*/
+	
+	/* Client ID */
+	tx_buffer1.buffer[MQTT_TxLen++] = 0;    
+	tx_buffer1.buffer[MQTT_TxLen++] = 10;	// Client ID length  	
 	tx_buffer1.buffer[MQTT_TxLen++] ='A';
 	tx_buffer1.buffer[MQTT_TxLen++] ='s';
 	tx_buffer1.buffer[MQTT_TxLen++] ='t';
@@ -610,17 +582,23 @@ uint8_t MQTT_Connect(void)
 	tx_buffer1.buffer[MQTT_TxLen++] ='e';
 	tx_buffer1.buffer[MQTT_TxLen++] ='s';
 	tx_buffer1.buffer[MQTT_TxLen++] ='T';
+
+	/*Username*/
+	tx_buffer1.buffer[MQTT_TxLen++] = 0;
+	tx_buffer1.buffer[MQTT_TxLen++] = 3;	// user length  
+	tx_buffer1.buffer[MQTT_TxLen++] ='A';
+	tx_buffer1.buffer[MQTT_TxLen++] ='B';
+	tx_buffer1.buffer[MQTT_TxLen++] ='C';
+
 	/*password*/
+	tx_buffer1.buffer[MQTT_TxLen++] = 0;
+	tx_buffer1.buffer[MQTT_TxLen++] = 3;	// password length  
 	tx_buffer1.buffer[MQTT_TxLen++] ='A';
 	tx_buffer1.buffer[MQTT_TxLen++] ='B';
 	tx_buffer1.buffer[MQTT_TxLen++] ='C';
-	tx_buffer1.buffer[MQTT_TxLen++] ='A';
-	tx_buffer1.buffer[MQTT_TxLen++] ='B';
-	tx_buffer1.buffer[MQTT_TxLen++] ='C';
-	
 
 	MQTT_Buffer_RX_CLEAN();
-	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,31);
+	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,35);
 		
 	return 0;
 }
@@ -662,12 +640,14 @@ void Uart_write_data(uint8_t c, UART_HandleTypeDef *uart)
 /*************************************************MQTT BUFFER CLEAN UP**************************************************************/
 void MQTT_Buffer_RX_CLEAN(void)
 {
-	memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
+	// memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
+	// memset(_tx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
 	_rx_buffer1->head = 0;
 }
 /******************************************************MQTT SEND DATA*********************************************************/
 void MQTT_SendBuf(uint8_t *buf,uint16_t len)
 {
-	Uart_write_data((uint8_t)buf,device_uart);
+	 Uart_write_data((uint8_t)buf,device_uart);
 	// HAL_UART_Transmit_IT(&huart1, buf, len);
 }
+

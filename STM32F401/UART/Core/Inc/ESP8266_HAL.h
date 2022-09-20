@@ -11,7 +11,7 @@
 
 void ESP_Init (char *SSID, char *PASSWD);
 
-void Server_Start (void);
+
 
 // extern void MQTT_Init(void);
 

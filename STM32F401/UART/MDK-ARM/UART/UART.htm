@@ -3,7 +3,7 @@
 <title>Static Call Graph - [UART\UART.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image UART\UART.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Sep 20 13:18:47 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Sep 20 15:54:04 2022
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -511,7 +511,6 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_flush
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_Buffer_RX_CLEAN
 </UL>
 
 <P><STRONG><a name="[f0]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
@@ -642,8 +641,7 @@ Global Symbols
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_sendstring
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_Connect
 </UL>
-<BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTask03
-<LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[7b]"></a>HAL_DMA_Abort</STRONG> (Thumb, 146 bytes, Stack size 24 bytes, stm32f4xx_hal_dma.o(i.HAL_DMA_Abort))
@@ -843,16 +841,12 @@ Global Symbols
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Copy_upto
 </UL>
 
-<P><STRONG><a name="[95]"></a>MQTT_Buffer_RX_CLEAN</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, uartringbuffer_multi.o(i.MQTT_Buffer_RX_CLEAN))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = MQTT_Buffer_RX_CLEAN &rArr; __aeabi_memclr4
-</UL>
-<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-</UL>
-<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_Connect
+<P><STRONG><a name="[95]"></a>MQTT_Buffer_RX_CLEAN</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, uartringbuffer_multi.o(i.MQTT_Buffer_RX_CLEAN))
+<BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_Connect
 </UL>
 
-<P><STRONG><a name="[7a]"></a>MQTT_Connect</STRONG> (Thumb, 260 bytes, Stack size 16 bytes, uartringbuffer_multi.o(i.MQTT_Connect))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = MQTT_Connect &rArr; MQTT_Buffer_RX_CLEAN &rArr; __aeabi_memclr4
+<P><STRONG><a name="[7a]"></a>MQTT_Connect</STRONG> (Thumb, 290 bytes, Stack size 20 bytes, uartringbuffer_multi.o(i.MQTT_Connect))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = MQTT_Connect &rArr; MQTT_SendBuf &rArr; Uart_write_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_SendBuf
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MQTT_Buffer_RX_CLEAN
@@ -917,13 +911,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[4e]"></a>StartTask03</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, freertos.o(i.StartTask03))
+<P><STRONG><a name="[4e]"></a>StartTask03</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, freertos.o(i.StartTask03))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72 + In Cycle
 <LI>Call Chain = StartTask03 &rArr;  StartTask03 (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTask03
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP_Send_Data
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTask03
 </UL>

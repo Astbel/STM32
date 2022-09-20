@@ -8,6 +8,7 @@
         "freertos.h": "c",
         "transport.h": "c",
         "esp8266_hal.h": "c",
-        "cmsis_os.h": "c"
+        "cmsis_os.h": "c",
+        "stdio.h": "c"
     }
 }
