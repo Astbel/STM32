@@ -99,7 +99,8 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   ESP_Init("Astbel","a4633214");
-   Mqtt_connect("4","TCP,","test.mosquitto.org,","1883");
+  //  Mqtt_connect("4","TCP,","test.mosquitto.org,","1883");
+  ESP_Send_Data();
   /* USER CODE END 2 */
   RTOS_Initliaze();
   

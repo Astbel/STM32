@@ -31,18 +31,10 @@ compiling freertos.c...
 ../Core/Src/freertos.c(171): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
     char mqtt_data[80];
 ../Core/Src/freertos.c: 1 warning, 0 errors
-compiling main.c...
-../Core/Src/main.c(161): warning:  #175-D: subscript out of range
-  buf[30]= 0x43;//"C"
-../Core/Src/main.c(347): warning:  #940-D: missing return statement at end of non-void function "uart_send_msg" 
-  }
-../Core/Src/main.c(353): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
-    char mqtt_data[80];
-../Core/Src/main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=10812 RO-data=580 RW-data=148 ZI-data=22260  
+Program Size: Code=11216 RO-data=580 RW-data=152 ZI-data=22264  
 FromELF: creating hex file...
-"UART\UART.axf" - 0 Error(s), 4 Warning(s).
+"UART\UART.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -66,7 +58,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

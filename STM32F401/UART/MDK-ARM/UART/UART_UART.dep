@@ -1,8 +1,8 @@
 Dependencies for Project 'UART', Target 'UART': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (startup_stm32f401xe.s)(0x631FDA68)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -I ..\Core\Inc-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F401xE SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f401xe.lst --xref -o uart\startup_stm32f401xe.o --depend uart\startup_stm32f401xe.d)
-F (..\Core\Src\UartRingbuffer_multi.c)(0x631FDA53)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\uartringbuffer_multi.o --omf_browse uart\uartringbuffer_multi.crf --depend uart\uartringbuffer_multi.d)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
+F (startup_stm32f401xe.s)(0x63294A14)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -I ..\Core\Inc-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F401xE SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f401xe.lst --xref -o uart\startup_stm32f401xe.o --depend uart\startup_stm32f401xe.d)
+F (..\Core\Src\UartRingbuffer_multi.c)(0x63294C64)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\uartringbuffer_multi.o --omf_browse uart\uartringbuffer_multi.crf --depend uart\uartringbuffer_multi.d)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -32,10 +32,10 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x631FDA63)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x631FDA63)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
-I (../Core/Inc/main.h)(0x6322ECF0)
+I (../Core/Inc/main.h)(0x63294A13)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
 I (..\MQTT\MQTTPacket.h)(0x5A9D68B8)
 I (..\MQTT\MQTTConnect.h)(0x5A9D68B8)
 I (..\MQTT\MQTTPublish.h)(0x5A9D68B8)
@@ -45,7 +45,7 @@ I (..\MQTT\MQTTFormat.h)(0x5A9D68B8)
 I (..\MQTT\StackTrace.h)(0x5A9D68B8)
 I (..\MQTT\transport.h)(0x5A9D68B8)
 F (..\..\..\..\STM32\STM32F401\UART\Core\Src\ESP8266_HAL.c)(0x631EF9D7)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\esp8266_hal.o --omf_browse uart\esp8266_hal.crf --depend uart\esp8266_hal.d)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -74,8 +74,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h)(0x631FDA63
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x631FDA63)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x631FDA63)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
-I (../Core/Inc/main.h)(0x6322ECF0)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
+I (../Core/Inc/main.h)(0x63294A13)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
@@ -87,8 +87,8 @@ I (..\MQTT\MQTTUnsubscribe.h)(0x5A9D68B8)
 I (..\MQTT\MQTTFormat.h)(0x5A9D68B8)
 I (..\MQTT\StackTrace.h)(0x5A9D68B8)
 I (..\MQTT\transport.h)(0x5A9D68B8)
-F (../Core/Src/main.c)(0x6322EEBA)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\main.o --omf_browse uart\main.crf --depend uart\main.d)
-I (../Core/Inc/main.h)(0x6322ECF0)
+F (../Core/Src/main.c)(0x63294D0B)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\main.o --omf_browse uart\main.crf --depend uart\main.d)
+I (../Core/Inc/main.h)(0x63294A13)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -120,8 +120,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
 I (..\MQTT\MQTTPacket.h)(0x5A9D68B8)
 I (..\MQTT\MQTTConnect.h)(0x5A9D68B8)
 I (..\MQTT\MQTTPublish.h)(0x5A9D68B8)
@@ -144,7 +144,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x631FFC5A)
-F (../Core/Src/freertos.c)(0x6322EEC1)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\freertos.o --omf_browse uart\freertos.crf --depend uart\freertos.d)
+F (../Core/Src/freertos.c)(0x63294D2F)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\freertos.o --omf_browse uart\freertos.crf --depend uart\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x631FFC5A)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
@@ -156,7 +156,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x631FFC5A)
-I (../Core/Inc/main.h)(0x6322ECF0)
+I (../Core/Inc/main.h)(0x63294A13)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -186,8 +186,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
 I (..\MQTT\MQTTPacket.h)(0x5A9D68B8)
 I (..\MQTT\MQTTConnect.h)(0x5A9D68B8)
 I (..\MQTT\MQTTPublish.h)(0x5A9D68B8)
@@ -202,7 +202,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x631FFC5A)
 F (../Core/Src/stm32f4xx_it.c)(0x631FFC59)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\stm32f4xx_it.o --omf_browse uart\stm32f4xx_it.crf --depend uart\stm32f4xx_it.d)
-I (../Core/Inc/main.h)(0x6322ECF0)
+I (../Core/Inc/main.h)(0x63294A13)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -234,8 +234,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
 I (..\MQTT\MQTTPacket.h)(0x5A9D68B8)
 I (..\MQTT\MQTTConnect.h)(0x5A9D68B8)
 I (..\MQTT\MQTTPublish.h)(0x5A9D68B8)
@@ -255,7 +255,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x631FFC5A
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x631FFC5A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x631FFC5A)
 F (../Core/Src/stm32f4xx_hal_msp.c)(0x631FFC59)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ..\MQTT-I.\RTE\_UART-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F401xE -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F401xE-o uart\stm32f4xx_hal_msp.o --omf_browse uart\stm32f4xx_hal_msp.crf --depend uart\stm32f4xx_hal_msp.d)
-I (../Core/Inc/main.h)(0x6322ECF0)
+I (../Core/Inc/main.h)(0x63294A13)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x631FDA60)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x631FDA53)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x631FDA63)
@@ -287,8 +287,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x631FDA63)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
-I (../Core/Inc/UartRingbuffer_multi.h)(0x6322C684)
-I (../Core/Inc/ESP8266_HAL.h)(0x6322B3D2)
+I (../Core/Inc/UartRingbuffer_multi.h)(0x63294C80)
+I (../Core/Inc/ESP8266_HAL.h)(0x63294A13)
 I (..\MQTT\MQTTPacket.h)(0x5A9D68B8)
 I (..\MQTT\MQTTConnect.h)(0x5A9D68B8)
 I (..\MQTT\MQTTPublish.h)(0x5A9D68B8)

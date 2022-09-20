@@ -181,12 +181,16 @@ void ESP_Send_Data(void)
   Uart_sendstring("STM32 Connect server complete\n\n", pc_uart);
 
   /********* AT+CIPSEND **********/
-  Uart_sendstring("AT+CIPSEND=4,30\r\n", device_uart);
+  Uart_sendstring("AT+CIPSEND=4,31\r\n", device_uart);
   while (!(Wait_for(">",device_uart)));
  
-  while (!(Wait_for("SEND OK\r\n",device_uart)));
-  while (!(Wait_for("CLOSED",device_uart)));
-  Uart_sendstring("MQTT disconnect to server\n\n", pc_uart);
+  //connect to mqtt server
+  MQTT_Connect();
 
+  // while (!(Wait_for("SEND OK\r\n",device_uart)));
+  // while (!(Wait_for("CLOSED",device_uart)));
+  // Uart_sendstring("MQTT disconnect to server\n\n", pc_uart);
+
+   
 }
 

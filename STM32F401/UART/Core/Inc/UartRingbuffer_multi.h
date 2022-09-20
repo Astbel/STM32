@@ -87,6 +87,9 @@ void Uart_isr (UART_HandleTypeDef *huart);
 /* get the position of the given string in the given UART's incoming data.
  * It returns the position, where the string ends */
 //int16_t Get_position (char *string, UART_HandleTypeDef *uart);
-
-
+uint8_t MQTT_Connect(void);
+void MQTT_Buffer_RX_CLEAN(void);
+void MQTT_SendBuf(uint8_t *buf,uint16_t len);
+void Uart_write_data(uint8_t c, UART_HandleTypeDef *uart);
+// uint16_t MQTT_TxLen;
 #endif /* UARTRINGBUFFER_H_ */
