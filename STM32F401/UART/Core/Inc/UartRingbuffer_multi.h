@@ -91,5 +91,7 @@ uint8_t MQTT_Connect(void);
 void MQTT_Buffer_RX_CLEAN(void);
 void MQTT_SendBuf(uint8_t *buf,uint16_t len);
 void Uart_write_data(uint8_t c, UART_HandleTypeDef *uart);
+void PUblish_TO_MQTT(void);
+void Publish_Data(void);
 // uint16_t MQTT_TxLen;
 #endif /* UARTRINGBUFFER_H_ */

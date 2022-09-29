@@ -27,14 +27,16 @@ Project File Date:  09/15/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'UART'
-compiling freertos.c...
-../Core/Src/freertos.c(171): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
-    char mqtt_data[80];
-../Core/Src/freertos.c: 1 warning, 0 errors
+compiling UartRingbuffer_multi.c...
+..\Core\Src\UartRingbuffer_multi.c(610): warning:  #186-D: pointless comparison of unsigned integer with zero
+  	if (c>=0)
+..\Core\Src\UartRingbuffer_multi.c(652): warning:  #767-D: conversion from pointer to smaller integer
+  	 Uart_write_data((uint8_t)buf,device_uart);
+..\Core\Src\UartRingbuffer_multi.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=11248 RO-data=580 RW-data=152 ZI-data=22200  
+Program Size: Code=11076 RO-data=580 RW-data=148 ZI-data=22204  
 FromELF: creating hex file...
-"UART\UART.axf" - 0 Error(s), 1 Warning(s).
+"UART\UART.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +60,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

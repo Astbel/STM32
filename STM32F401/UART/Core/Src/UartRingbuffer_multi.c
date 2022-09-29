@@ -552,54 +552,56 @@ int16_t Get_position (char *string, UART_HandleTypeDef *uart)
 */
 uint8_t MQTT_Connect(void)
 {
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x10;        	// MQTT 連線判別
-	tx_buffer1.buffer[MQTT_TxLen++] = 32;           //6 + 協定長度 MQIsdp(6) + 自訂名稱長度(10) + 2 + UserName(3) +  2 + password(3)
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x00;         
-	tx_buffer1.buffer[MQTT_TxLen++]=  6;       
-	tx_buffer1.buffer[MQTT_TxLen++] = 'M';        	// ASCII Code for M    
-	tx_buffer1.buffer[MQTT_TxLen++] = 'Q';        	// ASCII Code for Q    
-	tx_buffer1.buffer[MQTT_TxLen++] = 'I';        	// ASCII Code for I  
-	tx_buffer1.buffer[MQTT_TxLen++] = 's';        	// ASCII Code for s
-	tx_buffer1.buffer[MQTT_TxLen++] = 'd';        	// ASCII Code for d
-	tx_buffer1.buffer[MQTT_TxLen++] = 'p';        	// ASCII Code for p
+	tx_buffer1.buffer[0] = 0x10;        	// MQTT 連線判別
+	tx_buffer1.buffer[1] = 0x36;           //6 + 協定長度 MQIsdp(6) + 自訂名稱長度(10) + 2 + UserName(3) +  2 + password(3)
+	tx_buffer1.buffer[2] = 0x00;         
+	tx_buffer1.buffer[3]=  6;       
+	tx_buffer1.buffer[4] = 'M';        	// ASCII Code for M    
+	tx_buffer1.buffer[5] = 'Q';        	// ASCII Code for Q    
+	tx_buffer1.buffer[6] = 'I';        	// ASCII Code for I  
+	tx_buffer1.buffer[7] = 's';        	// ASCII Code for s
+	tx_buffer1.buffer[8] = 'd';        	// ASCII Code for d
+	tx_buffer1.buffer[9] = 'p';        	// ASCII Code for p
 	
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x03;        	// MQTT Protocol version = 3    
+	tx_buffer1.buffer[10] = 0x03;        	// MQTT Protocol version = 3    
 	
-	tx_buffer1.buffer[MQTT_TxLen++] = 0xc2;        	// conn flags 
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x00;         // Keep-alive Time Length MSB    
-	tx_buffer1.buffer[MQTT_TxLen++] = 0x30;         // Keep-alive Time Length LSB  
+	tx_buffer1.buffer[11] = 0xc2;        	// conn flags 
+	tx_buffer1.buffer[12] = 0x00;         // Keep-alive Time Length MSB    
+	tx_buffer1.buffer[13] = 0x30;         // Keep-alive Time Length LSB  
 	
 	/* Client ID */
-	tx_buffer1.buffer[MQTT_TxLen++] = 0;    
-	tx_buffer1.buffer[MQTT_TxLen++] = 10;	// Client ID length  	
-	tx_buffer1.buffer[MQTT_TxLen++] ='A';
-	tx_buffer1.buffer[MQTT_TxLen++] ='s';
-	tx_buffer1.buffer[MQTT_TxLen++] ='t';
-	tx_buffer1.buffer[MQTT_TxLen++] ='b';
-	tx_buffer1.buffer[MQTT_TxLen++] ='e';
-	tx_buffer1.buffer[MQTT_TxLen++] ='l';
-	tx_buffer1.buffer[MQTT_TxLen++] ='T';
-	tx_buffer1.buffer[MQTT_TxLen++] ='e';
-	tx_buffer1.buffer[MQTT_TxLen++] ='s';
-	tx_buffer1.buffer[MQTT_TxLen++] ='T';
+	tx_buffer1.buffer[14] = 0;    
+	tx_buffer1.buffer[15] = 10;	// Client ID length  	
+	tx_buffer1.buffer[16] ='A';
+	tx_buffer1.buffer[17] ='s';
+	tx_buffer1.buffer[18] ='t';
+	tx_buffer1.buffer[19] ='b';
+	tx_buffer1.buffer[20] ='e';
+	tx_buffer1.buffer[21] ='l';
+	tx_buffer1.buffer[22] ='T';
+	tx_buffer1.buffer[23] ='e';
+	tx_buffer1.buffer[24] ='s';
+	tx_buffer1.buffer[25] ='T';
 
 	/*Username*/
-	tx_buffer1.buffer[MQTT_TxLen++] = 0;
-	tx_buffer1.buffer[MQTT_TxLen++] = 3;	// user length  
-	tx_buffer1.buffer[MQTT_TxLen++] ='A';
-	tx_buffer1.buffer[MQTT_TxLen++] ='B';
-	tx_buffer1.buffer[MQTT_TxLen++] ='C';
+	tx_buffer1.buffer[26] = 0;
+	tx_buffer1.buffer[27] = 3;	// user length  
+	tx_buffer1.buffer[28] ='A';
+	tx_buffer1.buffer[29] ='B';
+	tx_buffer1.buffer[30] ='C';
 
 	/*password*/
-	tx_buffer1.buffer[MQTT_TxLen++] = 0;
-	tx_buffer1.buffer[MQTT_TxLen++] = 3;	// password length  
-	tx_buffer1.buffer[MQTT_TxLen++] ='A';
-	tx_buffer1.buffer[MQTT_TxLen++] ='B';
-	tx_buffer1.buffer[MQTT_TxLen++] ='C';
+	tx_buffer1.buffer[31] = 0;
+	tx_buffer1.buffer[32] = 3;	// password length  
+	tx_buffer1.buffer[33] ='A';
+	tx_buffer1.buffer[34] ='B';
+	tx_buffer1.buffer[35] ='C';
 
-	MQTT_Buffer_RX_CLEAN();
-	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,35);
-		
+	
+	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,36);
+    
+	//publish data at mqtt
+	// PUblish_TO_MQTT();	
 	return 0;
 }
 /******************************************************Ring Buf SEND DATA*********************************************************/
@@ -640,7 +642,7 @@ void Uart_write_data(uint8_t c, UART_HandleTypeDef *uart)
 /*************************************************MQTT BUFFER CLEAN UP**************************************************************/
 void MQTT_Buffer_RX_CLEAN(void)
 {
-	// memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
+	memset(_rx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
 	// memset(_tx_buffer1->buffer,'\0', UART_BUFFER_SIZE);
 	_rx_buffer1->head = 0;
 }
@@ -648,6 +650,38 @@ void MQTT_Buffer_RX_CLEAN(void)
 void MQTT_SendBuf(uint8_t *buf,uint16_t len)
 {
 	 Uart_write_data((uint8_t)buf,device_uart);
-	// HAL_UART_Transmit_IT(&huart1, buf, len);
+	// HAL_UART_Transmit(&huart1, buf, len,500);
 }
+/*************************************************MQTT Publish **************************************************************/
+void Publish_Data(void)
+{
+	tx_buffer1.buffer[0] = 48;        	// MQTT 連線判別
+	tx_buffer1.buffer[1] = 9;           //2 + topic length + message length(資料長度(如果大於128則要拆兩個BYTE下一個BYTE也是)    )
+	tx_buffer1.buffer[2] = 0;		  
+	tx_buffer1.buffer[3]=  2;       	//TOPIC長度
+	tx_buffer1.buffer[4] = 'S';        	   
+	tx_buffer1.buffer[5] = 'I';           
+	tx_buffer1.buffer[6] = 'A';        	
+	tx_buffer1.buffer[7] = 'B';      
+	tx_buffer1.buffer[8] = 'C';        
+	tx_buffer1.buffer[9] = 'D';        
+	tx_buffer1.buffer[10] = 'E';   
+
+    Uart_sendstring("Publish data to MQTT server\n\n", pc_uart);
+
+	MQTT_SendBuf((uint8_t*)tx_buffer1.buffer,10);
+}
+
+void PUblish_TO_MQTT(void)
+{
+   while (!(Wait_for("CLOSE\r\n",device_uart)));
+	/********* AT+CIPSEND **********/
+  Uart_sendstring("AT+CIPSEND=4,11\r\n", device_uart);
+  while (!(Wait_for(">",device_uart)));
+
+  //publsih data
+  Publish_Data();  
+}
+
+
 

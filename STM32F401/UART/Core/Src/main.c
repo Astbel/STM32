@@ -101,6 +101,7 @@ int main(void)
   ESP_Init("Astbel","a4633214");
   //  Mqtt_connect("4","TCP,","test.mosquitto.org,","1883");
   ESP_Send_Data();
+  // PUblish_TO_MQTT();
   /* USER CODE END 2 */
   RTOS_Initliaze();
   
