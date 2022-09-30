@@ -22,21 +22,34 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\NBbackup01\Desktop\SM32G474\STM32F401\UART\MDK-ARM\UART.uvprojx
-Project File Date:  09/15/2022
+Project File Date:  09/29/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'UART'
+compiling ESP8266_HAL.c...
+compiling stm32f4xx_hal_msp.c...
 compiling UartRingbuffer_multi.c...
 ..\Core\Src\UartRingbuffer_multi.c(610): warning:  #186-D: pointless comparison of unsigned integer with zero
   	if (c>=0)
-..\Core\Src\UartRingbuffer_multi.c(652): warning:  #767-D: conversion from pointer to smaller integer
-  	 Uart_write_data((uint8_t)buf,device_uart);
-..\Core\Src\UartRingbuffer_multi.c: 2 warnings, 0 errors
+..\Core\Src\UartRingbuffer_multi.c: 1 warning, 0 errors
+compiling stm32f4xx_it.c...
+compiling freertos.c...
+../Core/Src/freertos.c(172): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
+    char mqtt_data[80];
+../Core/Src/freertos.c: 1 warning, 0 errors
+compiling main.c...
+../Core/Src/main.c(103): warning:  #223-D: function "ESP_Send_Data" declared implicitly
+    ESP_Send_Data();
+../Core/Src/main.c(312): warning:  #940-D: missing return statement at end of non-void function "uart_send_msg" 
+  }
+../Core/Src/main.c(318): warning:  #177-D: variable "mqtt_data"  was declared but never referenced
+    char mqtt_data[80];
+../Core/Src/main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=11076 RO-data=580 RW-data=148 ZI-data=22204  
+Program Size: Code=11460 RO-data=580 RW-data=148 ZI-data=22204  
 FromELF: creating hex file...
-"UART\UART.axf" - 0 Error(s), 2 Warning(s).
+"UART\UART.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,7 +73,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

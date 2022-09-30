@@ -649,8 +649,8 @@ void MQTT_Buffer_RX_CLEAN(void)
 /******************************************************MQTT SEND DATA*********************************************************/
 void MQTT_SendBuf(uint8_t *buf,uint16_t len)
 {
-	 Uart_write_data((uint8_t)buf,device_uart);
-	// HAL_UART_Transmit(&huart1, buf, len,500);
+	//  Uart_write_data((uint8_t)buf,device_uart);
+	HAL_UART_Transmit(&huart1, buf, len,500);
 }
 /*************************************************MQTT Publish **************************************************************/
 void Publish_Data(void)
@@ -674,7 +674,6 @@ void Publish_Data(void)
 
 void PUblish_TO_MQTT(void)
 {
-   while (!(Wait_for("CLOSE\r\n",device_uart)));
 	/********* AT+CIPSEND **********/
   Uart_sendstring("AT+CIPSEND=4,11\r\n", device_uart);
   while (!(Wait_for(">",device_uart)));

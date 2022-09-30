@@ -157,6 +157,7 @@ void StartTask03(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    PUblish_TO_MQTT();
     // ESP_Send_Data();
     osDelay(200);
   }
