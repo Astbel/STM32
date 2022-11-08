@@ -7,7 +7,8 @@
   * @attention
   *
   * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
+  * All rights
+ reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
   * in the root directory of this software component.
@@ -19,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "systemsetting.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -40,7 +41,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
- ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc1;
 
 DAC_HandleTypeDef hdac;
 
@@ -50,7 +51,8 @@ TIM_HandleTypeDef htim11;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
 
-osThreadId defaultTaskHandle;
+
+TaskHandle_t START_TASK_Handle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -64,7 +66,6 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_TIM10_Init(void);
 static void MX_TIM11_Init(void);
-void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -131,13 +132,17 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ xTaskCreate( (TaskFunction_t) start_task,
+                 (char *        ) "start_task", 
+                 (uint16_t 			) START_TSK_SIZE,
+                 (void * 				)	NULL,
+                 (UBaseType_t   ) START_TASK_PRO,
+                 (TaskHandle_t *) &START_TASK_Handle );
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
-
+  
   /* Start scheduler */
   osKernelStart();
 
@@ -509,16 +514,7 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
+
 
 /**
   * @brief  This function is executed in case of error occurrence.

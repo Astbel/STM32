@@ -18,9 +18,10 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "FreeRTOS.h"
-#include "task.h"
+// #include "FreeRTOS.h"
+// #include "task.h"
 #include "main.h"
+#include "systemsetting.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -28,10 +29,9 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
+/*RTOS Task define here*/
+TaskHandle_t TASK_1_Handle;
+TaskHandle_t	TASK_2_Handle;
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
@@ -49,7 +49,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+	
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
@@ -67,8 +67,42 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
   /* place for user code */
 }
 /* USER CODE END GET_IDLE_TASK_MEMORY */
-
+void start_task( void * pvParameters )
+ {
+		xTaskCreate( (TaskFunction_t) Task_1,
+                 (char *        ) "Task_1", 
+                 (uint16_t 			) TASK_1_SIZE,
+                 (void * 				)	NULL,
+                 (UBaseType_t   ) TASK_1_PRO,
+                 (TaskHandle_t *) &TASK_1_Handle );
+								 
+    xTaskCreate( (TaskFunction_t) Task_2,
+                 (char *        ) "Task_2", 
+                 (uint16_t 			) TASK_2_SIZE,
+                 (void * 				)	NULL,
+                 (UBaseType_t   ) TASK_2_PRO,
+                 (TaskHandle_t *) &TASK_2_Handle );	
+		vTaskDelete(START_TASK_Handle);
+    taskEXIT_CRITICAL();            				 
+ }
 /* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
 
+/* USER CODE BEGIN Application */
+void Task_1( void * pvParameters )
+{
+	 while(1)
+	 {
+		 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+			vTaskDelay(100);
+	 }
+}
+ 
+void Task_2( void * pvParameters )
+{
+	 while(1)
+	 {
+     
+			vTaskDelay(100);
+	 }
+}
 /* USER CODE END Application */
