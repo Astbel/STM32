@@ -87,22 +87,29 @@ void start_task( void * pvParameters )
  }
 /* Private application code --------------------------------------------------*/
 
-/* USER CODE BEGIN Application */
+/*計算*/
 void Task_1( void * pvParameters )
 {
 	 while(1)
 	 {
+      /*Test Pin here check RTOS is working*/
 		 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+      /**Here is adc polling**/
+      ADC_Sample();
 			vTaskDelay(100);
 	 }
 }
  
+ /*狀態機切換*/
 void Task_2( void * pvParameters )
 {
 	 while(1)
 	 {
-     
+      PFC_TASK_STATE();
 			vTaskDelay(100);
 	 }
 }
 /* USER CODE END Application */
+
+
+/*Task define here*/

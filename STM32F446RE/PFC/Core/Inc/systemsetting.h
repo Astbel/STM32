@@ -8,8 +8,32 @@
 #include "UartRingbuffer_multi.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "variable.h"
+#include "function.h"
 
+/*******************Noitce*******************************/
+// 所有變數宣告在這只是擴充實際變數宣告致該c檔中
+/*******************模組宣告**************************/
+extern ADC_HandleTypeDef hadc1;
 
+extern DAC_HandleTypeDef hdac;
+
+extern TIM_HandleTypeDef htim10;
+extern TIM_HandleTypeDef htim11;
+
+extern UART_HandleTypeDef huart1;  // 打log
+extern UART_HandleTypeDef huart3;  // C#調整溝通 
+
+extern TaskHandle_t START_TASK_Handle;
+/*Boolean*/
+#define True   (1)
+#define False  (0)
+
+/********************目標命令*********************************/
+//測試用 預計用3.3V去測試
+#define Bwron_in_point  (0x087C)  //(1.75*4095)/3.3 =2172  (0x087C)
+
+/***************************RTOS_TASK_CREATE***************************************************/
 /*Define*/
 #define device_uart &huart1
 #define pc_uart &huart3
@@ -18,7 +42,7 @@
 /*RTOS Task define here*/
 #define START_TSK_SIZE 128
 #define START_TASK_PRO 1
-extern TaskHandle_t START_TASK_Handle;
+
 
 #define TASK_1_SIZE 128
 #define TASK_1_PRO 2
@@ -28,12 +52,9 @@ extern TaskHandle_t START_TASK_Handle;
 #define TASK_2_PRO 3
 // TaskHandle_t	TASK_2_Handle;
 
-/*RTOS Sub Function */
-void start_task( void * pvParameters );
-void Task_1( void * pvParameters );
-void Task_2( void * pvParameters );
 
-/*Task scheduler for mian loop*/
-void start_task( void * pvParameters );
+
+
+
 
 #endif

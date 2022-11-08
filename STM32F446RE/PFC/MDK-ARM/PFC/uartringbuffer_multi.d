@@ -49,3 +49,6 @@ pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/
 pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+pfc\uartringbuffer_multi.o: ../Core/Inc/variable.h
+pfc\uartringbuffer_multi.o: ../Core/Inc/systemsetting.h
+pfc\uartringbuffer_multi.o: ../Core/Inc/function.h

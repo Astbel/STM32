@@ -5,6 +5,8 @@
 "pfc\stm32f4xx_it.o"
 "pfc\stm32f4xx_hal_msp.o"
 "pfc\uartringbuffer_multi.o"
+"pfc\adc.o"
+"pfc\supply_state.o"
 "pfc\stm32f4xx_hal_adc.o"
 "pfc\stm32f4xx_hal_adc_ex.o"
 "pfc\stm32f4xx_ll_adc.o"

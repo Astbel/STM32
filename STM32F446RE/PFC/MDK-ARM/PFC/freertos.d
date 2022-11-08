@@ -50,3 +50,6 @@ pfc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4
 pfc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 pfc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 pfc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+pfc\freertos.o: ../Core/Inc/variable.h
+pfc\freertos.o: ../Core/Inc/systemsetting.h
+pfc\freertos.o: ../Core/Inc/function.h

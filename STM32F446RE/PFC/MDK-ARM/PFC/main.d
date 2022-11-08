@@ -55,3 +55,6 @@ pfc\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pfc\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 pfc\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pfc\main.o: ../Core/Inc/UartRingbuffer_multi.h
+pfc\main.o: ../Core/Inc/variable.h
+pfc\main.o: ../Core/Inc/systemsetting.h
+pfc\main.o: ../Core/Inc/function.h
