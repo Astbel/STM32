@@ -52,9 +52,13 @@ extern TaskHandle_t START_TASK_Handle;
 #define TASK_2_PRO 3
 // TaskHandle_t	TASK_2_Handle;
 
-
-
-
+/*PWM Freq & DUTY*/
+#define PRESCALER_VALUE     (uint32_t)(((SystemCoreClock) / 85000000) - 1)
+#define  PERIOD_VALUE       (uint32_t)(1000 - 1)              /* Period Value  */
+#define  PULSE1_VALUE       (uint32_t)(1000 / 2)              /* Capture Compare 1 Value  */
+#define  PULSE2_VALUE       (uint32_t)(1000 * 37.5 / 100)     /* Capture Compare 2 Value  */
+#define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
+#define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
 
 
 #endif
