@@ -62,8 +62,8 @@ inline void pfc_on_state_handler(void)
 // 異常問題關閉PFC
 inline void pfc_shut_down_state_handler(void)
 {
-   HAL_TIM_PWM_Stop(&htim10,TIM_CHANNEL_1);
-   HAL_TIMEx_PWMN_Stop(&htim10,TIM_CHANNEL_1);
+   HAL_TIM_PWM_Stop(&htim1,TIM_CHANNEL_1);
+   HAL_TIMEx_PWMN_Stop(&htim1,TIM_CHANNEL_1);
 }
 
 //
@@ -75,15 +75,15 @@ inline void pfc_hiccup_state_handler(void)
 // PWM enable
 void turn_on_pfc(void)
 {
-   HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_1);
-   HAL_TIMEx_PWMN_Start(&htim10,TIM_CHANNEL_1);
+   HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
+   HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_1);
 }
 
 // pwm disable
 void turn_off_pfc(void)
 {
-    HAL_TIM_PWM_Stop(&htim10,TIM_CHANNEL_1);
-    HAL_TIMEx_PWMN_Stop(&htim10,TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop(&htim1,TIM_CHANNEL_1);
+    HAL_TIMEx_PWMN_Stop(&htim1,TIM_CHANNEL_1);
 }
 
 /*********************PFC supply state*********************/

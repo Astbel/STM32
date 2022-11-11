@@ -210,7 +210,7 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
 */
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
-  if(htim_base->Instance==TIM10)
+  if(htim_base->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM10_MspInit 0 */
 
@@ -238,21 +238,23 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(htim->Instance==TIM10)
+  if(htim->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM10_MspPostInit 0 */
 
   /* USER CODE END TIM10_MspPostInit 0 */
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**TIM10 GPIO Configuration
-    PB8     ------> TIM10_CH1
+    PB8     ------> TIM10_CH1   low side
+    PA7     ------> TIM10_CH1   high side
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_8;
+    GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF3_TIM10;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 
   /* USER CODE BEGIN TIM10_MspPostInit 1 */
 

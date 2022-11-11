@@ -45,8 +45,7 @@ ADC_HandleTypeDef hadc1;
 
 DAC_HandleTypeDef hdac;
 
-TIM_HandleTypeDef htim10;
-TIM_HandleTypeDef htim11;
+TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
@@ -63,8 +62,8 @@ static void MX_ADC1_Init(void);
 static void MX_DAC_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-static void MX_TIM10_Init(void);
-static void MX_TIM11_Init(void);
+static void MX_TIM1_Init(void);
+
 
 /* USER CODE BEGIN PFP */
 
@@ -107,13 +106,12 @@ int main(void)
   MX_DAC_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM10_Init();
-  MX_TIM11_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
   /* 初始PFC狀態 設定*/
   // PFC_Variables.supply_state = STATE_IDLE;
- 
+
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
   xTaskCreate((TaskFunction_t)start_task,
@@ -125,11 +123,11 @@ int main(void)
 
   /* Start scheduler */
   /*TEST PWM PIN*/
-   HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_1);  //Enable high side
-   HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_2);  //Enable high side
-   HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_3);  //Enable high side
-   HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_4);  //Enable high side
-   HAL_TIMEx_PWMN_Start(&htim10,TIM_CHANNEL_1);//Enable low side
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Enable high side
+//  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_2); // Enable high side
+  //  H AL_TIM_PWM_Start(&htim10,TIM_CHANNEL_3);  //Enable high side
+  //  HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_4);  //Enable high side
+   HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_1);//Enable low side
   /*RTOS START*/
   // osKernelStart();
 
@@ -293,115 +291,95 @@ static void MX_DAC_Init(void)
  * @param None
  * @retval None
  */
-static void MX_TIM10_Init(void)
+static void MX_TIM1_Init(void)
 {
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfig;
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
+  
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = PRESCALER_VALUE;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = PERIOD_VALUE;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    /* Initialization Error */
+    Error_Handler();
+  }
 
-  /* USER CODE BEGIN TIM10_Init 0 */
-
-  /* USER CODE END TIM10_Init 0 */
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
-
-  /* USER CODE BEGIN TIM10_Init 1 */
-
-  /* PWM 模式設定,Fsw 設定 */
-  htim10.Instance = TIM10;
-  htim10.Init.Prescaler = PRESCALER_VALUE;
-  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim10.Init.Period = PERIOD_VALUE;
-  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim10.Init.RepetitionCounter = 0;
-  htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
   {
     Error_Handler();
   }
+
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  // sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim10, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  /*PWM DUTY EVENT */
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = PULSE1_VALUE;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-  sConfigOC.Pulse = PULSE1_VALUE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim10, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+
+  /*##-2- Configure the PWM channels #########################################*/
+  /* Common configuration for all channels */
+  sConfig.OCMode = TIM_OCMODE_PWM1;
+  sConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfig.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfig.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfig.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  /* Set the pulse value for channel 1 */
+  sConfig.Pulse = PULSE1_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfig, TIM_CHANNEL_1) != HAL_OK)
   {
+    /* Configuration Error */
     Error_Handler();
   }
-  sConfigOC.Pulse = PULSE2_VALUE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim10, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  /* Set the pulse value for channel 2 */
+  sConfig.Pulse = PULSE2_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfig, TIM_CHANNEL_2) != HAL_OK)
   {
+    /* Configuration Error */
     Error_Handler();
   }
-  sConfigOC.Pulse = PULSE3_VALUE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim10, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  /* Set the pulse value for channel 3 */
+  sConfig.Pulse = PULSE3_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfig, TIM_CHANNEL_3) != HAL_OK)
   {
+    /* Configuration Error */
     Error_Handler();
   }
-  sConfigOC.Pulse = PULSE4_VALUE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim10, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  /* Set the pulse value for channel 4 */
+  sConfig.Pulse = PULSE4_VALUE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfig, TIM_CHANNEL_4) != HAL_OK)
   {
+    /* Configuration Error */
     Error_Handler();
   }
-  /* PWM DeadTime Event */
- 
-  /* USER CODE END TIM10_Init 2 */
-  HAL_TIM_MspPostInit(&htim10);
+  /*Dead TIme*/
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+	sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+	sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+	sBreakDeadTimeConfig.DeadTime = 50;
+	sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+	sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+	sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_ENABLE;
+	if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig)
+			!= HAL_OK) {
+		Error_Handler();
+	}
+
+
+  HAL_TIM_MspPostInit(&htim1);
 }
 
-/**
- * @brief TIM11 Initialization Function
- * @param None
- * @retval None
- */
-static void MX_TIM11_Init(void)
-{
-
-  /* USER CODE BEGIN TIM11_Init 0 */
-
-  /* USER CODE END TIM11_Init 0 */
-
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM11_Init 1 */
-
-  /* USER CODE END TIM11_Init 1 */
-  htim11.Instance = TIM11;
-  htim11.Init.Prescaler = 0;
-  htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim11.Init.Period = 65535;
-  htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim11.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim11) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_TIM_PWM_Init(&htim11) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim11, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM11_Init 2 */
-
-  /* USER CODE END TIM11_Init 2 */
-  HAL_TIM_MspPostInit(&htim11);
-}
 
 /**
  * @brief USART1 Initialization Function

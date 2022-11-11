@@ -18,7 +18,7 @@ extern ADC_HandleTypeDef hadc1;
 
 extern DAC_HandleTypeDef hdac;
 
-extern TIM_HandleTypeDef htim10;
+extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim11;
 
 extern UART_HandleTypeDef huart1;  // 打log
