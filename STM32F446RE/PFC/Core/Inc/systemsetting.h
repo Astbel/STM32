@@ -2,6 +2,7 @@
 #define __SYSTEMSETTING_H_
 
 /*here is for include header files*/
+#include "main.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"

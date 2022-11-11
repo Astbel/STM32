@@ -1,9 +1,6 @@
 pfc\adc.o: ..\Core\Src\ADC.c
 pfc\adc.o: ../Core/Inc/systemsetting.h
-pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pfc\adc.o: ../Core/Inc/UartRingbuffer_multi.h
+pfc\adc.o: ../Core/Inc/main.h
 pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 pfc\adc.o: ../Core/Inc/stm32f4xx_hal_conf.h
 pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -40,6 +37,10 @@ pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 pfc\adc.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+pfc\adc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+pfc\adc.o: ../Core/Inc/UartRingbuffer_multi.h
 pfc\adc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 pfc\adc.o: ../Core/Inc/FreeRTOSConfig.h
 pfc\adc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

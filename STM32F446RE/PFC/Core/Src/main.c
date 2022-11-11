@@ -64,7 +64,6 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_TIM1_Init(void);
 
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -123,11 +122,8 @@ int main(void)
 
   /* Start scheduler */
   /*TEST PWM PIN*/
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Enable high side
-//  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_2); // Enable high side
-  //  H AL_TIM_PWM_Start(&htim10,TIM_CHANNEL_3);  //Enable high side
-  //  HAL_TIM_PWM_Start(&htim10,TIM_CHANNEL_4);  //Enable high side
-   HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_1);//Enable low side
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
   /*RTOS START*/
   // osKernelStart();
 
@@ -297,7 +293,7 @@ static void MX_TIM1_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
   TIM_OC_InitTypeDef sConfig;
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
-  
+
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = PRESCALER_VALUE;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -365,21 +361,19 @@ static void MX_TIM1_Init(void)
   }
   /*Dead TIme*/
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-	sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-	sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-	sBreakDeadTimeConfig.DeadTime = 50;
-	sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-	sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-	sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_ENABLE;
-	if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig)
-			!= HAL_OK) {
-		Error_Handler();
-	}
-
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 50;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_ENABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   HAL_TIM_MspPostInit(&htim1);
 }
-
 
 /**
  * @brief USART1 Initialization Function
@@ -483,6 +477,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure PGI PIN*/
+  GPIO_InitStruct.Pin = Power_GOOD_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(PGI_GPIO_PORT, &GPIO_InitStruct);
 }
 
 /* USER CODE BEGIN 4 */

@@ -38,6 +38,7 @@ pfc\uartringbuffer_multi.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ti
 pfc\uartringbuffer_multi.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 pfc\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pfc\uartringbuffer_multi.o: ../Core/Inc/systemsetting.h
+pfc\uartringbuffer_multi.o: ../Core/Inc/main.h
 pfc\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pfc\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h

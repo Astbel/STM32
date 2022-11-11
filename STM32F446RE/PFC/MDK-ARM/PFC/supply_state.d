@@ -1,9 +1,6 @@
 pfc\supply_state.o: ..\Core\Src\Supply_State.c
 pfc\supply_state.o: ../Core/Inc/systemsetting.h
-pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pfc\supply_state.o: ../Core/Inc/UartRingbuffer_multi.h
+pfc\supply_state.o: ../Core/Inc/main.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 pfc\supply_state.o: ../Core/Inc/stm32f4xx_hal_conf.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -40,6 +37,10 @@ pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+pfc\supply_state.o: ../Core/Inc/UartRingbuffer_multi.h
 pfc\supply_state.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 pfc\supply_state.o: ../Core/Inc/FreeRTOSConfig.h
 pfc\supply_state.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
