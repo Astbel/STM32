@@ -93,9 +93,9 @@ void Task_1( void * pvParameters )
 	 while(1)
 	 {
       /*Test Pin here check RTOS is working*/
-		 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);   /*OBser pin for deceted MCU is working*/
+		 	HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);   /*OBser pin for deceted MCU is working*/
       /**Here is adc polling**/
-      ADC_Sample();
+    
 			vTaskDelay(100);
 	 }
 }
@@ -105,7 +105,9 @@ void Task_2( void * pvParameters )
 {
 	 while(1)
 	 {
-      PFC_TASK_STATE();
+        ADC_Sample();
+
+      // PFC_TASK_STATE();
 			vTaskDelay(100);
 	 }
 }

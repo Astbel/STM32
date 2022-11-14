@@ -1,10 +1,5 @@
 pfc\supply_state.o: ..\Core\Src\Supply_State.c
 pfc\supply_state.o: ../Core/Inc/systemsetting.h
-pfc\supply_state.o: ../Core/Inc/main.h
-pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
-pfc\supply_state.o: ../Core/Inc/stm32f4xx_hal_conf.h
-pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
-pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 pfc\supply_state.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 pfc\supply_state.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h
 pfc\supply_state.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -15,6 +10,10 @@ pfc\supply_state.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 pfc\supply_state.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 pfc\supply_state.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
+pfc\supply_state.o: ../Core/Inc/stm32f4xx_hal_conf.h
+pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
+pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
+pfc\supply_state.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
@@ -37,6 +36,7 @@ pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 pfc\supply_state.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+pfc\supply_state.o: ../Core/Inc/main.h
 pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

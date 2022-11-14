@@ -27,17 +27,14 @@ Project File Date:  11/11/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
-compiling stm32f4xx_hal_msp.c...
-compiling freertos.c...
 compiling ADC.c...
-compiling stm32f4xx_it.c...
-compiling Supply_State.c...
-compiling UartRingbuffer_multi.c...
-compiling main.c...
+..\Core\Src\ADC.c(16): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          VBulk = (((float)analog_result_volt)*3/(float)4095)-0.23;
+..\Core\Src\ADC.c: 1 warning, 0 errors
 linking...
-Program Size: Code=11922 RO-data=658 RW-data=160 ZI-data=17560  
+Program Size: Code=13006 RO-data=510 RW-data=140 ZI-data=18132  
 FromELF: creating hex file...
-"PFC\PFC.axf" - 0 Error(s), 0 Warning(s).
+"PFC\PFC.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +58,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:16
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

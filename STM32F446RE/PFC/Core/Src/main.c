@@ -125,7 +125,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
   /*RTOS START*/
-  // osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -215,8 +215,8 @@ static void MX_ADC1_Init(void)
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ScanConvMode = DISABLE;      /* Sequencer disabled (ADC conversion on only 1 channel: channel set on rank 1) */
+  hadc1.Init.ContinuousConvMode = ENABLE; /* Continuous mode disabled to have only 1 conversion at each conversion trig */
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
@@ -228,12 +228,15 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+  /*STM32 ADC self Calibration*/
 
+  
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
   sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
