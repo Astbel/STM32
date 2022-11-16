@@ -51,7 +51,7 @@ TaskHandle_t	TASK_2_Handle;
 /* USER CODE BEGIN FunctionPrototypes */
 	
 /* USER CODE END FunctionPrototypes */
-
+void TEST_GPIO(void);
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
@@ -95,7 +95,8 @@ void Task_1( void * pvParameters )
       /*Test Pin here check RTOS is working*/
 		 	HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);   /*OBser pin for deceted MCU is working*/
       /**Here is adc polling**/
-      ADC_Sample();
+      // ADC_Sample();
+      Multi_ADC_Sample();
 			vTaskDelay(10);
 	 }
 }
@@ -106,10 +107,24 @@ void Task_2( void * pvParameters )
 	 while(1)
 	 {
       PFC_TASK_STATE();
+      // TEST_GPIO();
 			vTaskDelay(100);
 	 }
 }
 /* USER CODE END Application */
+void TEST_GPIO(void)
+{
+  HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_SET);
+  HAL_Delay(10);
+  HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_RESET);
+  HAL_Delay(10);
+}
 
-
-/*Task define here*/
+/*Task for sample infine loop*/
+/*
+1. voltage_Feed_Forward
+2. Shift GEARS
+3. Dynamic system for feedback loop
+4. 
+5.
+*/

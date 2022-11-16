@@ -196,6 +196,12 @@ void SystemClock_Config(void)
  * @brief ADC1 Initialization Function
  * @param None
  * @retval None
+ * 
+ * ADC Multi Channel 
+ * PA0,PA1,PA2,PA3,PA4
+ * 
+ * 
+ * 
  */
 static void MX_ADC1_Init(void)
 {
@@ -215,7 +221,7 @@ static void MX_ADC1_Init(void)
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = DISABLE;      /* Sequencer disabled (ADC conversion on only 1 channel: channel set on rank 1) */
+  hadc1.Init.ScanConvMode = ENABLE;      /* Sequencer disabled (ADC conversion on only 1 channel: channel set on rank 1) */
   hadc1.Init.ContinuousConvMode = ENABLE; /* Continuous mode disabled to have only 1 conversion at each conversion trig */
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
@@ -233,17 +239,18 @@ static void MX_ADC1_Init(void)
   
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
-  sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+  // sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
+  // sConfig.Rank = 1;
+  // sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
 
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  // if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  // {
+  //   Error_Handler();
+  // }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+  
 }
 
 /**

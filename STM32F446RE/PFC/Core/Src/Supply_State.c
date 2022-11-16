@@ -6,6 +6,16 @@ uint8_t Bwrom_IN_Flag;
 uint16_t Vac_Bwron_in_Cnt;
 
 /*Singal Voltage loop*/
+// inline int32 proportional_integral(int32 error) 
+// {
+//     /*計算穩太誤差*/
+//     /*確認DUTY Limit*/
+//     /*跟新DUTY*/
+
+// }
+
+/*2P2Z控制器*/
+
 
 // PFC_VARIABLES PFC_Variables;
 /*Suplly STATE Function*/

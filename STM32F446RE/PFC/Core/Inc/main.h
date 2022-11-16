@@ -75,7 +75,7 @@ extern "C"
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 #define Power_GOOD_PIN GPIO_PIN_4
-#define PGI_GPIO_PORT GPIOA
+#define PGI_GPIO_PORT GPIOB
   /* USER CODE BEGIN Private defines */
 
   /* USER CODE END Private defines */

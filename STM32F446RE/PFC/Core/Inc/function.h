@@ -13,7 +13,7 @@ void start_task(void *pvParameters);
 
 /********************ADC_Function*******************/
 extern void ADC_Sample(void);
-
+extern void Multi_ADC_Sample(void); //multi sample
 /***********************PFC STATE******************/
 extern inline void supply_state_handler(void);
 /********************Task Supple State*************/

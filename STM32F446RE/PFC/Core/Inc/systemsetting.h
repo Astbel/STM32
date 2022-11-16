@@ -62,5 +62,10 @@ extern TaskHandle_t START_TASK_Handle;
 #define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
 #define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
 
+/*數位控制補償參數*/
+/*電壓目標命令*/
+#define Vref        (3)
+
+
 
 #endif

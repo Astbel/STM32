@@ -7,6 +7,9 @@
 /*********************ADC*****************************/
 extern uint16_t analog_result_volt;
 extern float VBulk;
+extern uint16_t ADC_Result[3];
+extern float adc_sample1; 
+extern float adc_sample2;
 
 /***********************STATE**********************/
 typedef enum
@@ -55,7 +58,7 @@ extern uint8_t  Bwrom_IN_Flag;
 /*********************Counter**********************/
 extern uint16_t Vac_Bwron_in_Cnt;
 
-
+/*********************PID*************************/
 
 
 
