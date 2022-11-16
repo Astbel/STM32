@@ -28,15 +28,16 @@ Project File Date:  11/16/2022
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
 compiling Supply_State.c...
-..\Core\Src\Supply_State.c(26): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Core\Src\Supply_State.c(137): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(45): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Core\Src\Supply_State.c(156): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(70): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Core\Src\Supply_State.c(181): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(82): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Core\Src\Supply_State.c(193): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       if (VBulk < 1.0)
 ..\Core\Src\Supply_State.c: 4 warnings, 0 errors
+compiling freertos.c...
 compiling UartRingbuffer_multi.c...
 compiling ADC.c...
 ..\Core\Src\ADC.c(32): warning:  #1035-D: single-precision operand implicitly converted to double-precision
@@ -46,13 +47,12 @@ compiling ADC.c...
 ..\Core\Src\ADC.c(80): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       adc_sample2=(((float)ADC_Result[1]) * 3.3 / (float)4095);
 ..\Core\Src\ADC.c: 3 warnings, 0 errors
-compiling freertos.c...
 compiling main.c...
 ../Core/Src/main.c(213): warning:  #177-D: variable "sConfig"  was declared but never referenced
     ADC_ChannelConfTypeDef sConfig = {0};
 ../Core/Src/main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=13716 RO-data=508 RW-data=160 ZI-data=18160  
+Program Size: Code=13792 RO-data=508 RW-data=164 ZI-data=18236  
 FromELF: creating hex file...
 "PFC\PFC.axf" - 0 Error(s), 8 Warning(s).
 

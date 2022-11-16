@@ -4,9 +4,121 @@ struct PFC_VARIABLES PFC_Variables;
 /*Variable*/
 uint8_t Bwrom_IN_Flag;
 uint16_t Vac_Bwron_in_Cnt;
+uint16_t Vac_peak;
+uint16_t Vac_peak_temp;
+/*正半周*/
+inline void clear_positive_accumulators(void)
+{
+    PFC_Variables.positive_cycle_counter = 0;
+    PFC_Variables.positive_vin_squared_accumulate = 0;
+}
+
+inline void store_positive_cycle_values(void)
+{
+    PFC_Variables.vin_squared_average = PFC_Variables.positive_vin_squared_accumulate / PFC_Variables.positive_cycle_counter;
+
+    PFC_Variables.vin_squared_for_ac_drop = PFC_Variables.vin_squared_average;
+}
+
+inline void accumulate_positive_cycle_values(void)
+{
+    PFC_Variables.positive_vin_squared_accumulate = PFC_Variables.vin_squared + PFC_Variables.positive_vin_squared_accumulate;
+}
+
+/*負半周*/
+inline void clear_negative_accumulators(void)
+{
+    PFC_Variables.negative_cycle_counter = 0;
+    PFC_Variables.negative_vin_squared_accumulate = 0;
+}
+
+inline void store_negative_cycle_values(void)
+{
+    PFC_Variables.vin_squared_average = PFC_Variables.negative_vin_squared_accumulate / PFC_Variables.negative_cycle_counter;
+
+    PFC_Variables.vin_squared_for_ac_drop = PFC_Variables.vin_squared_average;
+}
+
+inline void accumulate_negative_cycle_values(void)
+{
+    PFC_Variables.negative_vin_squared_accumulate = PFC_Variables.vin_squared + PFC_Variables.negative_vin_squared_accumulate;
+}
+
+/*AC 整流判斷正負半周*/
+inline void rectify_vac(void)
+{
+    /*AC 正負半周判斷*/
+    if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
+    {
+        PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_L_CHANNEL] - PFC_Variables.adc_raw[AC_N_CHANNEL];
+        PFC_Variables.AC_STATE = Postive;
+    }
+    else
+    {
+        PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_N_CHANNEL] - PFC_Variables.adc_raw[AC_L_CHANNEL];
+        PFC_Variables.AC_STATE = Negative;
+    }
+    /*移動平均計算AC*/
+    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 2);
+    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 2;
+    /*Vac PEAK 計算*/
+    if (PFC_Variables.vin_filtered > Vac_peak_temp)
+    {
+        Vac_peak_temp = PFC_Variables.vin_filtered;
+    }
+}
+
+/*半周計算*/
+inline void half_cycle_processing(void)
+{
+    /*正半周*/
+    if (PFC_Variables.AC_STATE == Postive)
+    {
+        PFC_Variables.positive_cycle_counter++;
+        if ((PFC_Variables.positive_cycle_counter == 4) && (PFC_Variables.negative_cycle_counter >= 16))
+        {
+            store_negative_cycle_values();
+            clear_negative_accumulators();
+            Vac_peak=Vac_peak_temp;
+            Vac_peak_temp=0;
+        }
+        else if (PFC_Variables.positive_cycle_counter > 4)
+        {
+            clear_negative_accumulators(); // to deal with possible negative glitches
+            if (PFC_Variables.positive_cycle_counter >= 127)
+            {
+                store_positive_cycle_values();
+                clear_positive_accumulators();
+            }
+        }
+        accumulate_positive_cycle_values();
+    }
+    /*負半周*/
+    else
+    {
+        PFC_Variables.negative_cycle_counter++;
+        if ((PFC_Variables.negative_cycle_counter == 4) && (PFC_Variables.positive_cycle_counter >= 16))
+        {
+            store_positive_cycle_values();
+            clear_positive_accumulators();
+            Vac_peak=Vac_peak_temp;
+            Vac_peak_temp=0;
+        }
+        else if (PFC_Variables.negative_cycle_counter > 4)
+        {
+            clear_negative_accumulators(); // to deal with possible negative glitches
+            if (PFC_Variables.negative_cycle_counter >= 127)
+            {
+                store_negative_cycle_values();
+                clear_negative_accumulators();
+            }
+        }
+        accumulate_negative_cycle_values();
+    }
+}
 
 /*Singal Voltage loop*/
-// inline int32 proportional_integral(int32 error) 
+// inline int32 proportional_integral(int32 error)
 // {
 //     /*計算穩太誤差*/
 //     /*確認DUTY Limit*/
@@ -15,7 +127,6 @@ uint16_t Vac_Bwron_in_Cnt;
 // }
 
 /*2P2Z控制器*/
-
 
 // PFC_VARIABLES PFC_Variables;
 /*Suplly STATE Function*/

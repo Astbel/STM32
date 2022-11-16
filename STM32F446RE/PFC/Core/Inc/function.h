@@ -13,7 +13,17 @@ void start_task(void *pvParameters);
 
 /********************ADC_Function*******************/
 extern void ADC_Sample(void);
-extern void Multi_ADC_Sample(void); //multi sample
+extern void Multi_ADC_Sample(void); // multi sample
+/****************AC Cycle Calculate****************/
+extern inline void clear_positive_accumulators(void);
+extern inline void store_positive_cycle_values(void);
+extern inline void accumulate_positive_cycle_values(void);
+extern inline void clear_negative_accumulators(void);
+extern inline void store_negative_cycle_values(void);
+extern inline void accumulate_negative_cycle_values(void);
+
+extern inline void rectify_vac(void);
+extern inline void half_cycle_processing(void);
 /***********************PFC STATE******************/
 extern inline void supply_state_handler(void);
 /********************Task Supple State*************/
@@ -28,6 +38,5 @@ extern inline void pfc_shut_down_state_handler(void);
 extern inline void pfc_hiccup_state_handler(void);
 extern void turn_on_pfc(void);
 extern void turn_off_pfc(void);
-
 
 #endif

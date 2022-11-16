@@ -23,17 +23,17 @@ extern DAC_HandleTypeDef hdac;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim11;
 
-extern UART_HandleTypeDef huart1;  // 打log
-extern UART_HandleTypeDef huart3;  // C#調整溝通 
+extern UART_HandleTypeDef huart1; // 打log
+extern UART_HandleTypeDef huart3; // C#調整溝通
 
 extern TaskHandle_t START_TASK_Handle;
 /*Boolean*/
-#define True   (1)
-#define False  (0)
+#define True (1)
+#define False (0)
 
 /********************目標命令*********************************/
-//測試用 預計用3.3V去測試
-#define Bwron_in_point  (0x087C)  //(1.75*4095)/3.3 =2172  (0x087C)
+// 測試用 預計用3.3V去測試
+#define Bwron_in_point (0x087C) //(1.75*4095)/3.3 =2172  (0x087C)
 
 /***************************RTOS_TASK_CREATE***************************************************/
 /*Define*/
@@ -45,7 +45,6 @@ extern TaskHandle_t START_TASK_Handle;
 #define START_TSK_SIZE 128
 #define START_TASK_PRO 1
 
-
 #define TASK_1_SIZE 128
 #define TASK_1_PRO 2
 // TaskHandle_t TASK_1_Handle;
@@ -55,17 +54,24 @@ extern TaskHandle_t START_TASK_Handle;
 // TaskHandle_t	TASK_2_Handle;
 
 /*PWM Freq & DUTY*/
-#define PRESCALER_VALUE     (uint32_t)(((SystemCoreClock) / 85000000) - 1)
-#define  PERIOD_VALUE       (uint32_t)(1000 - 1)              /* Period Value  */
-#define  PULSE1_VALUE       (uint32_t)(1000 / 2)              /* Capture Compare 1 Value  */
-#define  PULSE2_VALUE       (uint32_t)(1000 * 37.5 / 100)     /* Capture Compare 2 Value  */
-#define  PULSE3_VALUE       (uint32_t)(1000 / 4)              /* Capture Compare 3 Value  */
-#define  PULSE4_VALUE       (uint32_t)(1000 * 12.5 /100)      /* Capture Compare 4 Value  */
-
+#define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 85000000) - 1)
+#define PERIOD_VALUE (uint32_t)(1000 - 1)          /* Period Value  */
+#define PULSE1_VALUE (uint32_t)(1000 / 2)          /* Capture Compare 1 Value  */
+#define PULSE2_VALUE (uint32_t)(1000 * 37.5 / 100) /* Capture Compare 2 Value  */
+#define PULSE3_VALUE (uint32_t)(1000 / 4)          /* Capture Compare 3 Value  */
+#define PULSE4_VALUE (uint32_t)(1000 * 12.5 / 100) /* Capture Compare 4 Value  */
+/*AC 正負半周*/
+#define Postive (1)
+#define Negative (0)
+/*ADC 項目*/
+#define AC_N_CHANNEL (0)
+#define AC_L_CHANNEL (1)
+#define VBUS_CHANNEL (2)
+#define SEC_REF (3)
+#define VCC_CHANNEL (4)
+#define NUMBER_OF_ADC_CHANNELS_ACTIVE (5) // how many ADC channels are used
 /*數位控制補償參數*/
 /*電壓目標命令*/
-#define Vref        (3)
-
-
+#define Vref (3)
 
 #endif

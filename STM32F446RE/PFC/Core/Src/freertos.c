@@ -97,6 +97,8 @@ void Task_1( void * pvParameters )
       /**Here is adc polling**/
       // ADC_Sample();
       Multi_ADC_Sample();
+      /*AC  正負半周判斷*/
+      rectify_vac();
 			vTaskDelay(10);
 	 }
 }
