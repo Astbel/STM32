@@ -125,7 +125,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
   /*RTOS START*/
-  osKernelStart();
+  // osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */

@@ -216,7 +216,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 
   /* USER CODE END TIM10_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_TIM10_CLK_ENABLE();
+    __HAL_RCC_TIM1_CLK_ENABLE();
   /* USER CODE BEGIN TIM10_MspInit 1 */
 
   /* USER CODE END TIM10_MspInit 1 */
@@ -245,7 +245,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
   /* USER CODE END TIM10_MspPostInit 0 */
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**TIM10 GPIO Configuration
-    PB8     ------> TIM10_CH1   low side
+    PA8     ------> TIM10_CH1   low side
     PA7     ------> TIM10_CH1   high side
     */
     GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8;
@@ -291,13 +291,13 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 */
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
-  if(htim_base->Instance==TIM10)
+  if(htim_base->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM10_MspDeInit 0 */
 
   /* USER CODE END TIM10_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_TIM10_CLK_DISABLE();
+    __HAL_RCC_TIM1_CLK_DISABLE();
   /* USER CODE BEGIN TIM10_MspDeInit 1 */
 
   /* USER CODE END TIM10_MspDeInit 1 */
