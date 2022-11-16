@@ -27,7 +27,21 @@ Project File Date:  11/16/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
-"PFC\PFC.axf" - 0 Error(s), 0 Warning(s).
+compiling Supply_State.c...
+..\Core\Src\Supply_State.c(16): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      if (VBulk > 1.5)
+..\Core\Src\Supply_State.c(35): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      if (VBulk > 1.5)
+..\Core\Src\Supply_State.c(60): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      if (VBulk > 1.5)
+..\Core\Src\Supply_State.c(72): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      if (VBulk < 1.0)
+..\Core\Src\Supply_State.c: 4 warnings, 0 errors
+compiling main.c...
+linking...
+Program Size: Code=13592 RO-data=508 RW-data=144 ZI-data=18160  
+FromELF: creating hex file...
+"PFC\PFC.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +65,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

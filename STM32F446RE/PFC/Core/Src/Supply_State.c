@@ -13,7 +13,7 @@ uint16_t Vac_Bwron_in_Cnt;
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
-    if(VBulk >1.5)
+    if (VBulk > 1.5)
     // if (analog_result_volt > Bwron_in_point)
     {
         Bwrom_IN_Flag++;
@@ -32,7 +32,7 @@ inline void idle_state_handler(void)
 //
 inline void relay_bounce_state_handler(void)
 {
-    if(VBulk >1.5)
+    if (VBulk > 1.5)
     // if (analog_result_volt > Bwron_in_point)
     {
         Vac_Bwron_in_Cnt++;
@@ -57,12 +57,11 @@ inline void relay_bounce_state_handler(void)
 inline void ramp_up_state_handler(void)
 {
     /*偵測ADC是否為該值並發送PGI*/
-    if(VBulk >1.5)
+    if (VBulk > 1.5)
     // if (analog_result_volt > Bwron_in_point)
     {
-       HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_SET); //SEND PGI
-       PFC_Variables.supply_state =STATE_PFC_ON; //PFC normal mode 
-       
+        HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
+        PFC_Variables.supply_state = STATE_PFC_ON;                      // PFC normal mode
     }
 }
 // 常態模式下啟動PFC
@@ -70,14 +69,14 @@ inline void ramp_up_state_handler(void)
 inline void pfc_on_state_handler(void)
 {
     /*Vac 偵測  Bwron out*/
-    if(VBulk <1.0)
+    if (VBulk < 1.0)
     // if (analog_result_volt < Bwron_in_point)
     {
-        turn_off_pfc();  /*STOP PFC*/
-        HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_RESET); //STOP PGI
-        PFC_Variables.supply_state =STATE_IDLE; //PFC Back IDLE WAIT FOR AC
+        turn_off_pfc();                                                   /*STOP PFC*/
+        HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET); // STOP PGI
+        PFC_Variables.supply_state = STATE_IDLE;                          // PFC Back IDLE WAIT FOR AC
     }
-    
+
     /**/
 }
 //
@@ -97,8 +96,8 @@ inline void pfc_hiccup_state_handler(void)
 // PWM enable
 void turn_on_pfc(void)
 {
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-    HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
+    HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
 }
 
 // pwm disable
@@ -175,7 +174,7 @@ void PFC_TASK_STATE(void)
     //     break;
 
     // case I_STATE_5: // PFC狀態機
-        supply_state_handler();
+    supply_state_handler();
     //     PFC_Variables.task_state = I_STATE_1;
     //     break;
 
