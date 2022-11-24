@@ -95,11 +95,13 @@ void Task_1( void * pvParameters )
       /*Test Pin here check RTOS is working*/
 		 	HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);   /*OBser pin for deceted MCU is working*/
       /**Here is adc polling**/
-      // ADC_Sample();
-      Multi_ADC_Sample();
+       HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_SET);
+
+      ADC_Sample();
+      // Multi_ADC_Sample();
       /*AC  正負半周判斷*/
-      rectify_vac();
-			vTaskDelay(10);
+      // rectify_vac();
+			vTaskDelay(20);
 	 }
 }
  
@@ -108,7 +110,8 @@ void Task_2( void * pvParameters )
 {
 	 while(1)
 	 {
-      PFC_TASK_STATE();
+      // Uart_sendstring("hi",pc_uart);
+      // PFC_TASK_STATE();
       // TEST_GPIO();
 			vTaskDelay(100);
 	 }

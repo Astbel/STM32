@@ -53,3 +53,4 @@ pfc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 pfc\freertos.o: ../Core/Inc/variable.h
 pfc\freertos.o: ../Core/Inc/systemsetting.h
 pfc\freertos.o: ../Core/Inc/function.h
+pfc\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

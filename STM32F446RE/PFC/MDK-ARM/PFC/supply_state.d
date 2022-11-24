@@ -53,3 +53,4 @@ pfc\supply_state.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 pfc\supply_state.o: ../Core/Inc/variable.h
 pfc\supply_state.o: ../Core/Inc/systemsetting.h
 pfc\supply_state.o: ../Core/Inc/function.h
+pfc\supply_state.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

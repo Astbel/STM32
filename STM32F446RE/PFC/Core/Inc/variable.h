@@ -6,9 +6,15 @@
 /*********************ADC*****************************/
 extern uint16_t analog_result_volt;
 extern float VBulk;
-extern uint16_t ADC_Result[3];
+extern uint16_t ADC_Result[64];
 extern float adc_sample1;
 extern float adc_sample2;
+extern uint32_t test_ac_sample;
+extern uint32_t ac_sum;
+extern float real_ac;
+extern uint16_t Vac_temp;
+extern uint16_t Vac_PP;
+extern uint16_t Sample_cnt;
 
 /***********************Vac************************/
 extern uint16_t Vac_peak;

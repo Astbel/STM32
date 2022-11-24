@@ -12,7 +12,7 @@
 #include "task.h"
 #include "variable.h"
 #include "function.h"
-
+#include "math.h"
 /*******************Noitce*******************************/
 // 所有變數宣告在這只是擴充實際變數宣告致該c檔中
 /*******************模組宣告**************************/
@@ -60,9 +60,17 @@ extern TaskHandle_t START_TASK_Handle;
 #define PULSE2_VALUE (uint32_t)(1000 * 37.5 / 100) /* Capture Compare 2 Value  */
 #define PULSE3_VALUE (uint32_t)(1000 / 4)          /* Capture Compare 3 Value  */
 #define PULSE4_VALUE (uint32_t)(1000 * 12.5 / 100) /* Capture Compare 4 Value  */
+/*PWM DUTY MAX MIN*/
+#define MAX_DUTY  (0);
+#define MIN_DUTY  (1000);
 /*AC 正負半周*/
 #define Postive (1)
 #define Negative (0)
+#define ADC_Sample_Rate (64)
+#define ADC_DC_OffSet  (0x6D)  /*0.06offset=(0.6*4095)/3.3*/
+/*AC Vmax 定義*/
+// #define Vac_max (394)/*264*1.414*/
+// #define Vac_min (127)/*90*1.414*/
 /*ADC 項目*/
 #define AC_N_CHANNEL (0)
 #define AC_L_CHANNEL (1)

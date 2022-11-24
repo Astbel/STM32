@@ -107,7 +107,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
+Vac_temp=0;
   /* 初始PFC狀態 設定*/
   // PFC_Variables.supply_state = STATE_IDLE;
 
@@ -133,7 +133,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+ 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -239,14 +239,14 @@ static void MX_ADC1_Init(void)
   
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
-  // sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
-  // sConfig.Rank = 1;
-  // sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+  sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_15CYCLES;
 
-  // if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  // {
-  //   Error_Handler();
-  // }
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
@@ -489,7 +489,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure PGI PIN*/
-  GPIO_InitStruct.Pin = Power_GOOD_PIN;
+  GPIO_InitStruct.Pin = Power_GOOD_PIN|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

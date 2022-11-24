@@ -158,22 +158,17 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>VBulk</ItemText>
+          <ItemText>real_ac</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PFC_Variables.supply_state</ItemText>
+          <ItemText>Vac_temp</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>adc_sample1</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>adc_sample2</ItemText>
+          <ItemText>Vac_PP</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

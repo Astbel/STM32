@@ -59,6 +59,8 @@ inline void rectify_vac(void)
         PFC_Variables.AC_STATE = Negative;
     }
     /*移動平均計算AC*/
+    /*每次都保留最後四筆資料*/
+    /*要取當前值所以總和/比數*/
     PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 2);
     PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 2;
     /*Vac PEAK 計算*/
@@ -118,10 +120,20 @@ inline void half_cycle_processing(void)
 }
 
 /*Singal Voltage loop*/
-// inline int32 proportional_integral(int32 error)
+// inline int32_t proportional_integral(int32_t error)
 // {
+//     int16_t output_duty;
+//     static int32_t steady_state_err;
+//     steady_state_err =error;
 //     /*計算穩太誤差*/
-//     /*確認DUTY Limit*/
+  
+    
+//     // /*確認DUTY Limit*/
+//     // if (output_duty)
+//     // {
+       
+//     // }
+    
 //     /*跟新DUTY*/
 
 // }
@@ -272,12 +284,13 @@ inline void supply_state_handler(void)
 /*********************PFC TASK STATE*********************/
 void PFC_TASK_STATE(void)
 {
-    // switch (PFC_Variables.task_state)
-    // {
-    // case I_STATE_1: // 電壓環
-
-    //     PFC_Variables.task_state = I_STATE_2;
-    //     break;
+    switch (PFC_Variables.task_state)
+    {
+    case I_STATE_1: // 電壓環
+        half_cycle_processing();
+        // PFC_Variables.task_state = I_STATE_2;
+        PFC_Variables.task_state = I_STATE_5;
+        break;
 
     // case I_STATE_2: // AC 計算
 
@@ -294,13 +307,13 @@ void PFC_TASK_STATE(void)
     //     PFC_Variables.task_state = I_STATE_5;
     //     break;
 
-    // case I_STATE_5: // PFC狀態機
+    case I_STATE_5: // PFC狀態機
     supply_state_handler();
-    //     PFC_Variables.task_state = I_STATE_1;
-    //     break;
+        PFC_Variables.task_state = I_STATE_1;
+        break;
 
-    // default: // 錯誤則從STATE1開始
-    //     PFC_Variables.task_state = I_STATE_1;
-    //     break;
-    // }
+    default: // 錯誤則從STATE1開始
+        PFC_Variables.task_state = I_STATE_1;
+        break;
+    }
 }

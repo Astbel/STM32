@@ -28,7 +28,7 @@ extern inline void half_cycle_processing(void);
 extern inline void supply_state_handler(void);
 /********************Task Supple State*************/
 extern void PFC_TASK_STATE(void);
-
+extern inline int32_t proportional_integral(int32_t error);
 /****************Sub Function Delcare**************/
 extern inline void idle_state_handler(void);
 extern inline void relay_bounce_state_handler(void);

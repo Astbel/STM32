@@ -53,3 +53,4 @@ pfc\uartringbuffer_multi.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/l
 pfc\uartringbuffer_multi.o: ../Core/Inc/variable.h
 pfc\uartringbuffer_multi.o: ../Core/Inc/systemsetting.h
 pfc\uartringbuffer_multi.o: ../Core/Inc/function.h
+pfc\uartringbuffer_multi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
