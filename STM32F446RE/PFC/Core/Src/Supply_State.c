@@ -1,6 +1,7 @@
 
 #include "systemsetting.h"
 struct PFC_VARIABLES PFC_Variables;
+struct PID PID;
 /*Variable*/
 uint8_t Bwrom_IN_Flag;
 uint16_t Vac_Bwron_in_Cnt;
@@ -49,20 +50,23 @@ inline void rectify_vac(void)
 {
     /*AC 正負半周判斷*/
     if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
+    // if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
     {
         PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_L_CHANNEL] - PFC_Variables.adc_raw[AC_N_CHANNEL];
+
         PFC_Variables.AC_STATE = Postive;
     }
     else
     {
         PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_N_CHANNEL] - PFC_Variables.adc_raw[AC_L_CHANNEL];
+
         PFC_Variables.AC_STATE = Negative;
     }
     /*移動平均計算AC*/
     /*每次都保留最後四筆資料*/
     /*要取當前值所以總和/比數*/
-    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 2);
-    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 2;
+    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 4);
+    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 4;
     /*Vac PEAK 計算*/
     if (PFC_Variables.vin_filtered > Vac_peak_temp)
     {
@@ -76,67 +80,78 @@ inline void half_cycle_processing(void)
     /*正半周*/
     if (PFC_Variables.AC_STATE == Postive)
     {
-        PFC_Variables.positive_cycle_counter++;
-        if ((PFC_Variables.positive_cycle_counter == 4) && (PFC_Variables.negative_cycle_counter >= 16))
-        {
-            store_negative_cycle_values();
-            clear_negative_accumulators();
-            Vac_peak=Vac_peak_temp;
-            Vac_peak_temp=0;
-        }
-        else if (PFC_Variables.positive_cycle_counter > 4)
-        {
-            clear_negative_accumulators(); // to deal with possible negative glitches
-            if (PFC_Variables.positive_cycle_counter >= 127)
-            {
-                store_positive_cycle_values();
-                clear_positive_accumulators();
-            }
-        }
-        accumulate_positive_cycle_values();
+        // PFC_Variables.positive_cycle_counter++;
+        // if ((PFC_Variables.positive_cycle_counter == 4) && (PFC_Variables.negative_cycle_counter >= 16))
+        // {
+            // store_negative_cycle_values();
+            // clear_negative_accumulators();
+            Vac_peak = Vac_peak_temp;
+            Vac_peak_temp = 0;
+        // }
+        // else if (PFC_Variables.positive_cycle_counter > 4)
+        // {
+        //     clear_negative_accumulators(); // to deal with possible negative glitches
+        //     if (PFC_Variables.positive_cycle_counter >= 127)
+        //     {
+        //         store_positive_cycle_values();
+        //         clear_positive_accumulators();
+        //     }
+        // }
+        // accumulate_positive_cycle_values();
     }
     /*負半周*/
     else
     {
-        PFC_Variables.negative_cycle_counter++;
-        if ((PFC_Variables.negative_cycle_counter == 4) && (PFC_Variables.positive_cycle_counter >= 16))
-        {
-            store_positive_cycle_values();
-            clear_positive_accumulators();
-            Vac_peak=Vac_peak_temp;
-            Vac_peak_temp=0;
-        }
-        else if (PFC_Variables.negative_cycle_counter > 4)
-        {
-            clear_negative_accumulators(); // to deal with possible negative glitches
-            if (PFC_Variables.negative_cycle_counter >= 127)
-            {
-                store_negative_cycle_values();
-                clear_negative_accumulators();
-            }
-        }
-        accumulate_negative_cycle_values();
+        // PFC_Variables.negative_cycle_counter++;
+        // if ((PFC_Variables.negative_cycle_counter == 4) && (PFC_Variables.positive_cycle_counter >= 16))
+        // {
+        //     store_positive_cycle_values();
+        //     clear_positive_accumulators();
+            Vac_peak = Vac_peak_temp;
+            Vac_peak_temp = 0;
+    //     }
+    //     else if (PFC_Variables.negative_cycle_counter > 4)
+    //     {
+    //         clear_negative_accumulators(); // to deal with possible negative glitches
+    //         if (PFC_Variables.negative_cycle_counter >= 127)
+    //         {
+    //             store_negative_cycle_values();
+    //             clear_negative_accumulators();
+    //         }
+    //     }
+    //     accumulate_negative_cycle_values();
     }
+    real_ac=(float)(Vac_peak*264)/2100;
 }
 
 /*Singal Voltage loop*/
-// inline int32_t proportional_integral(int32_t error)
-// {
-//     int16_t output_duty;
-//     static int32_t steady_state_err;
-//     steady_state_err =error;
-//     /*計算穩太誤差*/
-  
-    
-//     // /*確認DUTY Limit*/
-//     // if (output_duty)
-//     // {
-       
-//     // }
-    
-//     /*跟新DUTY*/
+inline int32_t proportional_integral(int32_t error)
+{
+    int16_t output_duty;
+    static int32_t steady_state_err;
+    steady_state_err = error;
+    /*計算穩太誤差*/
+    output_duty = steady_state_err * PID.kd + PID.Last_error * PID.ki;
 
-// }
+    PID.Last_error = steady_state_err; // 紀錄上一筆誤差
+
+    // /*確認DUTY Limit*/
+    if (output_duty > MAX_DUTY)
+    {
+        output_duty = MAX_DUTY;
+    }
+    else if (output_duty < MIN_DUTY)
+    {
+        output_duty = MIN_DUTY;
+    }
+    else
+    {
+        output_duty = output_duty;
+    }
+
+    /*跟新DUTY*/
+    TIM1->CCR1 = output_duty;
+}
 
 /*2P2Z控制器*/
 
@@ -146,8 +161,8 @@ inline void half_cycle_processing(void)
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
-    if (VBulk > 1.5)
-    // if (analog_result_volt > Bwron_in_point)
+    // if (VBulk > 1.5)
+    if (Vac_peak > Bwron_in_point)
     {
         Bwrom_IN_Flag++;
     }
@@ -165,8 +180,8 @@ inline void idle_state_handler(void)
 //
 inline void relay_bounce_state_handler(void)
 {
-    if (VBulk > 1.5)
-    // if (analog_result_volt > Bwron_in_point)
+    // if (VBulk > 1.5)
+    if (Vac_peak > Bwron_in_point)
     {
         Vac_Bwron_in_Cnt++;
         if (Vac_Bwron_in_Cnt > 10)
@@ -190,8 +205,8 @@ inline void relay_bounce_state_handler(void)
 inline void ramp_up_state_handler(void)
 {
     /*偵測ADC是否為該值並發送PGI*/
-    if (VBulk > 1.5)
-    // if (analog_result_volt > Bwron_in_point)
+    // if (VBulk > 1.5)
+    if (Vac_peak > Bwron_in_point)
     {
         HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON;                      // PFC normal mode
@@ -202,8 +217,8 @@ inline void ramp_up_state_handler(void)
 inline void pfc_on_state_handler(void)
 {
     /*Vac 偵測  Bwron out*/
-    if (VBulk < 1.0)
-    // if (analog_result_volt < Bwron_in_point)
+    // if (VBulk < 1.0)
+    if (Vac_peak < Bwron_out_point)
     {
         turn_off_pfc();                                                   /*STOP PFC*/
         HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET); // STOP PGI
@@ -292,23 +307,23 @@ void PFC_TASK_STATE(void)
         PFC_Variables.task_state = I_STATE_5;
         break;
 
-    // case I_STATE_2: // AC 計算
+        // case I_STATE_2: // AC 計算
 
-    //     PFC_Variables.task_state = I_STATE_3;
-    //     break;
+        //     PFC_Variables.task_state = I_STATE_3;
+        //     break;
 
-    // case I_STATE_3: // AC 跌落
+        // case I_STATE_3: // AC 跌落
 
-    //     PFC_Variables.task_state = I_STATE_4;
-    //     break;
+        //     PFC_Variables.task_state = I_STATE_4;
+        //     break;
 
-    // case I_STATE_4: // EMI dithering
+        // case I_STATE_4: // EMI dithering
 
-    //     PFC_Variables.task_state = I_STATE_5;
-    //     break;
+        //     PFC_Variables.task_state = I_STATE_5;
+        //     break;
 
     case I_STATE_5: // PFC狀態機
-    supply_state_handler();
+        supply_state_handler();
         PFC_Variables.task_state = I_STATE_1;
         break;
 

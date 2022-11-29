@@ -97,10 +97,10 @@ void Task_1( void * pvParameters )
       /**Here is adc polling**/
        HAL_GPIO_WritePin(PGI_GPIO_PORT,Power_GOOD_PIN,GPIO_PIN_SET);
 
-      ADC_Sample();
-      // Multi_ADC_Sample();
+      // ADC_Sample();
+      Multi_ADC_Sample();
       /*AC  正負半周判斷*/
-      // rectify_vac();
+      rectify_vac();
 			vTaskDelay(20);
 	 }
 }
@@ -111,7 +111,7 @@ void Task_2( void * pvParameters )
 	 while(1)
 	 {
       // Uart_sendstring("hi",pc_uart);
-      // PFC_TASK_STATE();
+      PFC_TASK_STATE();
       // TEST_GPIO();
 			vTaskDelay(100);
 	 }

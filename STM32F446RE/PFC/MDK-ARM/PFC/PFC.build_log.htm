@@ -27,29 +27,7 @@ Project File Date:  11/24/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
-compiling ADC.c...
-..\Core\Src\ADC.c(129): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      adc_sample1 = (((float)PFC_Variables.adc_raw[AC_N_CHANNEL]) * 3.3 / (float)4095);
-..\Core\Src\ADC.c(136): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      adc_sample2 = (((float)PFC_Variables.adc_raw[AC_L_CHANNEL]) * 3.3 / (float)4095);
-..\Core\Src\ADC.c: 2 warnings, 0 errors
-compiling freertos.c...
-compiling Supply_State.c...
-..\Core\Src\Supply_State.c(149): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(168): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(193): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      if (VBulk > 1.5)
-..\Core\Src\Supply_State.c(205): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      if (VBulk < 1.0)
-..\Core\Src\Supply_State.c: 4 warnings, 0 errors
-compiling UartRingbuffer_multi.c...
-compiling main.c...
-linking...
-Program Size: Code=11956 RO-data=508 RW-data=152 ZI-data=18128  
-FromELF: creating hex file...
-"PFC\PFC.axf" - 0 Error(s), 6 Warning(s).
+"PFC\PFC.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -73,7 +51,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:23
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

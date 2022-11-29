@@ -33,8 +33,8 @@ extern TaskHandle_t START_TASK_Handle;
 
 /********************目標命令*********************************/
 // 測試用 預計用3.3V去測試
-#define Bwron_in_point (0x087C) //(1.75*4095)/3.3 =2172  (0x087C)
-
+#define Bwron_in_point (0x0279) //(1.75*4095)/3.3 =2172  (0x087C)
+#define Bwron_out_point (0x022B)
 /***************************RTOS_TASK_CREATE***************************************************/
 /*Define*/
 #define device_uart &huart1
@@ -61,12 +61,12 @@ extern TaskHandle_t START_TASK_Handle;
 #define PULSE3_VALUE (uint32_t)(1000 / 4)          /* Capture Compare 3 Value  */
 #define PULSE4_VALUE (uint32_t)(1000 * 12.5 / 100) /* Capture Compare 4 Value  */
 /*PWM DUTY MAX MIN*/
-#define MAX_DUTY  (0);
-#define MIN_DUTY  (1000);
+#define MAX_DUTY  (1000)
+#define MIN_DUTY  (0)
 /*AC 正負半周*/
 #define Postive (1)
 #define Negative (0)
-#define ADC_Sample_Rate (64)
+#define ADC_Sample_Rate (128)
 #define ADC_DC_OffSet  (0x6D)  /*0.06offset=(0.6*4095)/3.3*/
 /*AC Vmax 定義*/
 // #define Vac_max (394)/*264*1.414*/

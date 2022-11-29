@@ -6,15 +6,19 @@
 /*********************ADC*****************************/
 extern uint16_t analog_result_volt;
 extern float VBulk;
-extern uint16_t ADC_Result[64];
-extern float adc_sample1;
-extern float adc_sample2;
+// extern uint16_t ADC_Result[ADC_Sample_Rate];
+// extern float adc_sample1;
+// extern float adc_sample2;
 extern uint32_t test_ac_sample;
 extern uint32_t ac_sum;
 extern float real_ac;
 extern uint16_t Vac_temp;
 extern uint16_t Vac_PP;
 extern uint16_t Sample_cnt;
+extern uint16_t adc_sample1;
+extern uint16_t adc_sample2;
+// multi channel
+extern uint16_t ADC_SAMPLE_ARR[2];
 
 /***********************Vac************************/
 extern uint16_t Vac_peak;
@@ -83,7 +87,7 @@ struct PFC_VARIABLES
 
 /*******************Struct_Delcare*****************/
 extern struct PFC_VARIABLES PFC_Variables;
-
+extern struct PID PID;
 /*********************Flag***************************/
 extern uint8_t Bwrom_IN_Flag;
 
@@ -91,5 +95,13 @@ extern uint8_t Bwrom_IN_Flag;
 extern uint16_t Vac_Bwron_in_Cnt;
 
 /*********************PID*************************/
+typedef struct PID
+{
+    int16_t Last_error;
+    int16_t Pre_error;
+    float Kp;
+    float ki;
+    float kd;
+};
 
 #endif

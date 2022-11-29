@@ -2,16 +2,19 @@
 #include "systemsetting.h"
 /*Variable*/
 uint16_t analog_result_volt;
-uint16_t ADC_Result[64];
+uint16_t ADC_Result[ADC_Sample_Rate];
 float VBulk;
-float adc_sample1;
-float adc_sample2;
 uint32_t test_ac_sample;
 uint32_t ac_sum;
 float real_ac;
 uint16_t Sample_cnt;
 uint16_t Vac_temp;
 uint16_t Vac_PP;
+uint16_t Vac_filter;
+uint16_t adc_sample1;
+uint16_t adc_sample2;
+
+uint16_t ADC_SAMPLE_ARR[2];
 /*ADC 取樣 5 Channel*/
 /*
 1. VBulk
@@ -20,7 +23,7 @@ uint16_t Vac_PP;
 4. Vac_L
 5. Vac_N
 */
-
+uint16_t Vmax, Vmin;
 /*Function define*/
 void ADC_Select_CH0(void);
 void ADC_Select_CH1(void);
@@ -39,35 +42,71 @@ void ADC_Sample(void)
         // VBulk = (((float)analog_result_volt)*3/(float)4095)-0.23;
         // VBulk = (((float)analog_result_volt) * 3.3 / (float)4095);
 
-        analog_result_volt = HAL_ADC_GetValue(&hadc1);
+        // for (Sample_cnt = 0; Sample_cnt < ADC_Sample_Rate; Sample_cnt++)
+        // {
+        //     ADC_Result[Sample_cnt] = ADC1->DR;
+        // }
+        // Vmax = Vmin = ADC_Result[0];
+
+        // for (Sample_cnt = 0; Sample_cnt < ADC_Sample_Rate; Sample_cnt++)
+        // {
+        //     if (Vmin > ADC_Result[Sample_cnt + 1])   //find min
+        //         Vmin = ADC_Result[Sample_cnt + 1];
+
+        //     if (Vmax < ADC_Result[Sample_cnt + 1])   //find max
+        //         Vmax = ADC_Result[Sample_cnt + 1];
+        // }
+
+        // for ( Sample_cnt = 0; Sample_cnt < ADC_Sample_Rate; Sample_cnt++)
+        // {
+        //     Vac_temp +=ADC_Result[Sample_cnt];
+        // }
+        // Vac_peak =(Vac_temp-Vmax-Vmin)/(ADC_Sample_Rate-2);
+
+        // analog_result_volt = HAL_ADC_GetValue(&hadc1);
+
+        // Vac_filter = analog_result_volt + Vac_filter - (Vac_filter >> 2);
+
+        // Vac_PP = Vac_filter >> 2;
+
+        // if (Vac_filter > Vac_PP)
+        // {
+        //     Vac_PP = Vac_filter;
+        // }
+        /*換相後拿PEAK值在清空比較*/
+        if (PFC_Variables.AC_STATE == Postive)
+        {
+            Vac_peak = Vac_peak_temp;
+            Vac_peak_temp = 0;
+        }
 
         /*比較每次取樣值去找AC PEAK點 */
-        if (analog_result_volt > Vac_temp)
-        {
-            Vac_temp = analog_result_volt;
-        }
-        /*跟新值假設計數發現新的Vac_PP比較小當作是Vac下降*/
-        if (Vac_temp > Vac_PP)
-        {
-            Vac_PP = Vac_temp+ADC_DC_OffSet; // 需要補上DC offset
-            Vac_temp = 0;
-            Sample_cnt = 0;
-        }
-        else if ((Vac_PP > Vac_temp) && (Sample_cnt == 0)) // 當ac條壓後比較之前的Vpeak開始計數換檔
-        {
-            Sample_cnt++;
-            if (Sample_cnt == 100)
-            {
-                Sample_cnt = 101;
-            }
-        }
-        else if (Sample_cnt == 101)
-        {
-            Vac_PP = Vac_temp+ADC_DC_OffSet; // 需要補上DC offset
-        }
+        // if (analog_result_volt > Vac_temp)
+        // {
+        //     Vac_temp = analog_result_volt;
+        // }
+        // /*跟新值假設計數發現新的Vac_PP比較小當作是Vac下降*/
+        // if (Vac_temp > Vac_PP)
+        // {
+        //     Vac_PP = Vac_temp+ADC_DC_OffSet; // 需要補上DC offset
+        //     Vac_temp = 0;
+        //     Sample_cnt = 0;
+        // }
+        // else if ((Vac_PP > Vac_temp) && (Sample_cnt == 0)) // 當ac條壓後比較之前的Vpeak開始計數換檔
+        // {
+        //     Sample_cnt++;
+        //     if (Sample_cnt == 100)
+        //     {
+        //         Sample_cnt = 101;
+        //     }
+        // }
+        // else if (Sample_cnt == 101)
+        // {
+        //     Vac_PP = Vac_temp+ADC_DC_OffSet; // 需要補上DC offset
+        // }
 
-        /*Uart send back value*/
-        real_ac = (float)((Vac_PP * 3.3) / 4096); /*Peak Value here*/
+        // /*Uart send back value*/
+        // real_ac = (float)((Vac_PP * 3.3) / 4096); /*Peak Value here*/
 
         /*Moving avg*/
         // test_ac_sample = analog_result_volt + test_ac_sample - (test_ac_sample >> 2);
@@ -125,15 +164,17 @@ void Multi_ADC_Sample(void)
     ADC_Select_CH0();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
-    PFC_Variables.adc_raw[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    adc_sample1 = (((float)PFC_Variables.adc_raw[AC_N_CHANNEL]) * 3.3 / (float)4095);
+    PFC_Variables.adc_raw[0] = HAL_ADC_GetValue(&hadc1);
+    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
+    // adc_sample1 = (((float)PFC_Variables.adc_raw[AC_N_CHANNEL]) * 3.3 / (float)4095);
     HAL_ADC_Stop(&hadc1);
 
     ADC_Select_CH1();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
-    PFC_Variables.adc_raw[AC_L_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    adc_sample2 = (((float)PFC_Variables.adc_raw[AC_L_CHANNEL]) * 3.3 / (float)4095);
+    PFC_Variables.adc_raw[1] = HAL_ADC_GetValue(&hadc1);
+    // ADC_SAMPLE_ARR[AC_L_CHANNEL] = HAL_ADC_GetValue(&hadc1);
+    // adc_sample2 = (((float)PFC_Variables.adc_raw[AC_L_CHANNEL]) * 3.3 / (float)4095);
     HAL_ADC_Stop(&hadc1);
 }
 
