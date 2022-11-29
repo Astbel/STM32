@@ -131,6 +131,14 @@ void ADC_Sample(void)
     HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET);
 }
 /*ADC Select Channel*/
+/*
+CH0   Vac_N
+CH1   Vac_L
+CH2   Vbulk
+CH3   IL_PhaseA
+CH4   IL_PhaseB
+*/
+// Vac_N
 void ADC_Select_CH0(void)
 {
     ADC_ChannelConfTypeDef sConfig = {0};
@@ -144,7 +152,7 @@ void ADC_Select_CH0(void)
         Error_Handler();
     }
 }
-
+// Vac_L
 void ADC_Select_CH1(void)
 {
     ADC_ChannelConfTypeDef sConfig = {0};
@@ -152,29 +160,92 @@ void ADC_Select_CH1(void)
      */
     sConfig.Channel = ADC_CHANNEL_1;
     sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;
+    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
     if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
     {
         Error_Handler();
     }
 }
+// VBulk
+void ADC_Select_CH2(void)
+{
+    ADC_ChannelConfTypeDef sConfig = {0};
+    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+     */
+    sConfig.Channel = ADC_CHANNEL_2;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+}
+// IL_PhaseA
+void ADC_Select_CH3(void)
+{
+    ADC_ChannelConfTypeDef sConfig = {0};
+    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+     */
+    sConfig.Channel = ADC_CHANNEL_3;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+}
+// IL_PhaseB
+void ADC_Select_CH4(void)
+{
+    ADC_ChannelConfTypeDef sConfig = {0};
+    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+     */
+    sConfig.Channel = ADC_CHANNEL_4;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+}
+
 /*Task for sample multi data*/
 void Multi_ADC_Sample(void)
 {
+    /*************************************************************************************/
     ADC_Select_CH0();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
     PFC_Variables.adc_raw[0] = HAL_ADC_GetValue(&hadc1);
     // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    // adc_sample1 = (((float)PFC_Variables.adc_raw[AC_N_CHANNEL]) * 3.3 / (float)4095);
     HAL_ADC_Stop(&hadc1);
-
+    /*************************************************************************************/
     ADC_Select_CH1();
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
     PFC_Variables.adc_raw[1] = HAL_ADC_GetValue(&hadc1);
     // ADC_SAMPLE_ARR[AC_L_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    // adc_sample2 = (((float)PFC_Variables.adc_raw[AC_L_CHANNEL]) * 3.3 / (float)4095);
+    HAL_ADC_Stop(&hadc1);
+    /*************************************************************************************/
+    ADC_Select_CH2();
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 1000);
+    PFC_Variables.adc_raw[2] = HAL_ADC_GetValue(&hadc1);
+    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Stop(&hadc1);
+    /*************************************************************************************/
+    ADC_Select_CH3();
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 1000);
+    PFC_Variables.adc_raw[3] = HAL_ADC_GetValue(&hadc1);
+    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Stop(&hadc1);
+    /*************************************************************************************/
+    ADC_Select_CH4();
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 1000);
+    PFC_Variables.adc_raw[4] = HAL_ADC_GetValue(&hadc1);
+    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
     HAL_ADC_Stop(&hadc1);
 }
 

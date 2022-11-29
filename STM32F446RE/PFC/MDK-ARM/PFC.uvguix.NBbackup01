@@ -3606,18 +3606,18 @@
       <ActiveTab>0</ActiveTab>
       <Doc>
         <Name>../Core/Src/main.c</Name>
-        <ColumnNumber>23</ColumnNumber>
+        <ColumnNumber>0</ColumnNumber>
         <TopLine>79</TopLine>
-        <CurrentLine>96</CurrentLine>
+        <CurrentLine>81</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
         <Name>../Core/Src/freertos.c</Name>
-        <ColumnNumber>4</ColumnNumber>
-        <TopLine>110</TopLine>
-        <CurrentLine>117</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>97</TopLine>
+        <CurrentLine>114</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3634,7 +3634,7 @@
       <Doc>
         <Name>..\Core\Src\ADC.c</Name>
         <ColumnNumber>22</ColumnNumber>
-        <TopLine>140</TopLine>
+        <TopLine>158</TopLine>
         <CurrentLine>175</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -3651,9 +3651,9 @@
       </Doc>
       <Doc>
         <Name>..\Core\Src\Supply_State.c</Name>
-        <ColumnNumber>8</ColumnNumber>
-        <TopLine>121</TopLine>
-        <CurrentLine>124</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>209</TopLine>
+        <CurrentLine>226</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3678,9 +3678,9 @@
       </Doc>
       <Doc>
         <Name>../Middlewares/Third_Party/FreeRTOS/Source/tasks.c</Name>
-        <ColumnNumber>39</ColumnNumber>
-        <TopLine>3648</TopLine>
-        <CurrentLine>3657</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>3750</TopLine>
+        <CurrentLine>3650</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

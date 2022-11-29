@@ -99,11 +99,11 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
 
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /**ADC1 GPIO Configuration
-   PA0-WKUP     ------> ADC1_IN0     VBulk
-   PA1     ------> ADC1_IN1         Phase_A_IL
-   PA2     ------> ADC1_IN2        Phase_B_IL
-   PA3     ------> ADC1_IN3      Vac_L
-   PA4     ------> ADC1_IN4      Vac_N
+   PA0-WKUP     ------> ADC1_IN0   Vac_N
+   PA1     ------> ADC1_IN1        Vac_L
+   PA2     ------> ADC1_IN2        VBulk
+   PA3     ------> ADC1_IN3        IL_PhaseA
+   PA4     ------> ADC1_IN4        IL_PhaseB
    */
     GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -135,7 +135,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
     /**ADC1 GPIO Configuration
     PA0-WKUP     ------> ADC1_IN0
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4);
 
     /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
@@ -242,7 +242,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim)
     /* USER CODE BEGIN TIM10_MspPostInit 0 */
 
     /* USER CODE END TIM10_MspPostInit 0 */
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     /**TIM10 GPIO Configuration
     PA8     ------> TIM10_CH1   low side
     PA7     ------> TIM10_CH1   high side

@@ -150,7 +150,7 @@ inline int32_t proportional_integral(int32_t error)
     }
 
     /*跟新DUTY*/
-    TIM1->CCR1 = output_duty;
+    // TIM1->CCR1 = output_duty;
 }
 
 /*2P2Z控制器*/
@@ -196,7 +196,9 @@ inline void relay_bounce_state_handler(void)
 
     if (Bwrom_IN_Flag == True)
     {
+        Vac_Bwron_in_Cnt=0;
         Bwrom_IN_Flag = False;
+        
         turn_on_pfc();
         PFC_Variables.supply_state = STATE_RAMP_UP;
     }
@@ -208,7 +210,8 @@ inline void ramp_up_state_handler(void)
     // if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
     {
-        HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
+       GPIOA->BSRR=0x04;
+        // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON;                      // PFC normal mode
     }
 }
@@ -220,8 +223,8 @@ inline void pfc_on_state_handler(void)
     // if (VBulk < 1.0)
     if (Vac_peak < Bwron_out_point)
     {
-        turn_off_pfc();                                                   /*STOP PFC*/
-        HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET); // STOP PGI
+        turn_off_pfc(); 
+        // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET); // STOP PGI
         PFC_Variables.supply_state = STATE_IDLE;                          // PFC Back IDLE WAIT FOR AC
     }
 
@@ -302,15 +305,15 @@ void PFC_TASK_STATE(void)
     switch (PFC_Variables.task_state)
     {
     case I_STATE_1: // 電壓環
-        half_cycle_processing();
-        // PFC_Variables.task_state = I_STATE_2;
-        PFC_Variables.task_state = I_STATE_5;
+        proportional_integral(Vref-PFC_Variables.adc_raw[VBUS_CHANNEL]);
+        PFC_Variables.task_state = I_STATE_2;
         break;
 
-        // case I_STATE_2: // AC 計算
-
-        //     PFC_Variables.task_state = I_STATE_3;
-        //     break;
+        case I_STATE_2: // AC 計算
+            half_cycle_processing();
+            // PFC_Variables.task_state = I_STATE_3;
+               PFC_Variables.task_state = I_STATE_5;
+            break;
 
         // case I_STATE_3: // AC 跌落
 
