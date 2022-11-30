@@ -7,6 +7,8 @@ uint8_t Bwrom_IN_Flag;
 uint16_t Vac_Bwron_in_Cnt;
 uint16_t Vac_peak;
 uint16_t Vac_peak_temp;
+int32_t steady_state_err;
+int32_t obser_point;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -83,10 +85,10 @@ inline void half_cycle_processing(void)
         // PFC_Variables.positive_cycle_counter++;
         // if ((PFC_Variables.positive_cycle_counter == 4) && (PFC_Variables.negative_cycle_counter >= 16))
         // {
-            // store_negative_cycle_values();
-            // clear_negative_accumulators();
-            Vac_peak = Vac_peak_temp;
-            Vac_peak_temp = 0;
+        // store_negative_cycle_values();
+        // clear_negative_accumulators();
+        Vac_peak = Vac_peak_temp;
+        Vac_peak_temp = 0;
         // }
         // else if (PFC_Variables.positive_cycle_counter > 4)
         // {
@@ -107,33 +109,65 @@ inline void half_cycle_processing(void)
         // {
         //     store_positive_cycle_values();
         //     clear_positive_accumulators();
-            Vac_peak = Vac_peak_temp;
-            Vac_peak_temp = 0;
-    //     }
-    //     else if (PFC_Variables.negative_cycle_counter > 4)
-    //     {
-    //         clear_negative_accumulators(); // to deal with possible negative glitches
-    //         if (PFC_Variables.negative_cycle_counter >= 127)
-    //         {
-    //             store_negative_cycle_values();
-    //             clear_negative_accumulators();
-    //         }
-    //     }
-    //     accumulate_negative_cycle_values();
+        Vac_peak = Vac_peak_temp;
+        Vac_peak_temp = 0;
+        //     }
+        //     else if (PFC_Variables.negative_cycle_counter > 4)
+        //     {
+        //         clear_negative_accumulators(); // to deal with possible negative glitches
+        //         if (PFC_Variables.negative_cycle_counter >= 127)
+        //         {
+        //             store_negative_cycle_values();
+        //             clear_negative_accumulators();
+        //         }
+        //     }
+        //     accumulate_negative_cycle_values();
     }
-    real_ac=(float)(Vac_peak*264)/2100;
+    real_ac = (float)(Vac_peak * 264) / 2100;
 }
 
 /*Singal Voltage loop*/
 inline int32_t proportional_integral(int32_t error)
 {
-    int16_t output_duty;
-    static int32_t steady_state_err;
-    steady_state_err = error;
-    /*計算穩太誤差*/
-    output_duty = steady_state_err * PID.kd + PID.Last_error * PID.ki;
+    /*PID*/
+    int P_Gain;
+    int I_Gain;
+    int D_Gain;
 
-    PID.Last_error = steady_state_err; // 紀錄上一筆誤差
+    int16_t output_duty;
+    // static int32_t steady_state_err;
+    steady_state_err = error;
+
+    // P_Gain=steady_state_err*PID.kp;
+    // I_Gain=P_Gain*PID.ki;
+    /*Kp*/
+    // P_Gain = PID.kp * steady_state_err;
+    // // /*Ki*/
+    // I_temp += steady_state_err;
+    // // // 限制積分值必面積分飽和
+    // if (I_temp > I_MAX)
+    // {
+    //     PID.ki = I_MAX;
+    // }
+    // else if (I_temp < I_MIN)
+    // {
+    //     PID.ki = I_MIN;
+    // }
+    // // // 計算 積分值
+    // I_Gain = PID.ki * I_temp;
+    // /*Kd*/
+    // // Calculates Differential value, Kd is multiplied with (d_Temp minus new_ADC_value) and the result is assigned to D_Term
+    // // The new_ADC_value will become the old ADC value on the next function call, this is assigned to d_Temp so it can be used
+    // D_Gain = PID.kd * (D_temp - steady_state_err);
+    // D_temp = steady_state_err;
+
+    // output_duty = DPWM_TEMP-(P_Gain + I_Gain );
+
+    // P_Gain +=steady_state_err*(1/PRESCALER_VALUE)*PID.kp;
+
+    // I_Gain=P_Gain=P_Gain+steady_state_err*PID.ki;
+
+    output_duty =(steady_state_err*PID.kp+steady_state_err*PID.ki)>>12;
 
     // /*確認DUTY Limit*/
     if (output_duty > MAX_DUTY)
@@ -144,13 +178,9 @@ inline int32_t proportional_integral(int32_t error)
     {
         output_duty = MIN_DUTY;
     }
-    else
-    {
-        output_duty = output_duty;
-    }
 
     /*跟新DUTY*/
-    // TIM1->CCR1 = output_duty;
+    TIM1->CCR1 = output_duty;
 }
 
 /*2P2Z控制器*/
@@ -196,9 +226,9 @@ inline void relay_bounce_state_handler(void)
 
     if (Bwrom_IN_Flag == True)
     {
-        Vac_Bwron_in_Cnt=0;
+        Vac_Bwron_in_Cnt = 0;
         Bwrom_IN_Flag = False;
-        
+
         turn_on_pfc();
         PFC_Variables.supply_state = STATE_RAMP_UP;
     }
@@ -210,9 +240,9 @@ inline void ramp_up_state_handler(void)
     // if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
     {
-       GPIOA->BSRR=0x04;
+        GPIOA->BSRR = 0x04;
         // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
-        PFC_Variables.supply_state = STATE_PFC_ON;                      // PFC normal mode
+        PFC_Variables.supply_state = STATE_PFC_ON; // PFC normal mode
     }
 }
 // 常態模式下啟動PFC
@@ -223,9 +253,9 @@ inline void pfc_on_state_handler(void)
     // if (VBulk < 1.0)
     if (Vac_peak < Bwron_out_point)
     {
-        turn_off_pfc(); 
+        turn_off_pfc();
         // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET); // STOP PGI
-        PFC_Variables.supply_state = STATE_IDLE;                          // PFC Back IDLE WAIT FOR AC
+        PFC_Variables.supply_state = STATE_IDLE; // PFC Back IDLE WAIT FOR AC
     }
 
     /**/
@@ -305,15 +335,15 @@ void PFC_TASK_STATE(void)
     switch (PFC_Variables.task_state)
     {
     case I_STATE_1: // 電壓環
-        // proportional_integral(Vref-PFC_Variables.adc_raw[VBUS_CHANNEL]);
+        proportional_integral(Vref - PFC_Variables.adc_raw[VBUS_CHANNEL]);
         PFC_Variables.task_state = I_STATE_2;
         break;
 
-        case I_STATE_2: // AC 計算
-            half_cycle_processing();
-            // PFC_Variables.task_state = I_STATE_3;
-               PFC_Variables.task_state = I_STATE_5;
-            break;
+    case I_STATE_2: // AC 計算
+        half_cycle_processing();
+        // PFC_Variables.task_state = I_STATE_3;
+        PFC_Variables.task_state = I_STATE_5;
+        break;
 
         // case I_STATE_3: // AC 跌落
 

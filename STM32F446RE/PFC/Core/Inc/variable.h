@@ -99,9 +99,14 @@ typedef struct PID
 {
     int16_t Last_error;
     int16_t Pre_error;
-    float Kp;
-    float ki;
-    float kd;
+    uint16_t kp;
+    uint16_t ki;
+    uint16_t kd;
 };
+extern int32_t steady_state_err;
+extern int32_t obser_point;
+extern int16_t I_temp;
+extern int16_t D_temp;
+extern uint16_t DPWM_TEMP;
 
 #endif

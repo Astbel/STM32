@@ -37,7 +37,9 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+int16_t I_temp;
+int16_t D_temp;
+uint16_t DPWM_TEMP;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -107,7 +109,15 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-Vac_temp=0;
+  Vac_temp = 0;
+  // PID initnal
+  I_temp = 0;
+  D_temp = 0;
+  DPWM_TEMP = 100;
+  // PID value
+  PID.kp = 0x226;//0.15  轉Q12
+  PID.ki = 0x199;//0.1
+  // PID.kd = 0.0001;
   /* 初始PFC狀態 設定*/
   // PFC_Variables.supply_state = STATE_IDLE;
 
@@ -133,7 +143,7 @@ Vac_temp=0;
   while (1)
   {
     /* USER CODE END WHILE */
- 
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -196,12 +206,12 @@ void SystemClock_Config(void)
  * @brief ADC1 Initialization Function
  * @param None
  * @retval None
- * 
- * ADC Multi Channel 
+ *
+ * ADC Multi Channel
  * PA0,PA1,PA2,PA3,PA4
- * 
- * 
- * 
+ *
+ *
+ *
  */
 static void MX_ADC1_Init(void)
 {
@@ -221,7 +231,7 @@ static void MX_ADC1_Init(void)
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = ENABLE;      /* Sequencer disabled (ADC conversion on only 1 channel: channel set on rank 1) */
+  hadc1.Init.ScanConvMode = ENABLE;       /* Sequencer disabled (ADC conversion on only 1 channel: channel set on rank 1) */
   hadc1.Init.ContinuousConvMode = ENABLE; /* Continuous mode disabled to have only 1 conversion at each conversion trig */
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
@@ -236,7 +246,6 @@ static void MX_ADC1_Init(void)
   }
   /*STM32 ADC self Calibration*/
 
-  
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
   // sConfig.Channel = ADC_CHANNEL_0; /*ADC sample channel*/
@@ -250,7 +259,6 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
-  
 }
 
 /**
@@ -489,7 +497,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure PGI PIN*/
-  GPIO_InitStruct.Pin = Power_GOOD_PIN|GPIO_PIN_1;
+  GPIO_InitStruct.Pin = Power_GOOD_PIN | GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

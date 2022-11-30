@@ -80,6 +80,8 @@ extern TaskHandle_t START_TASK_Handle;
 #define NUMBER_OF_ADC_CHANNELS_ACTIVE (5) // how many ADC channels are used
 /*數位控制補償參數*/
 /*電壓目標命令*/
-#define Vref (3)
-
+#define Vref (0x1000)  //Vref 轉成Q格式  目前設定3.3V
+//PID I GAIN (MAX)
+#define I_MAX (0x1000)
+#define I_MIN (0x0000) 
 #endif
