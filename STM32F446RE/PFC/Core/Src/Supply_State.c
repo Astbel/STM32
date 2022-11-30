@@ -305,7 +305,7 @@ void PFC_TASK_STATE(void)
     switch (PFC_Variables.task_state)
     {
     case I_STATE_1: // 電壓環
-        proportional_integral(Vref-PFC_Variables.adc_raw[VBUS_CHANNEL]);
+        // proportional_integral(Vref-PFC_Variables.adc_raw[VBUS_CHANNEL]);
         PFC_Variables.task_state = I_STATE_2;
         break;
 
