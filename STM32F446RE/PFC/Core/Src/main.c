@@ -103,9 +103,9 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_DAC_Init();
-  MX_USART1_UART_Init();
-  MX_USART3_UART_Init();
-  MX_TIM1_Init();
+  // MX_USART1_UART_Init();
+  // MX_USART3_UART_Init();
+  // MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 Vac_temp=0;
   /* 初始PFC狀態 設定*/

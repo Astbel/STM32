@@ -193,12 +193,12 @@
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Bwrom_IN_Flag</ItemText>
+          <ItemText>PFC_Variables.adc_raw[2]</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Vac_Bwron_in_Cnt</ItemText>
+          <ItemText>VBulk</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
