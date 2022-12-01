@@ -131,13 +131,13 @@ void ADC_Sample(void)
     HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_RESET);
 }
 /*ADC Select Channel*/
-    /**ADC1 GPIO Configuration
-    PA0-WKUP     ------> ADC1_IN0   Vac_N
-    PA1     ------> ADC1_IN1        Vac_L
-    PA6     ------> ADC1_IN6        Vbulk
-    PA7     ------> ADC1_IN7        IL_PHASEA
-    PB0     ------> ADC1_IN8        IL_PHASEB
-    */
+/**ADC1 GPIO Configuration
+PA0-WKUP     ------> ADC1_IN0   Vac_N
+PA1     ------> ADC1_IN1        Vac_L
+PA6     ------> ADC1_IN6        Vbulk
+PA7     ------> ADC1_IN7        IL_PHASEA
+PB0     ------> ADC1_IN8        IL_PHASEB
+*/
 // Vac_N
 void ADC_Select_CH0(void)
 {
@@ -232,7 +232,8 @@ void Multi_ADC_Sample(void)
     HAL_ADC_PollForConversion(&hadc1, 1000);
     PFC_Variables.adc_raw[2] = HAL_ADC_GetValue(&hadc1);
     // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    VBulk=(float)((PFC_Variables.adc_raw[2]*3.3)/4096);
+    // VBulk = (float)((PFC_Variables.adc_raw[2] * 400) / 4096);
+    VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
     HAL_ADC_Stop(&hadc1);
     /*************************************************************************************/
     ADC_Select_CH3();
@@ -250,5 +251,24 @@ void Multi_ADC_Sample(void)
     HAL_ADC_Stop(&hadc1);
 }
 
-/*Average value of the Result*/
-/*之後要測試ADC 掃AC 要抓AC之後座移動平均*/
+/***************************開機初始化函數***********************************/
+inline void Initail_Variable(void)
+{
+    /*PFC inital STATE*/
+    PFC_Variables.supply_state = STATE_IDLE;
+    /*PID 初始化設定*/
+    /*PID  正常誤差量*/
+    PID.kp = 0x226; // 0.15  轉Q12
+    PID.ki = 0x199; // 0.1
+
+    /*PID Vref 誤差量很大的設定*/
+    PID.Kp_limit = 0x03FF; // Q12  0.25
+    PID.Ki_limit = 0x006;  // Q12  0.0015
+
+    /*Vac 變數初始化設定*/
+    Vac_Bwron_in_Cnt = 0;
+    Vac_peak_temp = 0;
+    Vac_peak = 0;
+
+
+}

@@ -108,15 +108,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM1_Init();
+  Initail_Variable();
   /* USER CODE BEGIN 2 */
   Vac_temp = 0;
-  // PID initnal
-  I_temp = 0;
-  D_temp = 0;
-  DPWM_TEMP = 100;
-  // PID value
-  PID.kp = 0x226;//0.15  轉Q12
-  PID.ki = 0x199;//0.1
+
   // PID.kd = 0.0001;
   /* 初始PFC狀態 設定*/
   // PFC_Variables.supply_state = STATE_IDLE;

@@ -195,6 +195,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>steady_state_err</ItemText>
         </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Voltage_Kp</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Voltage_Ki</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

@@ -97,12 +97,15 @@ extern uint16_t Vac_Bwron_in_Cnt;
 /*********************PID*************************/
 typedef struct PID
 {
-    int16_t Last_error;
-    int16_t Pre_error;
+    int32_t  Kp_limit;
+    int32_t  Ki_limit;
     uint16_t kp;
     uint16_t ki;
     uint16_t kd;
 };
+/**********************DPWM***********************/
+extern int32_t Voltage_Kp; 
+extern int32_t Voltage_Ki;
 extern int32_t steady_state_err;
 extern int32_t obser_point;
 extern int16_t I_temp;

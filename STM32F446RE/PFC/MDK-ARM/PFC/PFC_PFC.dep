@@ -1,7 +1,7 @@
 Dependencies for Project 'PFC', Target 'PFC': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f446xx.s)(0x6386EE39)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -I ..\Core\Inc-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F446xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f446xx.lst --xref -o pfc\startup_stm32f446xx.o --depend pfc\startup_stm32f446xx.d)
-F (../Core/Src/main.c)(0x63872323)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\main.o --omf_browse pfc\main.crf --depend pfc\main.d)
+F (../Core/Src/main.c)(0x63883792)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\main.o --omf_browse pfc\main.crf --depend pfc\main.d)
 I (../Core/Inc/main.h)(0x6386EE35)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x6386EE38)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x6386EE35)
@@ -52,13 +52,13 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x6386EE39)
-I (../Core/Inc/systemsetting.h)(0x63870C58)
+I (../Core/Inc/systemsetting.h)(0x63883C9C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (../Core/Inc/UartRingbuffer_multi.h)(0x637ECA50)
-I (../Core/Inc/variable.h)(0x63872301)
-I (../Core/Inc/function.h)(0x637EDE8E)
+I (../Core/Inc/variable.h)(0x6387FBF9)
+I (../Core/Inc/function.h)(0x63883708)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
 F (../Core/Src/freertos.c)(0x6386EE35)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\freertos.o --omf_browse pfc\freertos.crf --depend pfc\freertos.d)
 I (../Core/Inc/main.h)(0x6386EE35)
@@ -97,7 +97,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x6386EE38)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x6386EE38)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x6386EE38)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x6386EE38)
-I (../Core/Inc/systemsetting.h)(0x63870C58)
+I (../Core/Inc/systemsetting.h)(0x63883C9C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
@@ -111,8 +111,8 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x6386EE39)
-I (../Core/Inc/variable.h)(0x63872301)
-I (../Core/Inc/function.h)(0x637EDE8E)
+I (../Core/Inc/variable.h)(0x6387FBF9)
+I (../Core/Inc/function.h)(0x63883708)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
 F (../Core/Src/stm32f4xx_it.c)(0x637ECA50)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\stm32f4xx_it.o --omf_browse pfc\stm32f4xx_it.crf --depend pfc\stm32f4xx_it.d)
 I (../Core/Inc/main.h)(0x6386EE35)
@@ -236,7 +236,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x6386EE38)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x6386EE38)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x6386EE38)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x6025237E)
-I (../Core/Inc/systemsetting.h)(0x63870C58)
+I (../Core/Inc/systemsetting.h)(0x63883C9C)
 I (../Core/Inc/main.h)(0x6386EE35)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
@@ -249,11 +249,11 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x6386EE39)
-I (../Core/Inc/variable.h)(0x63872301)
-I (../Core/Inc/function.h)(0x637EDE8E)
+I (../Core/Inc/variable.h)(0x6387FBF9)
+I (../Core/Inc/function.h)(0x63883708)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
-F (..\Core\Src\ADC.c)(0x6386F150)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\adc.o --omf_browse pfc\adc.crf --depend pfc\adc.d)
-I (../Core/Inc/systemsetting.h)(0x63870C58)
+F (..\Core\Src\ADC.c)(0x63883A69)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\adc.o --omf_browse pfc\adc.crf --depend pfc\adc.d)
+I (../Core/Inc/systemsetting.h)(0x63883C9C)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x6386EE36)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h)(0x6386EE36)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x6386EE37)
@@ -303,11 +303,11 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x6386EE39)
-I (../Core/Inc/variable.h)(0x63872301)
-I (../Core/Inc/function.h)(0x637EDE8E)
+I (../Core/Inc/variable.h)(0x6387FBF9)
+I (../Core/Inc/function.h)(0x63883708)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
-F (..\Core\Src\Supply_State.c)(0x63872299)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\supply_state.o --omf_browse pfc\supply_state.crf --depend pfc\supply_state.d)
-I (../Core/Inc/systemsetting.h)(0x63870C58)
+F (..\Core\Src\Supply_State.c)(0x63883E8F)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\supply_state.o --omf_browse pfc\supply_state.crf --depend pfc\supply_state.d)
+I (../Core/Inc/systemsetting.h)(0x63883C9C)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x6386EE36)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h)(0x6386EE36)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x6386EE37)
@@ -357,8 +357,8 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x6386EE39)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x6386EE39)
-I (../Core/Inc/variable.h)(0x63872301)
-I (../Core/Inc/function.h)(0x637EDE8E)
+I (../Core/Inc/variable.h)(0x6387FBF9)
+I (../Core/Inc/function.h)(0x63883708)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x60252378)
 F (../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c)(0x6386EE38)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_PFC-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\NBbackup01\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F446xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F446xx-o pfc\stm32f4xx_hal_adc.o --omf_browse pfc\stm32f4xx_hal_adc.crf --depend pfc\stm32f4xx_hal_adc.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x6386EE38)

@@ -8,7 +8,8 @@ uint16_t Vac_Bwron_in_Cnt;
 uint16_t Vac_peak;
 uint16_t Vac_peak_temp;
 int32_t steady_state_err;
-int32_t obser_point;
+int32_t Voltage_Kp;
+int32_t Voltage_Ki;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -127,47 +128,44 @@ inline void half_cycle_processing(void)
 }
 
 /*Singal Voltage loop*/
+/*
+ *  積分飽和消除方法遇限消除法
+ *  正飽和 只看積分負向誤差
+ *  負飽和 只看積分正向誤差
+ */
 inline int32_t proportional_integral(int32_t error)
 {
-    /*PID*/
-    int P_Gain;
-    int I_Gain;
-    int D_Gain;
-
     int16_t output_duty;
-    // static int32_t steady_state_err;
     steady_state_err = error;
 
-    // P_Gain=steady_state_err*PID.kp;
-    // I_Gain=P_Gain*PID.ki;
-    /*Kp*/
-    // P_Gain = PID.kp * steady_state_err;
-    // // /*Ki*/
-    // I_temp += steady_state_err;
-    // // // 限制積分值必面積分飽和
-    // if (I_temp > I_MAX)
-    // {
-    //     PID.ki = I_MAX;
-    // }
-    // else if (I_temp < I_MIN)
-    // {
-    //     PID.ki = I_MIN;
-    // }
-    // // // 計算 積分值
-    // I_Gain = PID.ki * I_temp;
-    // /*Kd*/
-    // // Calculates Differential value, Kd is multiplied with (d_Temp minus new_ADC_value) and the result is assigned to D_Term
-    // // The new_ADC_value will become the old ADC value on the next function call, this is assigned to d_Temp so it can be used
-    // D_Gain = PID.kd * (D_temp - steady_state_err);
-    // D_temp = steady_state_err;
+    /*穩態誤差在範圍內*/
+    if (abs(error) < Error_limit)
+    {
+        /*Kp*/
+        Voltage_Kp = PID.kp * steady_state_err;
+        /*Ki*/
+        Voltage_Ki = Voltage_Ki + (PID.ki * steady_state_err);
+    }
+    /*誤差量過大限制Kp,Ki*/
+    else
+    {
+        /*Kp*/
+        Voltage_Kp = PID.Kp_limit * steady_state_err;
+        /*Ki*/
+        Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
+    }
 
-    // output_duty = DPWM_TEMP-(P_Gain + I_Gain );
+    // 限制積分值必面積分飽和
+    if (Voltage_Ki > I_MAX)
+    {
+        Voltage_Ki = I_MAX;
+    }
+    else if (Voltage_Ki < I_MIN)
+    {
+        Voltage_Ki = I_MIN;
+    }
 
-    // P_Gain +=steady_state_err*(1/PRESCALER_VALUE)*PID.kp;
-
-    // I_Gain=P_Gain=P_Gain+steady_state_err*PID.ki;
-
-    output_duty =(steady_state_err*PID.kp+steady_state_err*PID.ki)>>12;
+    output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q12格式轉換
 
     // /*確認DUTY Limit*/
     if (output_duty > MAX_DUTY)
@@ -236,6 +234,12 @@ inline void relay_bounce_state_handler(void)
 // VBULK 爬升 送PGI致2次側
 inline void ramp_up_state_handler(void)
 {
+     /*Vbulk OVP*/
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
+    {
+        turn_off_pfc();
+        PFC_Variables.supply_state=STATE_PFC_SHUT_DOWN;
+    }
     /*偵測ADC是否為該值並發送PGI*/
     // if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
@@ -249,6 +253,14 @@ inline void ramp_up_state_handler(void)
 /* PFC 常態下*/
 inline void pfc_on_state_handler(void)
 {
+    /*Vbulk OVP*/
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
+    {
+        turn_off_pfc();
+        PFC_Variables.supply_state=STATE_PFC_SHUT_DOWN;
+        // inital the variable
+    }
+
     /*Vac 偵測  Bwron out*/
     // if (VBulk < 1.0)
     if (Vac_peak < Bwron_out_point)
@@ -265,8 +277,11 @@ inline void pfc_on_state_handler(void)
 // 異常問題關閉PFC
 inline void pfc_shut_down_state_handler(void)
 {
+    /*LOCK DOWN*/
+    PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
+    // Initail_Variable();
 }
 
 //

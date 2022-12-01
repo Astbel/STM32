@@ -38,5 +38,9 @@ extern inline void pfc_shut_down_state_handler(void);
 extern inline void pfc_hiccup_state_handler(void);
 extern void turn_on_pfc(void);
 extern void turn_off_pfc(void);
+extern inline void Initail_Variable(void);
+
+
+
 
 #endif
