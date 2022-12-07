@@ -99,9 +99,9 @@ typedef struct PID
 {
     int32_t  Kp_limit;
     int32_t  Ki_limit;
-    uint16_t kp;
-    uint16_t ki;
-    uint16_t kd;
+    uint32_t kp;
+    uint32_t ki;
+    uint32_t kd;
 };
 /**********************DPWM***********************/
 extern int32_t Voltage_Kp; 

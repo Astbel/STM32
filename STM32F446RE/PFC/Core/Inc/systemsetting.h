@@ -61,8 +61,14 @@ extern TaskHandle_t START_TASK_Handle;
 #define PULSE3_VALUE (uint32_t)(1000 / 4)          /* Capture Compare 3 Value  */
 #define PULSE4_VALUE (uint32_t)(1000 * 12.5 / 100) /* Capture Compare 4 Value  */
 /*PWM DUTY MAX MIN*/
-#define MAX_DUTY  (800)
-#define MIN_DUTY  (100)
+/********根據電壓變動限制DUTY開的大小*********/
+/*
+Vin =127(90Vac~264Vac),VBulk Max 為400V
+*Dmax =400/127 =1/1-Dmax    Dmax= 0.6825
+*Dmin =400/373 =1/1-Dmin    Dmin= 0.0675
+*/
+#define MAX_DUTY  (680)
+#define MIN_DUTY  (67)
 /* Error 點設定 */
 /*
 *  以115Vac電容抽乾為例換算RMS後Bulk起點電壓為162V 目標命令啟動為380V ,計算其誤差量為380-162=218V
@@ -87,11 +93,14 @@ extern TaskHandle_t START_TASK_Handle;
 #define NUMBER_OF_ADC_CHANNELS_ACTIVE (5) // how many ADC channels are used
 /*數位控制補償參數*/
 /*電壓目標命令*/
-#define Vref (0x060C)  //VBus目標命令 280Vac for 115Vac
+// #define Vref (0x01000)     //測試用目標命令3.3V
+#define Vref (0x0612)  //VBus目標命令 280Vac for 115Vac
 // #define Vref (0x0835)     //Vbus 電壓設定380V
 //PID I GAIN (MAX)  穩態誤差
 #define I_MAX (0x1000)
 #define I_MIN (0x0000) 
+//PFC switching Freq
+#define T (1/85e3)
 
 /*ADC OVP Point*/
 // #define OVer_Voltage_VBULK (0x08C0)//(405*4096/450)

@@ -135,44 +135,50 @@ inline void half_cycle_processing(void)
  */
 inline int32_t proportional_integral(int32_t error)
 {
+
+    /*Test for PI PWM need to be disable pwm*/
+    // turn_on_pfc();     測試用
+
     int16_t output_duty;
     steady_state_err = error;
 
     /*穩態誤差在範圍內*/
-    if (abs(error) < Error_limit)
-    {
+    // if (abs(error) < Error_limit)
+    // {
         /*Kp*/
         Voltage_Kp = PID.kp * steady_state_err;
         /*Ki*/
-        Voltage_Ki = Voltage_Ki + (PID.ki * steady_state_err);
-    }
-    /*誤差量過大限制Kp,Ki*/
-    else
-    {
-        /*Kp*/
-        Voltage_Kp = PID.Kp_limit * steady_state_err;
-        /*Ki*/
-        Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
-    }
+        Voltage_Ki += (PID.ki * T *steady_state_err);
+    // }
+    // /*誤差量過大限制Kp,Ki*/ 
+    // else
+    // {
+    //     /*Kp*/
+    //     Voltage_Kp = PID.Kp_limit * steady_state_err;
+    //     /*Ki*/
+    //     Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
+    // }
 
-    // 限制積分值必面積分飽和
-    if (Voltage_Ki > I_MAX)
-    {
-        Voltage_Ki = I_MAX;
-    }
-    else if (Voltage_Ki < I_MIN)
-    {
-        Voltage_Ki = I_MIN;
-    }
+    // 限制積分值必面積分飽和,遇限消除法
+    // if (Voltage_Ki > I_MAX)
+    // {
+    //     Voltage_Ki = I_MAX;
+    // }
+    // else if (Voltage_Ki < I_MIN)
+    // {
+    //     Voltage_Ki = I_MIN;
+    // }
 
-    output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q12格式轉換
+    output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q27>>12轉至籌Q15格式轉換
 
     // /*確認DUTY Limit*/
-    if (output_duty > MAX_DUTY)
+    /*Max  68%*/
+    if (output_duty > MAX_DUTY)   
     {
         output_duty = MAX_DUTY;
     }
-    else if (output_duty < MIN_DUTY)
+    /*Min 10%*/
+    if (output_duty < MIN_DUTY)
     {
         output_duty = MIN_DUTY;
     }
@@ -371,7 +377,7 @@ void PFC_TASK_STATE(void)
         //     break;
 
     case I_STATE_5: // PFC狀態機
-        supply_state_handler();
+       supply_state_handler();
         PFC_Variables.task_state = I_STATE_1;
         break;
 

@@ -258,8 +258,11 @@ inline void Initail_Variable(void)
     PFC_Variables.supply_state = STATE_IDLE;
     /*PID 初始化設定*/
     /*PID  正常誤差量*/
-    PID.kp = 0x226; // 0.15  轉Q12
-    PID.ki = 0x199; // 0.1
+    PID.kp = 0x4000; // 0.5  轉Q15
+    PID.ki = 0x8000; // 2
+    //TEST PI form PSIM
+    // PID.kp = 0x226; // 0.15  轉Q15
+    // PID.ki = 0x199; // 0.1
 
     /*PID Vref 誤差量很大的設定*/
     PID.Kp_limit = 0x03FF; // Q12  0.25
@@ -269,6 +272,4 @@ inline void Initail_Variable(void)
     Vac_Bwron_in_Cnt = 0;
     Vac_peak_temp = 0;
     Vac_peak = 0;
-
-
 }
