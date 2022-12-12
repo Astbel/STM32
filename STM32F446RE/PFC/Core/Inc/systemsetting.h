@@ -20,8 +20,9 @@ extern ADC_HandleTypeDef hadc1;
 
 extern DAC_HandleTypeDef hdac;
 
-extern TIM_HandleTypeDef htim1;
-extern TIM_HandleTypeDef htim11;
+extern TIM_HandleTypeDef htim1; // Master no use
+extern TIM_HandleTypeDef htim2; // Salver 1 for  PhaseA
+extern TIM_HandleTypeDef htim3; // Salver 2 for  PhaseB
 
 extern UART_HandleTypeDef huart1; // 打log
 extern UART_HandleTypeDef huart3; // C#調整溝通

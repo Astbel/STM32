@@ -145,12 +145,12 @@ inline int32_t proportional_integral(int32_t error)
     /*穩態誤差在範圍內*/
     // if (abs(error) < Error_limit)
     // {
-        /*Kp*/
-        Voltage_Kp = PID.kp * steady_state_err;
-        /*Ki*/
-        Voltage_Ki += (PID.ki * T *steady_state_err);
+    /*Kp*/
+    Voltage_Kp = PID.kp * steady_state_err;
+    /*Ki*/
+    Voltage_Ki += (PID.ki * T * steady_state_err);
     // }
-    // /*誤差量過大限制Kp,Ki*/ 
+    // /*誤差量過大限制Kp,Ki*/
     // else
     // {
     //     /*Kp*/
@@ -173,7 +173,7 @@ inline int32_t proportional_integral(int32_t error)
 
     // /*確認DUTY Limit*/
     /*Max  68%*/
-    if (output_duty > MAX_DUTY)   
+    if (output_duty > MAX_DUTY)
     {
         output_duty = MAX_DUTY;
     }
@@ -184,7 +184,9 @@ inline int32_t proportional_integral(int32_t error)
     }
 
     /*跟新DUTY*/
-    TIM1->CCR1 = output_duty;
+    // TIM1->CCR1 = output_duty;
+    TIM2->CCR3 = output_duty; // Phase A
+    TIM3->CCR3 = output_duty; // Phase B
 }
 
 /*2P2Z控制器*/
@@ -240,17 +242,19 @@ inline void relay_bounce_state_handler(void)
 // VBULK 爬升 送PGI致2次側
 inline void ramp_up_state_handler(void)
 {
-     /*Vbulk OVP*/
+    /*PFC soft start ramp up need to write here*/
+    /*Vbulk OVP*/
     if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
     {
         turn_off_pfc();
-        PFC_Variables.supply_state=STATE_PFC_SHUT_DOWN;
+        PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     }
     /*偵測ADC是否為該值並發送PGI*/
     // if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
     {
         GPIOA->BSRR = 0x04;
+        turn_on_pfc();
         // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON; // PFC normal mode
     }
@@ -263,7 +267,7 @@ inline void pfc_on_state_handler(void)
     if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
     {
         turn_off_pfc();
-        PFC_Variables.supply_state=STATE_PFC_SHUT_DOWN;
+        PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
         // inital the variable
     }
 
@@ -285,8 +289,7 @@ inline void pfc_shut_down_state_handler(void)
 {
     /*LOCK DOWN*/
     PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
-    HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
+    turn_off_pfc();
     // Initail_Variable();
 }
 
@@ -298,15 +301,25 @@ inline void pfc_hiccup_state_handler(void)
 // PWM enable
 void turn_on_pfc(void)
 {
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
-    HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
+    // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
+    // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
+    HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Phase A
+    HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Phase B
 }
 
 // pwm disable
 void turn_off_pfc(void)
 {
+    // HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
+    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
+    HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
+    HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
 }
 
 /*********************PFC supply state*********************/
@@ -377,7 +390,7 @@ void PFC_TASK_STATE(void)
         //     break;
 
     case I_STATE_5: // PFC狀態機
-       supply_state_handler();
+        supply_state_handler();
         PFC_Variables.task_state = I_STATE_1;
         break;
 
