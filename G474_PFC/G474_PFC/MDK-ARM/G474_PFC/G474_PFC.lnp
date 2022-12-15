@@ -4,6 +4,8 @@
 "g474_pfc\app_freertos.o"
 "g474_pfc\stm32g4xx_it.o"
 "g474_pfc\stm32g4xx_hal_msp.o"
+"g474_pfc\supply_state.o"
+"g474_pfc\adc.o"
 "g474_pfc\stm32g4xx_hal_adc.o"
 "g474_pfc\stm32g4xx_hal_adc_ex.o"
 "g474_pfc\stm32g4xx_ll_adc.o"

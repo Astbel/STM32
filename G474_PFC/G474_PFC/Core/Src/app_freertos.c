@@ -67,9 +67,7 @@ void Task_1(void *pvParameters)
     /*Test Pin here check RTOS is working*/
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin); /*OBser pin for deceted MCU is working*/
     /**Here is adc polling**/
-
-    // ADC_Sample();
-    // Multi_ADC_Sample();
+    Multi_Sweep_ADC_Sample();
     /*AC  正負半周判斷*/
     // rectify_vac();
     vTaskDelay(20);

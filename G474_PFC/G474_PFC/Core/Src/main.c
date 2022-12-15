@@ -36,9 +36,9 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+float test_adc_conv;
 /* USER CODE END PM */
-
+uint16_t test_adc;
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim1;
@@ -95,7 +95,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM1_Init();
   MX_TIM8_Init();
-  MX_USART1_UART_Init();
+  // MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -144,9 +144,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+    // HAL_ADC_Start(&hadc1);
+    // PFC_Variables.adc_raw[1] = HAL_ADC_GetValue(&hadc1);
+    // test_adc = HAL_ADC_GetValue(&hadc1);
+    // test_adc_conv = (float)(test_adc * 3.3) / 4095;
+    //  Multi_ADC_Sample();
   }
   /* USER CODE END 3 */
 }
@@ -248,16 +250,16 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
    */
-  sConfig.Channel = ADC_CHANNEL_1;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  // sConfig.Channel = ADC_CHANNEL_1;
+  // sConfig.Rank = ADC_REGULAR_RANK_1;
+  // sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+  // sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  // sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  // sConfig.Offset = 0;
+  // if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  // {
+  //   Error_Handler();
+  // }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */

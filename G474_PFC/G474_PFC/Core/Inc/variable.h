@@ -17,8 +17,6 @@ extern uint16_t Vac_PP;
 extern uint16_t Sample_cnt;
 extern uint16_t adc_sample1;
 extern uint16_t adc_sample2;
-// multi channel
-extern uint16_t ADC_SAMPLE_ARR[2];
 
 /***********************Vac************************/
 extern uint16_t Vac_peak;
@@ -84,6 +82,8 @@ struct PFC_VARIABLES
     TASK_STATE task_state;
     SUPPLY_STATE supply_state;
 };
+/*below is for adc sample */
+
 
 /*******************Struct_Delcare*****************/
 extern struct PFC_VARIABLES PFC_Variables;
@@ -93,7 +93,7 @@ extern uint8_t Bwrom_IN_Flag;
 
 /*********************Counter**********************/
 extern uint16_t Vac_Bwron_in_Cnt;
-
+extern uint8_t  loop_cnt;
 /*********************PID*************************/
 typedef struct PID
 {
@@ -111,5 +111,12 @@ extern int32_t obser_point;
 extern int16_t I_temp;
 extern int16_t D_temp;
 extern uint16_t DPWM_TEMP;
+/*******************ADC_TEST_Convert_Varable*************/
+extern float   adc_conv_sample_1;
+extern float   adc_conv_sample_2;
+extern float   adc_conv_sample_3;
+extern float   adc_conv_sample_4;
+extern float   adc_conv_sample_5;
+
 
 #endif
