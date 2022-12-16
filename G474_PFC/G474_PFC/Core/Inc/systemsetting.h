@@ -19,6 +19,7 @@
 extern ADC_HandleTypeDef hadc1;
 extern TIM_HandleTypeDef htim1; // Master PhaseA
 extern TIM_HandleTypeDef htim8; // Salver 2 for  PhaseB
+extern TIM_HandleTypeDef htim16; //interrupt timer
 extern UART_HandleTypeDef huart1; // 打log
 
 extern TaskHandle_t START_TASK_Handle;
@@ -47,6 +48,10 @@ extern TaskHandle_t START_TASK_Handle;
 #define TASK_2_PRO 3
 // TaskHandle_t	TASK_2_Handle;
 
+/*******************ISR****************************/
+//預設Timer的一次觸發時間目前設定0.183ms
+#define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
+#define Timer_PERIOD_VALUE (uint32_t)(10500 - 1)          /* Period Value  */
 /*PWM Freq & DUTY*/
 #define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 85000000) - 1)
 #define PERIOD_VALUE (uint32_t)(1000 - 1)          /* Period Value  */

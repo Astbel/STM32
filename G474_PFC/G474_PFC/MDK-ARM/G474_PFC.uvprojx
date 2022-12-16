@@ -423,6 +423,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\ADC.c</FilePath>
             </File>
+            <File>
+              <FileName>stander_interrupt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\stander_interrupt.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

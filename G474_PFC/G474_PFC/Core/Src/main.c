@@ -43,6 +43,7 @@ uint16_t test_adc;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim8;
+TIM_HandleTypeDef htim16;
 UART_HandleTypeDef huart1;
 TaskHandle_t START_TASK_Handle;
 /* USER CODE END PV */
@@ -53,6 +54,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM8_Init(void);
+static void MX_TIM16_Init(void);
 static void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
@@ -95,6 +97,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM1_Init();
   MX_TIM8_Init();
+  MX_TIM16_Init();
   // MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -124,7 +127,7 @@ int main(void)
   /* definition and creation of Task02 */
   // osThreadDef(Task02, StartTask02, osPriorityIdle, 0, 128);
   // Task02Handle = osThreadCreate(osThread(Task02), NULL);
-
+   HAL_TIM_Base_Start_IT(&htim16);
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -137,7 +140,7 @@ int main(void)
               (TaskHandle_t *)&START_TASK_Handle);
 
   /* Start scheduler */
-  osKernelStart();
+  // osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -152,7 +155,6 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
-
 /**
  * @brief System Clock Configuration
  * @retval None
@@ -429,6 +431,40 @@ static void MX_TIM8_Init(void)
   /* USER CODE END TIM8_Init 2 */
   HAL_TIM_MspPostInit(&htim8);
 }
+
+/**
+ * @brief TIM16 Initialization Function
+ * @param None
+ * @retval None
+ */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = Timer_PRESCALER_VALUE ;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = Timer_PERIOD_VALUE;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 0;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
+}
+
+
+
 
 /**
  * @brief USART1 Initialization Function
