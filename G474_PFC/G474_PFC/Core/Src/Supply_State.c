@@ -143,31 +143,22 @@ inline int32_t proportional_integral(int32_t error)
     steady_state_err = error;
 
     /*穩態誤差在範圍內*/
-    // if (abs(error) < Error_limit)
-    // {
     /*Kp*/
     Voltage_Kp = PID.kp * steady_state_err;
     /*Ki*/
     Voltage_Ki += (PID.ki * T * steady_state_err);
     // }
     // /*誤差量過大限制Kp,Ki*/
-    // else
-    // {
-    //     /*Kp*/
-    //     Voltage_Kp = PID.Kp_limit * steady_state_err;
-    //     /*Ki*/
-    //     Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
-    // }
-
+   
     // 限制積分值必面積分飽和,遇限消除法
-    // if (Voltage_Ki > I_MAX)
-    // {
-    //     Voltage_Ki = I_MAX;
-    // }
-    // else if (Voltage_Ki < I_MIN)
-    // {
-    //     Voltage_Ki = I_MIN;
-    // }
+    if (Voltage_Ki > I_MAX)
+    {
+        Voltage_Ki = I_MAX;
+    }
+    else if (Voltage_Ki < I_MIN)
+    {
+        Voltage_Ki = I_MIN;
+    }
 
     output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q27>>12轉至籌Q15格式轉換
 

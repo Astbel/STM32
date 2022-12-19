@@ -96,7 +96,7 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 #define Vref (0x0612)  //VBus目標命令 280Vac for 115Vac
 // #define Vref (0x0835)     //Vbus 電壓設定380V
 //PID I GAIN (MAX)  穩態誤差
-#define I_MAX (0x1000)
+#define I_MAX (0x0AEA) //90Vac下Rms BULK電壓最大誤差
 #define I_MIN (0x0000) 
 //PFC switching Freq
 #define T (1/85e3)
