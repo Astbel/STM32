@@ -59,7 +59,8 @@ void ADC_Select_Channel(uint8_t Channel_value)
         break;
     /*AC_N*/
     case 2:
-        sConfig.Channel = ADC_CHANNEL_2;
+        // sConfig.Channel = ADC_CHANNEL_2;
+        sConfig.Channel = ADC_CHANNEL_3;
         sConfig.Rank = ADC_REGULAR_RANK_1;
         sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
         sConfig.SingleDiff = ADC_SINGLE_ENDED;
@@ -118,7 +119,7 @@ void ADC_Select_Channel(uint8_t Channel_value)
 /*ADC Multi Channel sample*/
 void Multi_Sweep_ADC_Sample(void)
 {
-    for (loop_cnt = 1; loop_cnt <= 5; loop_cnt++)
+    for (loop_cnt = 1; loop_cnt <=3; loop_cnt++)
     {
         ADC_Select_Channel(loop_cnt);
         HAL_ADC_Start(&hadc1);

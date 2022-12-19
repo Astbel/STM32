@@ -68,8 +68,8 @@ inline void rectify_vac(void)
     /*移動平均計算AC*/
     /*每次都保留最後四筆資料*/
     /*要取當前值所以總和/比數*/
-    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 4);
-    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 4;
+    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 8);
+    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 8;
     /*Vac PEAK 計算*/
     if (PFC_Variables.vin_filtered > Vac_peak_temp)
     {
@@ -124,7 +124,9 @@ inline void half_cycle_processing(void)
         //     }
         //     accumulate_negative_cycle_values();
     }
-    real_ac = (float)(Vac_peak * 264) / 2100;
+    real_ac = (float)(Vac_peak * 264) /1650;
+    VBulk =(float)(PFC_Variables.adc_raw[2]*450)/4095;
+    // real_ac = (float)((Vac_peak * 3300)>>12)*0.0063;
 }
 
 /*Singal Voltage loop*/

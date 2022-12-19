@@ -47,7 +47,7 @@ extern TaskHandle_t START_TASK_Handle;
 #define TASK_2_SIZE 128
 #define TASK_2_PRO 3
 // TaskHandle_t	TASK_2_Handle;
-
+#define VAC_VOLTAGE_DIVIDER (3.83/603.83) //Vin sense gain
 /*******************ISR****************************/
 //預設Timer的一次觸發時間目前設定0.183ms
 #define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
