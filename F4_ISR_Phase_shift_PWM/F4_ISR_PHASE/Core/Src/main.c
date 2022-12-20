@@ -97,10 +97,12 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM10_Init();
   MX_ADC1_Init();
-  /* USER CODE BEGIN 2 */
-
-  /* USER CODE END 2 */
-
+  /* TEST PWM */
+  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
+  //   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
+  //   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Phase A
+  /* STart ISR */
+   HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -181,8 +183,8 @@ static void MX_ADC1_Init(void)
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ScanConvMode =  ENABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;

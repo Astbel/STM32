@@ -32,7 +32,7 @@ extern TIM_HandleTypeDef htim10; //ISR
 #define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
 #define Timer_PERIOD_VALUE (uint32_t)(10500 - 1)          /* Period Value  */
 /*PWM Freq & DUTY*/
-#define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 85000000) - 1)
+#define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
 #define PERIOD_VALUE (uint32_t)(1000 - 1)          /* Period Value  */
 #define PULSE1_VALUE (uint32_t)(1000 / 2)          /* Capture Compare 1 Value  */
 #define PULSE2_VALUE (uint32_t)(1000 * 37.5 / 100) /* Capture Compare 2 Value  */

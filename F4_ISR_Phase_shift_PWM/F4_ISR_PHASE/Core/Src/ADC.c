@@ -65,7 +65,7 @@ void ADC_Select_CH2(void)
     ADC_ChannelConfTypeDef sConfig = {0};
     /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
      */
-    sConfig.Channel = ADC_CHANNEL_6;
+    sConfig.Channel = ADC_CHANNEL_4;
     sConfig.Rank = 1;
     sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
     if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -98,7 +98,6 @@ void Multi_ADC_Sample(void)
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
     PFC_Variables.adc_raw[2] = HAL_ADC_GetValue(&hadc1);
-    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
     // VBulk = (float)((PFC_Variables.adc_raw[2] * 400) / 4096);
     VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
     HAL_ADC_Stop(&hadc1);

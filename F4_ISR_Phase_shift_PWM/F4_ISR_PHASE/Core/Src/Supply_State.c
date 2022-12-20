@@ -10,6 +10,9 @@ uint16_t Vac_peak_temp;
 int32_t steady_state_err;
 int32_t Voltage_Kp;
 int32_t Voltage_Ki;
+ float ADC_Sample_1;
+ float ADC_Sample_2;
+ float ADC_Sample_3;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -68,8 +71,8 @@ inline void rectify_vac(void)
     /*移動平均計算AC*/
     /*每次都保留最後四筆資料*/
     /*要取當前值所以總和/比數*/
-    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 4);
-    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 4;
+    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 8);
+    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 8;
     /*Vac PEAK 計算*/
     if (PFC_Variables.vin_filtered > Vac_peak_temp)
     {
@@ -124,7 +127,7 @@ inline void half_cycle_processing(void)
         //     }
         //     accumulate_negative_cycle_values();
     }
-    real_ac = (float)(Vac_peak * 264) / 2100;
+    real_ac = (float)(Vac_peak * 264) / 1900;
 }
 
 /*Singal Voltage loop*/
@@ -398,6 +401,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim == &htim10 )
   {
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+
+    /*ADC Method*/
+    Multi_ADC_Sample();
+    // ADC_Sample_1= (float)(PFC_Variables.adc_raw[0]*3.3)/4095;
+    //  ADC_Sample_2= (float)(PFC_Variables.adc_raw[1]*3.3)/4095;
+    //   ADC_Sample_3= (float)(PFC_Variables.adc_raw[2]*3.3)/4095;
+    rectify_vac();
+    PFC_TASK_STATE();
+    
   }
 }
 

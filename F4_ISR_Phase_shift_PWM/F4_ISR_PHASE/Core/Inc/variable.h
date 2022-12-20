@@ -15,6 +15,10 @@ extern float real_ac;
 extern uint16_t Vac_temp;
 extern uint16_t Vac_PP;
 extern uint16_t Sample_cnt;
+/*ADC TEST*/
+extern float ADC_Sample_1;
+extern float ADC_Sample_2;
+extern float ADC_Sample_3;
 
 /***********************Vac************************/
 extern uint16_t Vac_peak;
