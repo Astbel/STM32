@@ -399,3 +399,14 @@ void PFC_TASK_STATE(void)
         break;
     }
 }
+
+/*ISR call  back Function*/
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  // Check which version of the timer triggered this callback and toggle LED
+  if (htim == &htim10 )
+  {
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+  }
+}
+

@@ -49,6 +49,7 @@ DAC_HandleTypeDef hdac;
 TIM_HandleTypeDef htim1; // Master no use
 TIM_HandleTypeDef htim2; // Salver 1 for  PhaseA
 TIM_HandleTypeDef htim3; // Salver 2 for  PhaseB
+TIM_HandleTypeDef htim10;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
@@ -68,6 +69,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM10_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -109,9 +111,10 @@ int main(void)
   MX_DAC_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM1_Init();
-  MX_TIM2_Init();
-  MX_TIM3_Init();
+  MX_TIM1_Init();     /*PWM CLK*/
+  MX_TIM2_Init();     /*Phase A*/
+  MX_TIM3_Init();     /*Phase B*/
+  MX_TIM10_Init();   /*ISR*/
   Initail_Variable();
   /* USER CODE BEGIN 2 */
   Vac_temp = 0;
@@ -129,6 +132,7 @@ int main(void)
               (UBaseType_t)START_TASK_PRO,
               (TaskHandle_t *)&START_TASK_Handle);
 
+   HAL_TIM_Base_Start_IT(&htim10);
   /* Start scheduler */
   /*TEST PWM PIN*/
   // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //PWM Master ClK
@@ -137,7 +141,7 @@ int main(void)
   // HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
   // HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Phase B
   /*RTOS START*/
-  osKernelStart();
+  // osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -522,6 +526,39 @@ static void MX_TIM3_Init(void)
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
 }
+
+/**
+  * @brief TIM10 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM10_Init(void)
+{
+
+  /* USER CODE BEGIN TIM10_Init 0 */
+
+  /* USER CODE END TIM10_Init 0 */
+
+  /* USER CODE BEGIN TIM10_Init 1 */
+
+  /* USER CODE END TIM10_Init 1 */
+  htim10.Instance = TIM10;
+  htim10.Init.Prescaler = Timer_PRESCALER_VALUE ;
+  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim10.Init.Period = Timer_PERIOD_VALUE;
+  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM10_Init 2 */
+
+  /* USER CODE END TIM10_Init 2 */
+
+}
+
+
 
 /**
  * @brief USART1 Initialization Function

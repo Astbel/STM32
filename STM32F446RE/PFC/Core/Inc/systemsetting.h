@@ -23,6 +23,7 @@ extern DAC_HandleTypeDef hdac;
 extern TIM_HandleTypeDef htim1; // Master no use
 extern TIM_HandleTypeDef htim2; // Salver 1 for  PhaseA
 extern TIM_HandleTypeDef htim3; // Salver 2 for  PhaseB
+extern TIM_HandleTypeDef htim10;//ISR TIM 
 
 extern UART_HandleTypeDef huart1; // 打log
 extern UART_HandleTypeDef huart3; // C#調整溝通
@@ -53,7 +54,9 @@ extern TaskHandle_t START_TASK_Handle;
 #define TASK_2_SIZE 128
 #define TASK_2_PRO 3
 // TaskHandle_t	TASK_2_Handle;
-
+/*ISR*/
+#define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
+#define Timer_PERIOD_VALUE (uint32_t)(10500 - 1)          /* Period Value  */
 /*PWM Freq & DUTY*/
 #define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 85000000) - 1)
 #define PERIOD_VALUE (uint32_t)(1000 - 1)          /* Period Value  */
