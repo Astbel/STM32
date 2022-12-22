@@ -10,9 +10,9 @@ uint16_t Vac_peak_temp;
 int32_t steady_state_err;
 int32_t Voltage_Kp;
 int32_t Voltage_Ki;
- float ADC_Sample_1;
- float ADC_Sample_2;
- float ADC_Sample_3;
+float ADC_Sample_1;
+float ADC_Sample_2;
+float ADC_Sample_3;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -135,42 +135,27 @@ inline void half_cycle_processing(void)
  *  積分飽和消除方法遇限消除法
  *  正飽和 只看積分負向誤差
  *  負飽和 只看積分正向誤差
+ *  check stead error
  */
 inline int32_t proportional_integral(int32_t error)
 {
-
-    /*Test for PI PWM need to be disable pwm*/
-    // turn_on_pfc();     測試用
-
     int16_t output_duty;
     steady_state_err = error;
-
-    /*穩態誤差在範圍內*/
-    // if (abs(error) < Error_limit)
-    // {
     /*Kp*/
     Voltage_Kp = PID.kp * steady_state_err;
     /*Ki*/
     Voltage_Ki += (PID.ki * T * steady_state_err);
-    // }
     // /*誤差量過大限制Kp,Ki*/
-    // else
-    // {
-    //     /*Kp*/
-    //     Voltage_Kp = PID.Kp_limit * steady_state_err;
-    //     /*Ki*/
-    //     Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
-    // }
 
     // 限制積分值必面積分飽和,遇限消除法
-    // if (Voltage_Ki > I_MAX)
-    // {
-    //     Voltage_Ki = I_MAX;
-    // }
-    // else if (Voltage_Ki < I_MIN)
-    // {
-    //     Voltage_Ki = I_MIN;
-    // }
+    if (Voltage_Ki > I_MAX)
+    {
+        Voltage_Ki = I_MAX;
+    }
+    else if (Voltage_Ki < I_MIN)
+    {
+        Voltage_Ki = I_MIN;
+    }
 
     output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q27>>12轉至籌Q15格式轉換
 
@@ -188,8 +173,8 @@ inline int32_t proportional_integral(int32_t error)
 
     /*跟新DUTY*/
     // TIM1->CCR1 = output_duty;
-    TIM2->CCR3 = output_duty; // Phase A
-    TIM3->CCR3 = output_duty; // Phase B
+    TIM1->CCR1 = output_duty; // Phase A
+    TIM2->CCR1 = output_duty; // Phase B
 }
 
 /*2P2Z控制器*/
@@ -267,12 +252,12 @@ inline void ramp_up_state_handler(void)
 inline void pfc_on_state_handler(void)
 {
     /*Vbulk OVP*/
-    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
-    {
-        turn_off_pfc();
-        PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
-        // inital the variable
-    }
+    // if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
+    // {
+    //     turn_off_pfc();
+    //     PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
+    //     // inital the variable
+    // }
 
     /*Vac 偵測  Bwron out*/
     // if (VBulk < 1.0)
@@ -307,6 +292,8 @@ void turn_on_pfc(void)
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
     HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Phase A
+    HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // Phase B
 }
 
 // pwm disable
@@ -314,6 +301,7 @@ void turn_off_pfc(void)
 {
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1); // Pwm output channel Phase A
+    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1); // Pwm output channel Phase A
 }
 
 /*********************PFC supply state*********************/
@@ -397,19 +385,17 @@ void PFC_TASK_STATE(void)
 /*ISR call  back Function*/
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  // Check which version of the timer triggered this callback and toggle LED
-  if (htim == &htim10 )
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+    // Check which version of the timer triggered this callback and toggle LED
+    if (htim == &htim10)
+    {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); /*觀測點確認ISR執行*/
 
-    /*ADC Method*/
-    Multi_ADC_Sample();
-    // ADC_Sample_1= (float)(PFC_Variables.adc_raw[0]*3.3)/4095;
-    //  ADC_Sample_2= (float)(PFC_Variables.adc_raw[1]*3.3)/4095;
-    //   ADC_Sample_3= (float)(PFC_Variables.adc_raw[2]*3.3)/4095;
-    rectify_vac();
-    PFC_TASK_STATE();
-    
-  }
+        /*ADC Method*/
+        Multi_ADC_Sample();
+        // ADC_Sample_1= (float)(PFC_Variables.adc_raw[0]*3.3)/4095;
+        //  ADC_Sample_2= (float)(PFC_Variables.adc_raw[1]*3.3)/4095;
+        //   ADC_Sample_3= (float)(PFC_Variables.adc_raw[2]*3.3)/4095;
+        rectify_vac();
+        PFC_TASK_STATE();
+    }
 }
-
