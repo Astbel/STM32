@@ -135,8 +135,6 @@ void ADC_Sample(void)
 PA0-WKUP     ------> ADC1_IN0   Vac_N
 PA1     ------> ADC1_IN1        Vac_L
 PA6     ------> ADC1_IN6        Vbulk
-PA7     ------> ADC1_IN7        IL_PHASEA
-PB0     ------> ADC1_IN8        IL_PHASEB
 */
 // Vac_N
 void ADC_Select_CH0(void)
@@ -172,35 +170,7 @@ void ADC_Select_CH2(void)
     ADC_ChannelConfTypeDef sConfig = {0};
     /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
      */
-    sConfig.Channel = ADC_CHANNEL_6;
-    sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
-    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-    {
-        Error_Handler();
-    }
-}
-// IL_PhaseA
-void ADC_Select_CH3(void)
-{
-    ADC_ChannelConfTypeDef sConfig = {0};
-    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-     */
-    sConfig.Channel = ADC_CHANNEL_7;
-    sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
-    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-    {
-        Error_Handler();
-    }
-}
-// IL_PhaseB
-void ADC_Select_CH4(void)
-{
-    ADC_ChannelConfTypeDef sConfig = {0};
-    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-     */
-    sConfig.Channel = ADC_CHANNEL_8;
+    sConfig.Channel = ADC_CHANNEL_4;
     sConfig.Rank = 1;
     sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
     if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -231,24 +201,10 @@ void Multi_ADC_Sample(void)
     HAL_ADC_Start(&hadc1);
     HAL_ADC_PollForConversion(&hadc1, 1000);
     PFC_Variables.adc_raw[2] = HAL_ADC_GetValue(&hadc1);
-    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
     // VBulk = (float)((PFC_Variables.adc_raw[2] * 400) / 4096);
     VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
     HAL_ADC_Stop(&hadc1);
     /*************************************************************************************/
-    ADC_Select_CH3();
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, 1000);
-    PFC_Variables.adc_raw[3] = HAL_ADC_GetValue(&hadc1);
-    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    HAL_ADC_Stop(&hadc1);
-    /*************************************************************************************/
-    ADC_Select_CH4();
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, 1000);
-    PFC_Variables.adc_raw[4] = HAL_ADC_GetValue(&hadc1);
-    // ADC_SAMPLE_ARR[AC_N_CHANNEL] = HAL_ADC_GetValue(&hadc1);
-    HAL_ADC_Stop(&hadc1);
 }
 
 /***************************開機初始化函數***********************************/
@@ -258,8 +214,8 @@ inline void Initail_Variable(void)
     PFC_Variables.supply_state = STATE_IDLE;
     /*PID 初始化設定*/
     /*PID  正常誤差量*/
-    PID.kp = 0x4000; // 0.5  轉Q15
-    PID.ki = 0x8000; // 2
+    PID.kp = 0x04CD; // 0.3  轉Q12
+    PID.ki = 0x0FFF; // 1
     //TEST PI form PSIM
     // PID.kp = 0x226; // 0.15  轉Q15
     // PID.ki = 0x199; // 0.1

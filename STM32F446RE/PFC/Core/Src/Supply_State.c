@@ -301,25 +301,19 @@ inline void pfc_hiccup_state_handler(void)
 // PWM enable
 void turn_on_pfc(void)
 {
-    // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
-    // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
+   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
     HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Phase A
-    HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Phase B
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Phase A
+    HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // Phase B
 }
 
 // pwm disable
 void turn_off_pfc(void)
 {
-    // HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
-    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
-    HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
-    HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
+     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1); // Pwm output channel Phase A
+    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1); // Pwm output channel Phase A
 }
 
 /*********************PFC supply state*********************/
@@ -407,6 +401,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim == &htim10 )
   {
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+
+    Multi_ADC_Sample();
+
+    rectify_vac();
+
+    PFC_TASK_STATE();
   }
 }
 

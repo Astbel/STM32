@@ -27,14 +27,14 @@ Project File Date:  12/20/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
-compiling Supply_State.c...
+compiling main.c...
 ../Core/Inc/variable.h(105): warning:  #375-D: declaration requires a typedef name
   };
-..\Core\Src\Supply_State.c(190): warning:  #940-D: missing return statement at end of non-void function "proportional_integral" 
-  }
-..\Core\Src\Supply_State.c: 2 warnings, 0 errors
+../Core/Src/main.c(226): warning:  #177-D: variable "sConfig"  was declared but never referenced
+    ADC_ChannelConfTypeDef sConfig = {0};
+../Core/Src/main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=14834 RO-data=510 RW-data=164 ZI-data=17876  
+Program Size: Code=14550 RO-data=510 RW-data=164 ZI-data=17876  
 FromELF: creating hex file...
 "PFC\PFC.axf" - 0 Error(s), 2 Warning(s).
 
