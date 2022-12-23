@@ -102,13 +102,16 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 // #define Vref (0x08A6)  //VBus目標命令 400Vdc for 115Vac
 // #define Vref (0x0810)  //VBus目標命令 250Vdc for 115Vac
 // #define Vref (0x0835)     //Vbus 電壓設定380V
-// #define Vref (0x0835)     //Vbus 電壓設定380V
 //PID I GAIN (MAX)  穩態誤差
 #define I_MAX (0x05F3)  //Vref-Vac_90
 #define I_MIN (0x0000) 
 //PFC switching Freq
 #define T (1/85e3)
-
+/*AC level 判定*/
+#define Vac_90   (0x02BE)  //90Vac_rms   127
+#define Vac_115  (0x0380)  //115Vac_rms  162
+#define Vac_230  (0x0796)  //230Vac_rms  325
+#define Vac_264  (0x080F)  //264Vac_rms  373
 /*ADC OVP Point*/
 // #define OVer_Voltage_VBULK (0x08C0)//(405*4096/450)
 #define OVer_Voltage_VBULK (0x067C)//VBUS 300V OVP

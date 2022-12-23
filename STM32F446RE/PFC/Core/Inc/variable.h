@@ -18,7 +18,7 @@ extern uint16_t Sample_cnt;
 extern uint16_t adc_sample1;
 extern uint16_t adc_sample2;
 // multi channel
-extern uint16_t ADC_SAMPLE_ARR[2];
+
 
 /***********************Vac************************/
 extern uint16_t Vac_peak;
@@ -84,13 +84,15 @@ struct PFC_VARIABLES
     TASK_STATE task_state;
     SUPPLY_STATE supply_state;
 };
-
+/****************Soft Start Flag*******************/
+extern uint8_t PFC_Ramp_up_Flag;
 /*******************Struct_Delcare*****************/
 extern struct PFC_VARIABLES PFC_Variables;
 extern struct PID PID;
 /*********************Flag***************************/
 extern uint8_t Bwrom_IN_Flag;
-
+extern uint8_t AC_level;
+extern uint16_t Vbulk_Ramp_target;
 /*********************Counter**********************/
 extern uint16_t Vac_Bwron_in_Cnt;
 

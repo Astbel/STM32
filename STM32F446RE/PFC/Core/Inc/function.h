@@ -39,8 +39,8 @@ extern inline void pfc_hiccup_state_handler(void);
 extern void turn_on_pfc(void);
 extern void turn_off_pfc(void);
 extern inline void Initail_Variable(void);
-
-
+/*********************Soft start****************************/
+extern void Vac_Vbulk_Ramp_set(void);
 
 
 #endif

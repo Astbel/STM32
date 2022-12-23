@@ -10,6 +10,10 @@ uint16_t Vac_peak_temp;
 int32_t steady_state_err;
 int32_t Voltage_Kp;
 int32_t Voltage_Ki;
+/*Soft start ramp up flag*/
+uint8_t PFC_Ramp_up_Flag;
+uint8_t AC_level;
+uint16_t Vbulk_Ramp_target;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -197,7 +201,9 @@ inline int32_t proportional_integral(int32_t error)
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
-    // if (VBulk > 1.5)
+    // AC 判定確認 Vbulk 爬升的目標
+    Vac_Vbulk_Ramp_set();
+    //  if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
     {
         Bwrom_IN_Flag++;
@@ -206,14 +212,16 @@ inline void idle_state_handler(void)
     {
         Bwrom_IN_Flag = False;
     }
-
     if (Bwrom_IN_Flag == True)
     {
         Bwrom_IN_Flag = False;
         PFC_Variables.supply_state = STATE_RELAY_BOUNCE;
     }
 }
-//
+/*
+修正啟動PFC PWM的點等待Bulk電壓升壓到對應的RMS值才開始啟用PWM
+否則太快開啟會導致 PWM DUTY開太大瞬間電流太大把MOS擊穿
+*/
 inline void relay_bounce_state_handler(void)
 {
     // if (VBulk > 1.5)
@@ -230,12 +238,11 @@ inline void relay_bounce_state_handler(void)
         Vac_Bwron_in_Cnt = 0;
     }
 
-    if (Bwrom_IN_Flag == True)
+    if ((Bwrom_IN_Flag == True)&&(PFC_Variables.adc_raw[VBUS_CHANNEL]>=Vbulk_Ramp_target))
     {
         Vac_Bwron_in_Cnt = 0;
-        Bwrom_IN_Flag = False;
-
         turn_on_pfc();
+        Bwrom_IN_Flag = False;
         PFC_Variables.supply_state = STATE_RAMP_UP;
     }
 }
@@ -249,12 +256,11 @@ inline void ramp_up_state_handler(void)
         turn_off_pfc();
         PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     }
-    /*偵測ADC是否為該值並發送PGI*/
-    // if (VBulk > 1.5)
-    if (Vac_peak > Bwron_in_point)
+    /*偵測Vbulk電壓是否為該值並發送PGI目前暫定是Vref的電壓目標值*/
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL]>Vref)
     {
         GPIOA->BSRR = 0x04;
-        turn_on_pfc();
+        
         // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON; // PFC normal mode
     }
@@ -301,7 +307,7 @@ inline void pfc_hiccup_state_handler(void)
 // PWM enable
 void turn_on_pfc(void)
 {
-   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
     HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Phase A
     HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
@@ -311,11 +317,38 @@ void turn_on_pfc(void)
 // pwm disable
 void turn_off_pfc(void)
 {
-     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1); // Pwm output channel Phase A
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1); // Pwm output channel Phase A
 }
-
+//
+void Vac_Vbulk_Ramp_set(void)
+{
+    // 90Vac
+    if ((real_ac > 85) && (real_ac < 105))
+    {
+        AC_level = 1;
+        Vbulk_Ramp_target = Vac_90;
+    }
+    // 115Vac
+    else if ((real_ac >= 105) && (real_ac < 172))
+    {
+        AC_level = 2;
+        Vbulk_Ramp_target = Vac_115;
+    }
+    // 230Vac
+    else if ((real_ac >= 172) && (real_ac < 240))
+    {
+        AC_level = 3;
+        Vbulk_Ramp_target = Vac_230;
+    }
+    // 264Vac
+    else if (real_ac >= 240)
+    {
+        AC_level = 4;
+        Vbulk_Ramp_target = Vac_264;
+    }
+}
 /*********************PFC supply state*********************/
 inline void supply_state_handler(void)
 {
@@ -397,16 +430,15 @@ void PFC_TASK_STATE(void)
 /*ISR call  back Function*/
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  // Check which version of the timer triggered this callback and toggle LED
-  if (htim == &htim10 )
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+    // Check which version of the timer triggered this callback and toggle LED
+    if (htim == &htim10)
+    {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); /*觀測點確認ISR執行*/
 
-    Multi_ADC_Sample();
+        Multi_ADC_Sample();
 
-    rectify_vac();
+        rectify_vac();
 
-    PFC_TASK_STATE();
-  }
+        PFC_TASK_STATE();
+    }
 }
-
