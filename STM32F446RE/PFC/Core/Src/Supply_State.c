@@ -180,6 +180,7 @@ inline int32_t proportional_integral(int32_t error)
     if (output_duty > MAX_DUTY)
     {
         output_duty = MAX_DUTY;
+        // output_duty =100;
     }
     /*Min 10%*/
     if (output_duty < MIN_DUTY)
@@ -189,8 +190,8 @@ inline int32_t proportional_integral(int32_t error)
 
     /*跟新DUTY*/
     // TIM1->CCR1 = output_duty;
-    TIM2->CCR3 = output_duty; // Phase A
-    TIM3->CCR3 = output_duty; // Phase B
+    TIM2->CCR1 = output_duty; // Phase A
+    TIM3->CCR1 = output_duty; // Phase B
 }
 
 /*2P2Z控制器*/
