@@ -217,13 +217,13 @@ void Multi_ADC_Sample(void)
     VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
     HAL_ADC_Stop(&hadc1);
     /*************************************************************************************/
-    ADC_Select_CH3();
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, 1000);
-    PFC_Variables.adc_raw[3] = HAL_ADC_GetValue(&hadc1);
+    // ADC_Select_CH3();
+    // HAL_ADC_Start(&hadc1);
+    // HAL_ADC_PollForConversion(&hadc1, 1000);
+    // PFC_Variables.adc_raw[3] = HAL_ADC_GetValue(&hadc1);
     // VBulk = (float)((PFC_Variables.adc_raw[2] * 400) / 4096);
     // VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
-    HAL_ADC_Stop(&hadc1);
+    // HAL_ADC_Stop(&hadc1);
 }
 
 /***************************開機初始化函數***********************************/

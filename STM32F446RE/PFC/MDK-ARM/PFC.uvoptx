@@ -190,11 +190,6 @@
           <WinNumber>1</WinNumber>
           <ItemText>((TIM_TypeDef *) (0x40000000UL + 0x0400UL))-&gt;CCR3</ItemText>
         </Ww>
-        <Ww>
-          <count>8</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>PFC_Variables</ItemText>
-        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

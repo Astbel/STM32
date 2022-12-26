@@ -164,14 +164,14 @@ inline int32_t proportional_integral(int32_t error)
     // }
 
     // 限制積分值必面積分飽和,遇限消除法
-    // if (Voltage_Ki > I_MAX)
-    // {
-    //     Voltage_Ki = I_MAX;
-    // }
-    // else if (Voltage_Ki < I_MIN)
-    // {
-    //     Voltage_Ki = I_MIN;
-    // }
+    if (Voltage_Ki > I_MAX)
+    {
+        Voltage_Ki = I_MAX;
+    }
+    else if (Voltage_Ki < I_MIN)
+    {
+        Voltage_Ki = I_MIN;
+    }
 
     output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q27>>12轉至籌Q15格式轉換
 
@@ -257,7 +257,7 @@ inline void ramp_up_state_handler(void)
         PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     }
     /*偵測Vbulk電壓是否為該值並發送PGI目前暫定是Vref的電壓目標值*/
-    if (PFC_Variables.adc_raw[VBUS_CHANNEL]>Vref)
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL]>Vbulk_Ramp_target)
     {
         GPIOA->BSRR = 0x04;
         
