@@ -108,9 +108,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
-  MX_DAC_Init();
-  MX_USART1_UART_Init();
-  MX_USART3_UART_Init();
+  // MX_DAC_Init();
+  // MX_USART1_UART_Init();
+  // MX_USART3_UART_Init();
   MX_TIM1_Init();     /*PWM CLK*/
   MX_TIM2_Init();     /*Phase A*/
   MX_TIM3_Init();     /*Phase B*/

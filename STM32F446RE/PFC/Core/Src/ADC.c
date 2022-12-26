@@ -25,7 +25,8 @@ uint16_t Vmax, Vmin;
 /*Function define*/
 void ADC_Select_CH0(void);
 void ADC_Select_CH1(void);
-
+void ADC_Select_CH2(void);
+void ADC_Select_CH3(void);
 /*ADC Polling Sample*/
 void ADC_Sample(void)
 {
@@ -176,7 +177,20 @@ void ADC_Select_CH2(void)
         Error_Handler();
     }
 }
-
+//Ind current
+void ADC_Select_CH3(void)
+{
+    ADC_ChannelConfTypeDef sConfig = {0};
+    /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+     */
+    sConfig.Channel = ADC_CHANNEL_0;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        Error_Handler();
+    }
+}
 /*Task for sample multi data*/
 void Multi_ADC_Sample(void)
 {
@@ -203,6 +217,13 @@ void Multi_ADC_Sample(void)
     VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
     HAL_ADC_Stop(&hadc1);
     /*************************************************************************************/
+    ADC_Select_CH3();
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 1000);
+    PFC_Variables.adc_raw[3] = HAL_ADC_GetValue(&hadc1);
+    // VBulk = (float)((PFC_Variables.adc_raw[2] * 400) / 4096);
+    // VBulk = (float)((PFC_Variables.adc_raw[2] * 405) / 2240);
+    HAL_ADC_Stop(&hadc1);
 }
 
 /***************************開機初始化函數***********************************/

@@ -102,11 +102,11 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
     /**ADC1 GPIO Configuration
     PA0-WKUP     ------> ADC1_IN0   Vac_N
     PA1     ------> ADC1_IN1        Vac_L
-    PA6     ------> ADC1_IN6        Vbulk
-    PA7     ------> ADC1_IN7        IL_PHASEA
-    PB0     ------> ADC1_IN8        IL_PHASEB
+    PA4     ------> ADC1_IN4        Vbulk
+    PA7     ------> ADC1_IN7        IL_PHASEB
+    PB0     ------> ADC1_IN8        IL_PHASEA
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -141,11 +141,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
     /**ADC1 GPIO Configuration
     PA0-WKUP     ------> ADC1_IN0
     PA1     ------> ADC1_IN1
-    PA6     ------> ADC1_IN6
+    PA4     ------> ADC1_IN4
     PA7     ------> ADC1_IN7
     PB0     ------> ADC1_IN8
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_7);
 
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0);
 
