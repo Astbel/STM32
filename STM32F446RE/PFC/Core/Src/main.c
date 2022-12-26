@@ -125,12 +125,12 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  xTaskCreate((TaskFunction_t)start_task,
-              (char *)"start_task",
-              (uint16_t)START_TSK_SIZE,
-              (void *)NULL,
-              (UBaseType_t)START_TASK_PRO,
-              (TaskHandle_t *)&START_TASK_Handle);
+  // xTaskCreate((TaskFunction_t)start_task,
+  //             (char *)"start_task",
+  //             (uint16_t)START_TSK_SIZE,
+  //             (void *)NULL,
+  //             (UBaseType_t)START_TASK_PRO,
+  //             (TaskHandle_t *)&START_TASK_Handle);
 
    HAL_TIM_Base_Start_IT(&htim10);
   /* Start scheduler */

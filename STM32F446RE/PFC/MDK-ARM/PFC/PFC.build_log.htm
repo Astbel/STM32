@@ -27,34 +27,14 @@ Project File Date:  12/20/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PFC'
-compiling UartRingbuffer_multi.c...
+compiling stm32f4xx_it.c...
 ../Core/Inc/variable.h(107): warning:  #375-D: declaration requires a typedef name
   };
-..\Core\Src\UartRingbuffer_multi.c: 1 warning, 0 errors
-compiling freertos.c...
-../Core/Inc/variable.h(107): warning:  #375-D: declaration requires a typedef name
-  };
-../Core/Src/freertos.c: 1 warning, 0 errors
-compiling ADC.c...
-../Core/Inc/variable.h(107): warning:  #375-D: declaration requires a typedef name
-  };
-..\Core\Src\ADC.c: 1 warning, 0 errors
-compiling Supply_State.c...
-../Core/Inc/variable.h(107): warning:  #375-D: declaration requires a typedef name
-  };
-..\Core\Src\Supply_State.c(194): warning:  #940-D: missing return statement at end of non-void function "proportional_integral" 
-  }
-..\Core\Src\Supply_State.c: 2 warnings, 0 errors
-compiling main.c...
-../Core/Inc/variable.h(107): warning:  #375-D: declaration requires a typedef name
-  };
-../Core/Src/main.c(226): warning:  #177-D: variable "sConfig"  was declared but never referenced
-    ADC_ChannelConfTypeDef sConfig = {0};
-../Core/Src/main.c: 2 warnings, 0 errors
+../Core/Src/stm32f4xx_it.c: 1 warning, 0 errors
 linking...
-Program Size: Code=14658 RO-data=510 RW-data=168 ZI-data=17880  
+Program Size: Code=15166 RO-data=510 RW-data=168 ZI-data=17880  
 FromELF: creating hex file...
-"PFC\PFC.axf" - 0 Error(s), 7 Warning(s).
+"PFC\PFC.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -78,7 +58,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

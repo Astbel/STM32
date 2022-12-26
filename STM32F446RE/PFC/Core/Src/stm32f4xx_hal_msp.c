@@ -73,7 +73,7 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
   /* PendSV_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 
   /* USER CODE BEGIN MspInit 1 */
 
@@ -106,7 +106,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
     PA7     ------> ADC1_IN7        IL_PHASEA
     PB0     ------> ADC1_IN8        IL_PHASEB
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_6 | GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -145,7 +145,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
     PA7     ------> ADC1_IN7
     PB0     ------> ADC1_IN8
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_6 | GPIO_PIN_7);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_7);
 
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0);
 
@@ -230,7 +230,8 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim_pwm)
     /* Peripheral clock enable */
     __HAL_RCC_TIM1_CLK_ENABLE();
     /* USER CODE BEGIN TIM1_MspInit 1 */
-
+     HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
     /* USER CODE END TIM1_MspInit 1 */
   }
 }
@@ -273,7 +274,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim_base)
     /* Peripheral clock enable */
     __HAL_RCC_TIM10_CLK_ENABLE();
     /* USER CODE BEGIN TIM3_MspInit 1 */
-
+    HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
     /* USER CODE END TIM3_MspInit 1 */
   }
 }
@@ -401,10 +403,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim_base)
 
     /* USER CODE END TIM10_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_TIM10_CLK_ENABLE();
-    /* TIM10 interrupt Init */
-    HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+    __HAL_RCC_TIM10_CLK_DISABLE();
     /* USER CODE BEGIN TIM10_MspInit 1 */
 
     /* USER CODE END TIM10_MspInit 1 */
