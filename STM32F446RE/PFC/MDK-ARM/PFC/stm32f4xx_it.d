@@ -46,3 +46,12 @@ pfc\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM
 pfc\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 pfc\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 pfc\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+pfc\stm32f4xx_it.o: ../Core/Inc/systemsetting.h
+pfc\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pfc\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+pfc\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+pfc\stm32f4xx_it.o: ../Core/Inc/UartRingbuffer_multi.h
+pfc\stm32f4xx_it.o: ../Core/Inc/variable.h
+pfc\stm32f4xx_it.o: ../Core/Inc/systemsetting.h
+pfc\stm32f4xx_it.o: ../Core/Inc/function.h
+pfc\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

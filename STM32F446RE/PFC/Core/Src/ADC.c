@@ -172,7 +172,7 @@ void ADC_Select_CH2(void)
     ADC_ChannelConfTypeDef sConfig = {0};
     /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
      */
-    sConfig.Channel = ADC_CHANNEL_6;
+    sConfig.Channel = ADC_CHANNEL_4;
     sConfig.Rank = 1;
     sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
     if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)

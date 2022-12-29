@@ -68,8 +68,8 @@ inline void rectify_vac(void)
     /*移動平均計算AC*/
     /*每次都保留最後四筆資料*/
     /*要取當前值所以總和/比數*/
-    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 4);
-    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 4;
+    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 10);
+    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 10;
     /*Vac PEAK 計算*/
     if (PFC_Variables.vin_filtered > Vac_peak_temp)
     {
@@ -124,7 +124,7 @@ inline void half_cycle_processing(void)
         //     }
         //     accumulate_negative_cycle_values();
     }
-    real_ac = (float)(Vac_peak * 264) / 2100;
+    real_ac = (float)(Vac_peak * 264) / 1600;
 }
 
 /*Singal Voltage loop*/
@@ -184,9 +184,9 @@ inline int32_t proportional_integral(int32_t error)
     }
 
     /*跟新DUTY*/
-    // TIM1->CCR1 = output_duty;
-    TIM2->CCR3 = output_duty; // Phase A
-    TIM3->CCR3 = output_duty; // Phase B
+    TIM1->CCR1 = output_duty;
+    // TIM2->CCR3 = output_duty; // Phase A
+    // TIM3->CCR3 = output_duty; // Phase B
 }
 
 /*2P2Z控制器*/
@@ -304,22 +304,22 @@ void turn_on_pfc(void)
     // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);    // Enable high side
     // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1); // Enable low side
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // PWM Master ClK
-    HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Phase A
-    HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Phase B
+    // HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
+    // HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Phase A
+    // HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
+    // HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Phase B
 }
 
 // pwm disable
 void turn_off_pfc(void)
 {
-    // HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
-    HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
-    HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
-    HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
+    // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
+//     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+//     HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
+//     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
+//     HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
+//     HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
 }
 
 /*********************PFC supply state*********************/
@@ -407,6 +407,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if (htim == &htim10 )
   {
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
+  
+    Multi_ADC_Sample();
+
+    rectify_vac();
+
+    PFC_TASK_STATE();
   }
 }
 
