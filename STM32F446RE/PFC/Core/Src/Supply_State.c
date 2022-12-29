@@ -278,7 +278,6 @@ inline void pfc_on_state_handler(void)
 inline void pfc_shut_down_state_handler(void)
 {
     /*LOCK DOWN*/
-    PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     turn_off_pfc();
     // Initail_Variable();
 }
