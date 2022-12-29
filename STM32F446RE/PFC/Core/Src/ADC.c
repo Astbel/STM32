@@ -254,12 +254,12 @@ void Multi_ADC_Sample(void)
 /***************************開機初始化函數***********************************/
 inline void Initail_Variable(void)
 {
-    /*PFC inital STATE*/
+     /*PFC inital STATE*/
     PFC_Variables.supply_state = STATE_IDLE;
     /*PID 初始化設定*/
     /*PID  正常誤差量*/
-    PID.kp = 0x4000; // 0.5  轉Q15
-    PID.ki = 0x8000; // 2
+    PID.kp = 0x04CD; // 0.3  轉Q12
+    PID.ki = 0x0FFF; // 1
     //TEST PI form PSIM
     // PID.kp = 0x226; // 0.15  轉Q15
     // PID.ki = 0x199; // 0.1

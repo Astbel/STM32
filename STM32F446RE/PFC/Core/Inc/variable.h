@@ -19,10 +19,11 @@ extern uint16_t adc_sample1;
 extern uint16_t adc_sample2;
 // multi channel
 extern uint16_t ADC_SAMPLE_ARR[2];
-
 /***********************Vac************************/
 extern uint16_t Vac_peak;
 extern uint16_t Vac_peak_temp;
+extern uint32_t Bulk_Volt_Target;
+extern uint32_t Power_good_PFC_Bulk_Target;
 // extern uint16_t
 /***********************STATE**********************/
 typedef enum

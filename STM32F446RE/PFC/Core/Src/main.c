@@ -132,10 +132,10 @@ int main(void)
   //             (UBaseType_t)START_TASK_PRO,
   //             (TaskHandle_t *)&START_TASK_Handle);
 
-   HAL_TIM_Base_Start_IT(&htim10);
+  //  HAL_TIM_Base_Start_IT(&htim10);
   /* Start scheduler */
   /*TEST PWM PIN*/
-  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //PWM Master ClK
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //PWM Master ClK
   // HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
   // HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); // Phase A
   // HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_4);
@@ -344,8 +344,8 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 100;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
+  sConfigOC.Pulse = PULSE2_VALUE;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;

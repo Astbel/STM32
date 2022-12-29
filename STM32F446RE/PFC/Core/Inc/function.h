@@ -14,6 +14,7 @@ void start_task(void *pvParameters);
 /********************ADC_Function*******************/
 extern void ADC_Sample(void);
 extern void Multi_ADC_Sample(void); // multi sample
+extern void Vac_Check_Bulk_Cap_Target(void);
 /****************AC Cycle Calculate****************/
 extern inline void clear_positive_accumulators(void);
 extern inline void store_positive_cycle_values(void);

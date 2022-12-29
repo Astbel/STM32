@@ -72,7 +72,7 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 *Dmin =400/373 =1/1-Dmin    Dmin= 0.0675
 */
 #define MAX_DUTY  (680)
-#define MIN_DUTY  (67)
+#define MIN_DUTY  (0)
 /* Error 點設定 */
 /*
 *  以115Vac電容抽乾為例換算RMS後Bulk起點電壓為162V 目標命令啟動為380V ,計算其誤差量為380-162=218V
@@ -101,11 +101,15 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 #define Vref (0x0612)  //VBus目標命令 280Vac for 115Vac
 // #define Vref (0x0835)     //Vbus 電壓設定380V
 //PID I GAIN (MAX)  穩態誤差
-#define I_MAX (0x1000)
+#define I_MAX (0x05F3)
 #define I_MIN (0x0000) 
 //PFC switching Freq
 #define T (1/85e3)
-
+/*AC level 判定*/
+#define Vac_90   (0x02BE)  //90Vac_rms   127
+#define Vac_115  (0x0380)  //115Vac_rms  162
+#define Vac_230  (0x0796)  //230Vac_rms  325
+#define Vac_264  (0x080F)  //264Vac_rms  373
 /*ADC OVP Point*/
 // #define OVer_Voltage_VBULK (0x08C0)//(405*4096/450)
 #define OVer_Voltage_VBULK (0x067C)//VBUS 300V OVP

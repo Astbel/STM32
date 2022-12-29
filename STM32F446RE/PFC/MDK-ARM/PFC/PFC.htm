@@ -3,7 +3,7 @@
 <title>Static Call Graph - [PFC\PFC.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image PFC\PFC.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Dec 29 14:00:03 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Dec 29 15:14:22 2022
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -920,10 +920,6 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
 
-<P><STRONG><a name="[cc]"></a>HAL_TIM_Base_Start_IT</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, stm32f4xx_hal_tim.o(i.HAL_TIM_Base_Start_IT))
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
 <P><STRONG><a name="[9c]"></a>HAL_TIM_IC_CaptureCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_hal_tim.o(i.HAL_TIM_IC_CaptureCallback))
 <BR><BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
@@ -1017,7 +1013,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_on_pfc
+<BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_on_pfc
 </UL>
 
 <P><STRONG><a name="[b0]"></a>HAL_TIM_PWM_Stop</STRONG> (Thumb, 114 bytes, Stack size 12 bytes, stm32f4xx_hal_tim.o(i.HAL_TIM_PWM_Stop))
@@ -1025,7 +1022,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
 </UL>
 
 <P><STRONG><a name="[9f]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, supply_state.o(i.HAL_TIM_PeriodElapsedCallback))
@@ -1153,8 +1150,8 @@ Global Symbols
 <P><STRONG><a name="[af]"></a>TIM_CCxChannelCmd</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, stm32f4xx_hal_tim.o(i.TIM_CCxChannelCmd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = TIM_CCxChannelCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
 </UL>
 
 <P><STRONG><a name="[a6]"></a>TIM_OC2_SetConfig</STRONG> (Thumb, 98 bytes, Stack size 20 bytes, stm32f4xx_hal_tim.o(i.TIM_OC2_SetConfig))
@@ -1171,6 +1168,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f446xx.o(RESET)
 </UL>
+<P><STRONG><a name="[d5]"></a>Vac_Check_Bulk_Cap_Target</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, supply_state.o(i.Vac_Check_Bulk_Cap_Target))
+<BR><BR>[Called By]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_bounce_state_handler
+</UL>
+
 <P><STRONG><a name="[c2]"></a>half_cycle_processing</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, supply_state.o(i.half_cycle_processing))
 <BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PFC_TASK_STATE
 </UL>
@@ -1179,12 +1180,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supply_state_handler
 </UL>
 
-<P><STRONG><a name="[71]"></a>main</STRONG> (Thumb, 198 bytes, Stack size 16 bytes, main.o(i.main))
+<P><STRONG><a name="[71]"></a>main</STRONG> (Thumb, 200 bytes, Stack size 16 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Initail_Variable
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DAC_Init
@@ -1197,31 +1198,30 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>pfc_on_state_handler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, supply_state.o(i.pfc_on_state_handler))
+<P><STRONG><a name="[cc]"></a>pfc_on_state_handler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, supply_state.o(i.pfc_on_state_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = pfc_on_state_handler &rArr; turn_off_pfc &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
+<BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supply_state_handler
 </UL>
 
-<P><STRONG><a name="[c1]"></a>proportional_integral</STRONG> (Thumb, 110 bytes, Stack size 24 bytes, supply_state.o(i.proportional_integral))
+<P><STRONG><a name="[c1]"></a>proportional_integral</STRONG> (Thumb, 132 bytes, Stack size 24 bytes, supply_state.o(i.proportional_integral))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = proportional_integral &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
-<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
+<LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PFC_TASK_STATE
 </UL>
 
-<P><STRONG><a name="[d4]"></a>ramp_up_state_handler</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, supply_state.o(i.ramp_up_state_handler))
+<P><STRONG><a name="[d3]"></a>ramp_up_state_handler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, supply_state.o(i.ramp_up_state_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = ramp_up_state_handler &rArr; turn_off_pfc &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
-<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_on_pfc
+<BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supply_state_handler
 </UL>
@@ -1230,43 +1230,43 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
 </UL>
 
-<P><STRONG><a name="[d6]"></a>relay_bounce_state_handler</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, supply_state.o(i.relay_bounce_state_handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = relay_bounce_state_handler &rArr; turn_on_pfc &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
+<P><STRONG><a name="[d4]"></a>relay_bounce_state_handler</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, supply_state.o(i.relay_bounce_state_handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = relay_bounce_state_handler &rArr; turn_on_pfc &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_on_pfc
+<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_on_pfc
+<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vac_Check_Bulk_Cap_Target
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supply_state_handler
 </UL>
 
 <P><STRONG><a name="[c3]"></a>supply_state_handler</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, supply_state.o(i.supply_state_handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = supply_state_handler &rArr; ramp_up_state_handler &rArr; turn_off_pfc &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = supply_state_handler &rArr; relay_bounce_state_handler &rArr; turn_on_pfc &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
-<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_bounce_state_handler
-<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ramp_up_state_handler
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pfc_on_state_handler
+<BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_off_pfc
+<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_bounce_state_handler
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ramp_up_state_handler
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pfc_on_state_handler
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;idle_state_handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PFC_TASK_STATE
 </UL>
 
-<P><STRONG><a name="[ce]"></a>turn_off_pfc</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, supply_state.o(i.turn_off_pfc))
+<P><STRONG><a name="[cd]"></a>turn_off_pfc</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, supply_state.o(i.turn_off_pfc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = turn_off_pfc &rArr; HAL_TIM_PWM_Stop &rArr; TIM_CCxChannelCmd
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Stop
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supply_state_handler
-<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ramp_up_state_handler
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pfc_on_state_handler
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ramp_up_state_handler
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pfc_on_state_handler
 </UL>
 
-<P><STRONG><a name="[d5]"></a>turn_on_pfc</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, supply_state.o(i.turn_on_pfc))
+<P><STRONG><a name="[d6]"></a>turn_on_pfc</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, supply_state.o(i.turn_on_pfc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = turn_on_pfc &rArr; HAL_TIM_PWM_Start &rArr; TIM_CCxChannelCmd
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_bounce_state_handler
-<LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ramp_up_state_handler
+<BR>[Called By]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;relay_bounce_state_handler
 </UL>
 
 <P><STRONG><a name="[da]"></a>uxListRemove</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, list.o(i.uxListRemove))
@@ -1303,7 +1303,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortSysTickHandler
 </UL>
 
-<P><STRONG><a name="[d2]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
+<P><STRONG><a name="[d1]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_dadd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;proportional_integral
@@ -1315,7 +1315,7 @@ Global Symbols
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
 </UL>
 
-<P><STRONG><a name="[d3]"></a>__aeabi_d2iz</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dfix.o(x$fpl$dfix))
+<P><STRONG><a name="[d2]"></a>__aeabi_d2iz</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dfix.o(x$fpl$dfix))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_d2iz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;proportional_integral
@@ -1325,19 +1325,19 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
 </UL>
 
-<P><STRONG><a name="[cf]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
+<P><STRONG><a name="[ce]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
 <BR><BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;proportional_integral
 </UL>
 
 <P><STRONG><a name="[116]"></a>_dflt</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt), UNUSED)
 
-<P><STRONG><a name="[d0]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
+<P><STRONG><a name="[cf]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
 <BR><BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;proportional_integral
 </UL>
 
 <P><STRONG><a name="[117]"></a>_dfltu</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu), UNUSED)
 
-<P><STRONG><a name="[d1]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
+<P><STRONG><a name="[d0]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;proportional_integral

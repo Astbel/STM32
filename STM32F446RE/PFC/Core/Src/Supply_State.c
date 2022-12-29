@@ -10,6 +10,8 @@ uint16_t Vac_peak_temp;
 int32_t steady_state_err;
 int32_t Voltage_Kp;
 int32_t Voltage_Ki;
+uint32_t Bulk_Volt_Target;
+uint32_t Power_good_PFC_Bulk_Target;
 /*正半周*/
 inline void clear_positive_accumulators(void)
 {
@@ -143,31 +145,20 @@ inline int32_t proportional_integral(int32_t error)
     steady_state_err = error;
 
     /*穩態誤差在範圍內*/
-    // if (abs(error) < Error_limit)
-    // {
     /*Kp*/
     Voltage_Kp = PID.kp * steady_state_err;
     /*Ki*/
     Voltage_Ki += (PID.ki * T * steady_state_err);
-    // }
-    // /*誤差量過大限制Kp,Ki*/
-    // else
-    // {
-    //     /*Kp*/
-    //     Voltage_Kp = PID.Kp_limit * steady_state_err;
-    //     /*Ki*/
-    //     Voltage_Ki = Voltage_Ki + (PID.Ki_limit * steady_state_err);
-    // }
 
     // 限制積分值必面積分飽和,遇限消除法
-    // if (Voltage_Ki > I_MAX)
-    // {
-    //     Voltage_Ki = I_MAX;
-    // }
-    // else if (Voltage_Ki < I_MIN)
-    // {
-    //     Voltage_Ki = I_MIN;
-    // }
+    if (Voltage_Ki > I_MAX)
+    {
+        Voltage_Ki = I_MAX;
+    }
+    else if (Voltage_Ki < I_MIN)
+    {
+        Voltage_Ki = I_MIN;
+    }
 
     output_duty = (Voltage_Kp + Voltage_Ki) >> 12; // Q27>>12轉至籌Q15格式轉換
 
@@ -219,6 +210,8 @@ inline void relay_bounce_state_handler(void)
     // if (VBulk > 1.5)
     if (Vac_peak > Bwron_in_point)
     {
+        //check AC and set bulk target
+        Vac_Check_Bulk_Cap_Target();
         Vac_Bwron_in_Cnt++;
         if (Vac_Bwron_in_Cnt > 10)
         {
@@ -229,13 +222,12 @@ inline void relay_bounce_state_handler(void)
     {
         Vac_Bwron_in_Cnt = 0;
     }
-
-    if (Bwrom_IN_Flag == True)
+    /*等待PFC電壓升到對應Vac該值才開啟PFC*/
+    if ((Bwrom_IN_Flag == True)&&(PFC_Variables.adc_raw[VBUS_CHANNEL] > Bulk_Volt_Target))
     {
         Vac_Bwron_in_Cnt = 0;
         Bwrom_IN_Flag = False;
-
-        turn_on_pfc();
+         turn_on_pfc();
         PFC_Variables.supply_state = STATE_RAMP_UP;
     }
 }
@@ -249,12 +241,10 @@ inline void ramp_up_state_handler(void)
         turn_off_pfc();
         PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     }
-    /*偵測ADC是否為該值並發送PGI*/
-    // if (VBulk > 1.5)
-    if (Vac_peak > Bwron_in_point)
+    /*等待PFC電壓升到對應Vac該值才開啟PFC*/
+     if (PFC_Variables.adc_raw[VBUS_CHANNEL] > Power_good_PFC_Bulk_Target)
     {
         GPIOA->BSRR = 0x04;
-        turn_on_pfc();
         // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON; // PFC normal mode
     }
@@ -315,13 +305,40 @@ void turn_off_pfc(void)
 {
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_1);
-//     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-//     HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
-//     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
-//     HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
-//     HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
+    //     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+    //     HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); // Pwm output channel Phase A
+    //     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3); // Pwm output channel Phase B
+    //     HAL_TIM_OC_Stop(&htim1, TIM_CHANNEL_2);  // Trigger  Master for Phase A
+    //     HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
 }
-
+/*********************Vac_Bulk******************************/
+/*
+* Bulk_Volt_Targe              AC開啟後等待VBUS升到對應值
+*  Power_good_PFC_Bulk_Target  PGI送的電壓目標
+*/
+void Vac_Check_Bulk_Cap_Target(void)
+{
+    if (real_ac >= 240) // 264
+    {
+        Bulk_Volt_Target = 0x080F;
+        Power_good_PFC_Bulk_Target =Vref;
+    }
+    else if ((real_ac >= 185) && (real_ac < 240)) // 230
+    {
+        Bulk_Volt_Target = 0x0796;
+       Power_good_PFC_Bulk_Target =Vref;
+    }
+    else if ((real_ac > 105) && (real_ac < 185)) // 115
+    {
+        Bulk_Volt_Target = 0x0380;
+        Power_good_PFC_Bulk_Target =Vref;
+    }
+    else // 90
+    {
+        Bulk_Volt_Target = 0x02BE;
+        Power_good_PFC_Bulk_Target =Vref;
+    }
+}
 /*********************PFC supply state*********************/
 inline void supply_state_handler(void)
 {
@@ -403,16 +420,15 @@ void PFC_TASK_STATE(void)
 /*ISR call  back Function*/
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  // Check which version of the timer triggered this callback and toggle LED
-  if (htim == &htim10 )
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  /*觀測點確認ISR執行*/
-  
-    Multi_ADC_Sample();
+    // Check which version of the timer triggered this callback and toggle LED
+    if (htim == &htim10)
+    {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); /*觀測點確認ISR執行*/
 
-    rectify_vac();
+        Multi_ADC_Sample();
 
-    PFC_TASK_STATE();
-  }
+        rectify_vac();
+
+        PFC_TASK_STATE();
+    }
 }
-
