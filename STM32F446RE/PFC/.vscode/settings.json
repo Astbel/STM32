@@ -1,0 +1,15 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "main.h": "c",
+        "uartringbuffer_multi.h": "c",
+        "systemsetting.h": "c",
+        "freertos.h": "c",
+        "string.h": "c",
+        "variable.h": "c",
+        "cmath": "c",
+        "*.tcc": "c",
+        "stdlib.h": "c",
+        "cmsis_os.h": "c"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "main.h": "c",
+        "uartringbuffer_multi.h": "c",
+        "UARTRINGBUFFER_MULTI.H": "cpp"
+    }
+}
