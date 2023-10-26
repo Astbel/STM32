@@ -4,17 +4,13 @@
 uint16_t analog_result_volt;
 uint16_t ADC_Result[ADC_Sample_Rate];
 float VBulk;
-uint32_t test_ac_sample;
 uint32_t ac_sum;
 float real_ac;
 uint16_t Sample_cnt;
 uint16_t Vac_temp;
 uint16_t Vac_PP;
 uint16_t Vac_filter;
-uint16_t adc_sample1;
-uint16_t adc_sample2;
 
-uint16_t ADC_SAMPLE_ARR[2];
 /*ADC 取樣 5 Channel*/
 /*
 1. VBulk

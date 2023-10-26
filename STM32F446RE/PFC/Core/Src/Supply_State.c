@@ -12,121 +12,43 @@ int32_t Voltage_Kp;
 int32_t Voltage_Ki;
 uint32_t Bulk_Volt_Target;
 uint32_t Power_good_PFC_Bulk_Target;
-/*正半周*/
-inline void clear_positive_accumulators(void)
+
+/**
+ * @brief sweeping AC
+ * Task 1 Find Peak Vac
+ * Task 2 Find Zero Cross
+ * Task 3 summ Rect AC of the Briged
+ */
+/*Sweeping AC L and N*/
+inline void AC_Sweeping_Method(void)
 {
-    PFC_Variables.positive_cycle_counter = 0;
-    PFC_Variables.positive_vin_squared_accumulate = 0;
-}
-
-inline void store_positive_cycle_values(void)
-{
-    PFC_Variables.vin_squared_average = PFC_Variables.positive_vin_squared_accumulate / PFC_Variables.positive_cycle_counter;
-
-    PFC_Variables.vin_squared_for_ac_drop = PFC_Variables.vin_squared_average;
-}
-
-inline void accumulate_positive_cycle_values(void)
-{
-    PFC_Variables.positive_vin_squared_accumulate = PFC_Variables.vin_squared + PFC_Variables.positive_vin_squared_accumulate;
-}
-
-/*負半周*/
-inline void clear_negative_accumulators(void)
-{
-    PFC_Variables.negative_cycle_counter = 0;
-    PFC_Variables.negative_vin_squared_accumulate = 0;
-}
-
-inline void store_negative_cycle_values(void)
-{
-    PFC_Variables.vin_squared_average = PFC_Variables.negative_vin_squared_accumulate / PFC_Variables.negative_cycle_counter;
-
-    PFC_Variables.vin_squared_for_ac_drop = PFC_Variables.vin_squared_average;
-}
-
-inline void accumulate_negative_cycle_values(void)
-{
-    PFC_Variables.negative_vin_squared_accumulate = PFC_Variables.vin_squared + PFC_Variables.negative_vin_squared_accumulate;
-}
-
-/*AC 整流判斷正負半周*/
-inline void rectify_vac(void)
-{
-    /*AC 正負半周判斷*/
+    // Intergal Rect AC
+    // Line is bigger than Neturl
     if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
-    // if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
     {
-        PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_L_CHANNEL] - PFC_Variables.adc_raw[AC_N_CHANNEL];
-
-        PFC_Variables.AC_STATE = Postive;
+        ac_sum += PFC_Variables.adc_raw[AC_L_CHANNEL];
+        if (Vac_peak_temp < PFC_Variables.adc_raw[AC_L_CHANNEL])
+            Vac_peak_temp = PFC_Variables.adc_raw[AC_L_CHANNEL];
     }
+    // Neturl is bigger than Line
     else
     {
-        PFC_Variables.vin_raw = PFC_Variables.adc_raw[AC_N_CHANNEL] - PFC_Variables.adc_raw[AC_L_CHANNEL];
+        ac_sum += PFC_Variables.adc_raw[AC_N_CHANNEL];
+        if (Vac_peak_temp < PFC_Variables.adc_raw[AC_N_CHANNEL])
+            Vac_peak_temp = PFC_Variables.adc_raw[AC_N_CHANNEL];
+    }
 
-        PFC_Variables.AC_STATE = Negative;
-    }
-    /*移動平均計算AC*/
-    /*每次都保留最後四筆資料*/
-    /*要取當前值所以總和/比數*/
-    PFC_Variables.vin_sum = PFC_Variables.vin_raw + PFC_Variables.vin_sum - (PFC_Variables.vin_sum >> 10);
-    PFC_Variables.vin_filtered = PFC_Variables.vin_sum >> 10;
-    /*Vac PEAK 計算*/
-    if (PFC_Variables.vin_filtered > Vac_peak_temp)
+    // Find Peak Vac and Find Zero Cross
+    while ((PFC_Variables.adc_raw[AC_L_CHANNEL] == Zero_Cross_Point) && (PFC_Variables.adc_raw[AC_N_CHANNEL] == Zero_Cross_Point))
     {
-        Vac_peak_temp = PFC_Variables.vin_filtered;
+        // here is find a Zero Cross do method here
     }
-}
-
-/*半周計算*/
-inline void half_cycle_processing(void)
-{
-    /*正半周*/
-    if (PFC_Variables.AC_STATE == Postive)
+    // Updata Peak Vac  reset Peak Vac temp
+    if (Vac_peak < Vac_peak_temp)
     {
-        // PFC_Variables.positive_cycle_counter++;
-        // if ((PFC_Variables.positive_cycle_counter == 4) && (PFC_Variables.negative_cycle_counter >= 16))
-        // {
-        // store_negative_cycle_values();
-        // clear_negative_accumulators();
         Vac_peak = Vac_peak_temp;
-        Vac_peak_temp = 0;
-        // }
-        // else if (PFC_Variables.positive_cycle_counter > 4)
-        // {
-        //     clear_negative_accumulators(); // to deal with possible negative glitches
-        //     if (PFC_Variables.positive_cycle_counter >= 127)
-        //     {
-        //         store_positive_cycle_values();
-        //         clear_positive_accumulators();
-        //     }
-        // }
-        // accumulate_positive_cycle_values();
+        Vac_peak_temp = Reset;
     }
-    /*負半周*/
-    else
-    {
-        // PFC_Variables.negative_cycle_counter++;
-        // if ((PFC_Variables.negative_cycle_counter == 4) && (PFC_Variables.positive_cycle_counter >= 16))
-        // {
-        //     store_positive_cycle_values();
-        //     clear_positive_accumulators();
-        Vac_peak = Vac_peak_temp;
-        Vac_peak_temp = 0;
-        //     }
-        //     else if (PFC_Variables.negative_cycle_counter > 4)
-        //     {
-        //         clear_negative_accumulators(); // to deal with possible negative glitches
-        //         if (PFC_Variables.negative_cycle_counter >= 127)
-        //         {
-        //             store_negative_cycle_values();
-        //             clear_negative_accumulators();
-        //         }
-        //     }
-        //     accumulate_negative_cycle_values();
-    }
-    real_ac = (float)(Vac_peak * 264) / 1600;
 }
 
 /*Singal Voltage loop*/
@@ -188,32 +110,22 @@ inline int32_t proportional_integral(int32_t error)
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
-    // if (VBulk > 1.5)
+
     if (Vac_peak > Bwron_in_point)
     {
-        Bwrom_IN_Flag++;
-    }
-    else
-    {
-        Bwrom_IN_Flag = False;
-    }
-
-    if (Bwrom_IN_Flag == True)
-    {
-        Bwrom_IN_Flag = False;
         PFC_Variables.supply_state = STATE_RELAY_BOUNCE;
     }
 }
 //
 inline void relay_bounce_state_handler(void)
 {
-    // if (VBulk > 1.5)
+    // here need fix chack ac and check the bulk volt if it boost right
     if (Vac_peak > Bwron_in_point)
     {
-        //check AC and set bulk target
+        // check AC and set bulk target
         Vac_Check_Bulk_Cap_Target();
         Vac_Bwron_in_Cnt++;
-        if (Vac_Bwron_in_Cnt > 10)
+        if (Vac_Bwron_in_Cnt > Charging_Time)
         {
             Bwrom_IN_Flag = True;
         }
@@ -223,11 +135,13 @@ inline void relay_bounce_state_handler(void)
         Vac_Bwron_in_Cnt = 0;
     }
     /*等待PFC電壓升到對應Vac該值才開啟PFC*/
-    if ((Bwrom_IN_Flag == True)&&(PFC_Variables.adc_raw[VBUS_CHANNEL] > Bulk_Volt_Target))
+    if (Bwrom_IN_Flag == True)
     {
+        // here need to save the bulk voltage for the saving data to do soft start ramp up
+        PFC_Variables.VBulk_command = PFC_Variables.adc_raw[VBUS_CHANNEL];
         Vac_Bwron_in_Cnt = 0;
         Bwrom_IN_Flag = False;
-         turn_on_pfc();
+        turn_on_pfc();
         PFC_Variables.supply_state = STATE_RAMP_UP;
     }
 }
@@ -235,17 +149,22 @@ inline void relay_bounce_state_handler(void)
 inline void ramp_up_state_handler(void)
 {
     /*PFC soft start ramp up need to write here*/
+    PFC_Variables.VBulk_command += PFC_Variables.ramp_up_step;
+    /*Fix slew rate here*/
+    if (PFC_Variables.VBulk_command > Boost_Slew_Rate)
+        PFC_Variables.ramp_up_step = PFC_Variables.ramp_up_step >> 2;
+
     /*Vbulk OVP*/
     if (PFC_Variables.adc_raw[VBUS_CHANNEL] > OVer_Voltage_VBULK)
     {
         turn_off_pfc();
         PFC_Variables.supply_state = STATE_PFC_SHUT_DOWN;
     }
+
     /*等待PFC電壓升到對應Vac該值才開啟PFC*/
-     if (PFC_Variables.adc_raw[VBUS_CHANNEL] > Power_good_PFC_Bulk_Target)
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > PFC_Variables.PFC_ON_Target)
     {
-        GPIOA->BSRR = 0x04;
-        // HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET); // SEND PGI
+        PGI;                                       // SEND PGI
         PFC_Variables.supply_state = STATE_PFC_ON; // PFC normal mode
     }
 }
@@ -312,30 +231,30 @@ void turn_off_pfc(void)
 }
 /*********************Vac_Bulk******************************/
 /*
-* Bulk_Volt_Targe              AC開啟後等待VBUS升到對應值
-*  Power_good_PFC_Bulk_Target  PGI送的電壓目標
-*/
+ * Bulk_Volt_Targe              AC開啟後等待VBUS升到對應值
+ *  Power_good_PFC_Bulk_Target  PGI送的電壓目標
+ */
 void Vac_Check_Bulk_Cap_Target(void)
 {
     if (real_ac >= 240) // 264
     {
         Bulk_Volt_Target = 0x080F;
-        Power_good_PFC_Bulk_Target =Vref;
+        Power_good_PFC_Bulk_Target = Vref;
     }
     else if ((real_ac >= 185) && (real_ac < 240)) // 230
     {
         Bulk_Volt_Target = 0x0796;
-       Power_good_PFC_Bulk_Target =Vref;
+        Power_good_PFC_Bulk_Target = Vref;
     }
     else if ((real_ac > 105) && (real_ac < 185)) // 115
     {
         Bulk_Volt_Target = 0x0380;
-        Power_good_PFC_Bulk_Target =Vref;
+        Power_good_PFC_Bulk_Target = Vref;
     }
     else // 90
     {
         Bulk_Volt_Target = 0x02BE;
-        Power_good_PFC_Bulk_Target =Vref;
+        Power_good_PFC_Bulk_Target = Vref;
     }
 }
 /*********************PFC supply state*********************/
@@ -384,13 +303,13 @@ void PFC_TASK_STATE(void)
 {
     switch (PFC_Variables.task_state)
     {
-    case I_STATE_1: // 電壓環
-        proportional_integral(Vref - PFC_Variables.adc_raw[VBUS_CHANNEL]);
+    case I_STATE_1: // 電壓環 TYPE3
+        proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
         PFC_Variables.task_state = I_STATE_2;
         break;
 
     case I_STATE_2: // AC 計算
-        half_cycle_processing();
+
         // PFC_Variables.task_state = I_STATE_3;
         PFC_Variables.task_state = I_STATE_5;
         break;
@@ -426,7 +345,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
         Multi_ADC_Sample();
 
-        rectify_vac();
+        AC_Sweeping_Method();
 
         PFC_TASK_STATE();
     }

@@ -1,14 +1,15 @@
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
-pfc\stream_buffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-pfc\stream_buffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-pfc\stream_buffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-pfc\stream_buffer.o: ../Core/Inc/FreeRTOSConfig.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-pfc\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stream_buffer.h
+pfc/stream_buffer.o: \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  ..\Core\Inc\FreeRTOSConfig.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\stream_buffer.h

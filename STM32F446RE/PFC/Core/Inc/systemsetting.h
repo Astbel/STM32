@@ -33,6 +33,16 @@ extern TaskHandle_t START_TASK_Handle;
 #define True (1)
 #define False (0)
 
+/*High and Low*/
+#define High (1)
+#define Low (0)
+
+/*Enable and Disable*/
+#define Enable  (1)
+#define Disable (0)
+
+/*Reset*/
+#define Reset (0)
 /********************目標命令*********************************/
 // 測試用 預計用3.3V去測試
 #define Bwron_in_point (0x0279) //(1.75*4095)/3.3 =2172  (0x087C)
@@ -113,5 +123,40 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 #define Vac_264  (0x080F)  //264Vac_rms  373
 /*ADC OVP Point*/
 #define OVer_Voltage_VBULK (0x09A0)//(405*4096/450)
-// #define OVer_Voltage_VBULK (0x080F)//VBUS 300V OVP
+
+//Zero Cross Voltage Point
+//10Vac for zero cross
+#define Zero_Cross_Point (0x0049)//Vac  torleance inlcude 10%
+
+//Charing Time  ISR timming  count with charing time
+#define Charging_Time  (100)
+//Send PGI to signal
+// #define PGI (GPIOA->BSRR)
+// #define PGI_Turn_ON (0x04)
+#define PGI (HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET))
+
+//Slew Rate point
+#define Boost_Slew_Rate (0x080F)//370V
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
