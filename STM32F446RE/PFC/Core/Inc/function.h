@@ -30,7 +30,20 @@ extern void turn_on_pfc(void);
 extern void turn_off_pfc(void);
 extern inline void Initail_Variable(void);
 extern inline void AC_Sweeping_Method(void);
+/********************Controller loop********************************/
 extern inline void Volt_Loop_Controller(void);
 extern inline void Volt_Loop_Controller_Coeffiect_Init(void);
+
+/***********************AC Drop************************************/
+extern inline void AC_Drop_Method(void);
+
+
+
+
+
+
+
+
+
 
 #endif

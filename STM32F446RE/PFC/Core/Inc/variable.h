@@ -6,7 +6,7 @@
 /*********************ADC*****************************/
 extern uint16_t analog_result_volt;
 extern float VBulk;
-extern uint32_t ac_sum;
+extern uint32_t ac_rect_sum;
 extern float real_ac;
 extern uint16_t Vac_temp;
 extern uint16_t Vac_PP;
@@ -120,6 +120,19 @@ typedef struct Volt_Controller_3p3z
     //Output to PWM register
     uint32_t Voltage_Loop_Out;
 };
+
+typedef struct AC_Drop
+{
+    //ac counter
+    uint16_t ac_drop_cnt;
+
+    //ac rect drop target
+    uint32_t ac_rect_drop_target;
+
+    
+
+};
+
 
 
 

@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\astbe\OneDrive\Desktop\STM32G474_Project\STM32F446RE\PFC\MDK-ARM\PFC.uvprojx
-Project File Date:  10/26/2023
+Project File Date:  10/27/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
@@ -70,10 +70,13 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
                                 ;
 ../Core/Src/stm32f4xx_hal_msp.c(23): warning: In file included from...
 ../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct PID
 ^~~~~~~
-1 warning and 8 errors generated.
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
 compiling stm32f4xx_hal_msp.c...
 ../Core/Src/ADC.c(2): warning: In file included from...
 ../Core/Inc\systemsetting.h(11): warning: In file included from...
@@ -118,107 +121,14 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
                                 ;
 ../Core/Src/ADC.c(2): warning: In file included from...
 ../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct PID
 ^~~~~~~
-1 warning and 8 errors generated.
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
 compiling ADC.c...
-../Core/Src/UartRingbuffer_multi.c(10): warning: In file included from...
-../Core/Inc\systemsetting.h(11): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h(52): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(167): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(170): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(178): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(183): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(193): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(196): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: unknown type name '__forceinline'
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: expected ';' after top level declarator
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
-                                ^
-                                ;
-../Core/Src/UartRingbuffer_multi.c(10): warning: In file included from...
-../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct PID
-^~~~~~~
-1 warning and 8 errors generated.
-compiling UartRingbuffer_multi.c...
-../Core/Src/freertos.c(24): warning: In file included from...
-../Core/Inc\systemsetting.h(11): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h(52): warning: In file included from...
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(167): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(170): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(178): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(183): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(193): error: unknown type name '__forceinline'
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(196): error: expected 'volatile', 'inline', 'goto', or '('
-        {
-        ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: unknown type name '__forceinline'
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
-       ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
-        #define portFORCE_INLINE __forceinline
-                                 ^
-../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: expected ';' after top level declarator
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
-                                ^
-                                ;
-../Core/Src/freertos.c(24): warning: In file included from...
-../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct PID
-^~~~~~~
-1 warning and 8 errors generated.
-compiling freertos.c...
 ../Core/Src/Supply_State.c(2): warning: In file included from...
 ../Core/Inc\systemsetting.h(11): warning: In file included from...
 ../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
@@ -262,11 +172,128 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
                                 ;
 ../Core/Src/Supply_State.c(2): warning: In file included from...
 ../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct PID
 ^~~~~~~
-1 warning and 8 errors generated.
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+../Core/Src/Supply_State.c(87): warning: array index 3 is past the end of the array (which contains 3 elements) [-Warray-bounds]
+    Volt_comtroller_3p3z.Yn[0] = Volt_comtroller_3p3z.B3 * Volt_comtroller_3p3z.Xn[3] + Volt_comtroller_3p3z.B2 * Volt_comtroller_3p3z.Xn[2] + Volt_comtroller_3p3z.B1 * Volt_comtroller_3p3z.Xn[1] + Volt_comtroller_3p3z.B0 * Volt_comtroller_3p3z.Xn[0] +
+                                                           ^                       ~
+../Core/Inc/variable.h(110): note: array 'Xn' declared here
+    uint32_t Xn[3];
+    ^
+../Core/Src/Supply_State.c(88): warning: array index 3 is past the end of the array (which contains 3 elements) [-Warray-bounds]
+                                 Volt_comtroller_3p3z.A3 * Volt_comtroller_3p3z.Yn[3] + Volt_comtroller_3p3z.A2 * Volt_comtroller_3p3z.Yn[2] + Volt_comtroller_3p3z.A1 * Volt_comtroller_3p3z.Yn[1];
+                                                           ^                       ~
+../Core/Inc/variable.h(109): note: array 'Yn' declared here
+    uint32_t Yn[3];
+    ^
+4 warnings and 8 errors generated.
 compiling Supply_State.c...
+../Core/Src/freertos.c(24): warning: In file included from...
+../Core/Inc\systemsetting.h(11): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h(52): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(167): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(170): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(178): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(183): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(193): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(196): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: unknown type name '__forceinline'
+static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: expected ';' after top level declarator
+static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+                                ^
+                                ;
+../Core/Src/freertos.c(24): warning: In file included from...
+../Core/Inc/systemsetting.h(13): warning: In file included from...
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct PID
+^~~~~~~
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
+compiling freertos.c...
+../Core/Src/UartRingbuffer_multi.c(10): warning: In file included from...
+../Core/Inc\systemsetting.h(11): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h(52): warning: In file included from...
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(167): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(170): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(178): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(183): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(193): error: unknown type name '__forceinline'
+static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(196): error: expected 'volatile', 'inline', 'goto', or '('
+        {
+        ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: unknown type name '__forceinline'
+static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+       ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(162): note: expanded from macro 'portFORCE_INLINE'
+        #define portFORCE_INLINE __forceinline
+                                 ^
+../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F\portmacro.h(205): error: expected ';' after top level declarator
+static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+                                ^
+                                ;
+../Core/Src/UartRingbuffer_multi.c(10): warning: In file included from...
+../Core/Inc/systemsetting.h(13): warning: In file included from...
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct PID
+^~~~~~~
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
+compiling UartRingbuffer_multi.c...
 ../Core/Src/stm32f4xx_it.c(23): warning: In file included from...
 ../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
 ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h(52): warning: In file included from...
@@ -309,10 +336,13 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
                                 ;
 ../Core/Src/stm32f4xx_it.c(25): warning: In file included from...
 ../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct PID
 ^~~~~~~
-1 warning and 8 errors generated.
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
 compiling stm32f4xx_it.c...
 ../Core/Src/main.c(22): warning: In file included from...
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS\cmsis_os.h(56): warning: In file included from...
@@ -357,10 +387,13 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
                                 ;
 ../Core/Src/main.c(23): warning: In file included from...
 ../Core/Inc/systemsetting.h(13): warning: In file included from...
-../Core/Inc/variable.h(92): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(88): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct PID
 ^~~~~~~
-1 warning and 8 errors generated.
+../Core/Inc/variable.h(106): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Volt_Controller_3p3z
+^~~~~~~
+2 warnings and 8 errors generated.
 compiling main.c...
 ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c(28): warning: In file included from...
 ../Middlewares/Third_Party/FreeRTOS/Source/include\FreeRTOS.h(62): warning: In file included from...
@@ -1215,7 +1248,7 @@ __asm void xPortPendSVHandler( void )
 fatal error: too many errors emitted, stopping now [-ferror-limit=]
 20 errors generated.
 compiling port.c...
-"PFC\PFC.axf" - 189 Error(s), 7 Warning(s).
+"PFC\PFC.axf" - 189 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -1240,7 +1273,7 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
 Target not created.
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

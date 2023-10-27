@@ -141,9 +141,8 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 //Sample Rate Cnt For Controller And IIR Filiter
 #define Sample (3)
 
-
-
-
+//AC Drop
+#define AC_Drop_CNT_ShutDown (6)
 
 
 

@@ -2,6 +2,7 @@
 #include "systemsetting.h"
 struct Volt_Controller_3p3z Volt_comtroller_3p3z;
 struct PFC_VARIABLES PFC_Variables;
+struct AC_Drop AC_Drop;
 struct PID PID;
 /*Variable*/
 uint8_t Bwrom_IN_Flag;
@@ -28,14 +29,14 @@ AC_Sweeping_Method(void)
     // Line is bigger than Neturl
     if (PFC_Variables.adc_raw[AC_L_CHANNEL] > PFC_Variables.adc_raw[AC_N_CHANNEL])
     {
-        ac_sum += PFC_Variables.adc_raw[AC_L_CHANNEL];
+        ac_rect_sum += PFC_Variables.adc_raw[AC_L_CHANNEL];
         if (Vac_peak_temp < PFC_Variables.adc_raw[AC_L_CHANNEL])
             Vac_peak_temp = PFC_Variables.adc_raw[AC_L_CHANNEL];
     }
     // Neturl is bigger than Line
     else
     {
-        ac_sum += PFC_Variables.adc_raw[AC_N_CHANNEL];
+        ac_rect_sum += PFC_Variables.adc_raw[AC_N_CHANNEL];
         if (Vac_peak_temp < PFC_Variables.adc_raw[AC_N_CHANNEL])
             Vac_peak_temp = PFC_Variables.adc_raw[AC_N_CHANNEL];
     }
@@ -102,6 +103,31 @@ inline void Volt_Loop_Controller(void)
     // Send Duty Register
     TIM1->CCR1 = Volt_comtroller_3p3z.Voltage_Loop_Out;
 }
+/**
+ * @brief AC Drop
+ *        AC disapperted method shut dwon pfc countting the timing of the timing
+ */
+inline void AC_Drop_Method(void)
+{
+    //AC 整流判定低於特定Vac時開始計數
+    if (ac_rect_sum < AC_Drop.ac_rect_drop_target)
+        AC_Drop.ac_drop_cnt++;
+    
+    //當Vac不見一段時間後
+    while (AC_Drop.ac_drop_cnt > AC_Drop_CNT_ShutDown)
+    {
+        //Consider limit the duty cycle
+        turn_off_pfc();
+        PFC_Variables.supply_state=STATE_IDLE;
+    }
+    
+    //Vac在一定時間賦歸
+    if(ac_rect_sum > AC_Drop.ac_rect_drop_target)
+     {
+        AC_Drop.ac_drop_cnt=RESET;
+     }   
+
+}
 
 /*Singal Voltage loop*/
 /*
@@ -153,15 +179,11 @@ inline int32_t proportional_integral(int32_t error)
     // TIM2->CCR3 = output_duty; // Phase A
     // TIM3->CCR3 = output_duty; // Phase B
 }
-
-/*2P2Z控制器*/
-
-// PFC_VARIABLES PFC_Variables;
-/*Suplly STATE Function*/
-
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
+    //RESET Value here
+    AC_Drop.ac_drop_cnt=Reset;
 
     if (Vac_peak > Bwron_in_point)
     {
@@ -322,20 +344,19 @@ void PFC_TASK_STATE(void)
     {
     case I_STATE_1: // 電壓環 TYPE3
        // proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
-        Volt_Controller_3p3z();
+        Volt_Loop_Controller();
         PFC_Variables.task_state = I_STATE_2;
         break;
 
-    case I_STATE_2: // AC 計算
+    case I_STATE_2: // 
 
-        // PFC_Variables.task_state = I_STATE_3;
-        PFC_Variables.task_state = I_STATE_5;
+        PFC_Variables.task_state = I_STATE_3;
         break;
 
-        // case I_STATE_3: // AC 跌落
-
-        //     PFC_Variables.task_state = I_STATE_4;
-        //     break;
+        case I_STATE_3: // AC 跌落
+            AC_Drop_Method();
+            PFC_Variables.task_state = I_STATE_5;
+            break;
 
         // case I_STATE_4: // EMI dithering
 
@@ -361,10 +382,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); /*觀測點確認ISR執行*/
 
+        //ADC Scan
         Multi_ADC_Sample();
 
+        //負載變化條壓
+
+        //Sweeping Ac 
         AC_Sweeping_Method();
 
+        //PFC Task 
         PFC_TASK_STATE();
     }
 }

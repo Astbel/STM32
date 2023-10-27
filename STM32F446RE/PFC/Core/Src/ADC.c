@@ -4,7 +4,7 @@
 uint16_t analog_result_volt;
 uint16_t ADC_Result[ADC_Sample_Rate];
 float VBulk;
-uint32_t ac_sum;
+uint32_t ac_rect_sum;
 float real_ac;
 uint16_t Sample_cnt;
 uint16_t Vac_temp;
