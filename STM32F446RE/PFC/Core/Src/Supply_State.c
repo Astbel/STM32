@@ -1,5 +1,6 @@
 
 #include "systemsetting.h"
+struct Volt_Controller_3p3z Volt_comtroller_3p3z;
 struct PFC_VARIABLES PFC_Variables;
 struct PID PID;
 /*Variable*/
@@ -20,7 +21,8 @@ uint32_t Power_good_PFC_Bulk_Target;
  * Task 3 summ Rect AC of the Briged
  */
 /*Sweeping AC L and N*/
-inline void AC_Sweeping_Method(void)
+inline void
+AC_Sweeping_Method(void)
 {
     // Intergal Rect AC
     // Line is bigger than Neturl
@@ -38,8 +40,8 @@ inline void AC_Sweeping_Method(void)
             Vac_peak_temp = PFC_Variables.adc_raw[AC_N_CHANNEL];
     }
 
-    // Find Peak Vac and Find Zero Cross
-    while ((PFC_Variables.adc_raw[AC_L_CHANNEL] == Zero_Cross_Point) && (PFC_Variables.adc_raw[AC_N_CHANNEL] == Zero_Cross_Point))
+    //  Find Zero Cross
+    while ((PFC_Variables.adc_raw[AC_L_CHANNEL] <= Zero_Cross_Point) || (PFC_Variables.adc_raw[AC_N_CHANNEL] <= Zero_Cross_Point))
     {
         // here is find a Zero Cross do method here
     }
@@ -49,6 +51,56 @@ inline void AC_Sweeping_Method(void)
         Vac_peak = Vac_peak_temp;
         Vac_peak_temp = Reset;
     }
+}
+/**
+ * @brief Volt_Loop_Controller_Coeffiect_Init
+ *
+ * This method is for inital the  Volt loop 3p3z coeffiect
+ * Here need too Normalized the Coeffeiect
+ */
+inline void Volt_Loop_Controller_Coeffiect_Init(void)
+{
+    // Coeffiecient B Input
+    Volt_comtroller_3p3z.B3 = 0x84CC;
+    Volt_comtroller_3p3z.B2 = 0x04C8;
+    Volt_comtroller_3p3z.B1 = 0x7FFC;
+    Volt_comtroller_3p3z.B0 = 0xFB38;
+    // Coeffiecient A Output
+    Volt_comtroller_3p3z.A3 = 0x042F;
+    Volt_comtroller_3p3z.A2 = 0x30AB;
+    Volt_comtroller_3p3z.A1 = 0x4825;
+}
+
+/**
+ * @brief  Volt_comtroller_3p3z  Type 3 of the Voltage comapstion
+ *
+ *
+ */
+inline void Volt_Loop_Controller(void)
+{
+    // Counter for the Differential equation
+    static uint8_t cnt;
+
+    // Get the input Signal
+    Volt_comtroller_3p3z.Xn[0] = PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL];
+    // Differenationl the equation
+    Volt_comtroller_3p3z.Yn[0] = Volt_comtroller_3p3z.B3 * Volt_comtroller_3p3z.Xn[3] + Volt_comtroller_3p3z.B2 * Volt_comtroller_3p3z.Xn[2] + Volt_comtroller_3p3z.B1 * Volt_comtroller_3p3z.Xn[1] + Volt_comtroller_3p3z.B0 * Volt_comtroller_3p3z.Xn[0] +
+                                 Volt_comtroller_3p3z.A3 * Volt_comtroller_3p3z.Yn[3] + Volt_comtroller_3p3z.A2 * Volt_comtroller_3p3z.Yn[2] + Volt_comtroller_3p3z.A1 * Volt_comtroller_3p3z.Yn[1];
+    // Updata the data
+    for (cnt = Sample; cnt > 0; cnt--)
+    {
+        Volt_comtroller_3p3z.Xn[cnt] = Volt_comtroller_3p3z.Xn[cnt - 1];
+        Volt_comtroller_3p3z.Yn[cnt] = Volt_comtroller_3p3z.Yn[cnt - 1];
+    }
+    Volt_comtroller_3p3z.Voltage_Loop_Out = Volt_comtroller_3p3z.Yn[0];
+    // Limit the Max and Min duty
+    if (Volt_comtroller_3p3z.Voltage_Loop_Out > MAX_DUTY)
+        Volt_comtroller_3p3z.Voltage_Loop_Out = MAX_DUTY;
+    else if (Volt_comtroller_3p3z.Voltage_Loop_Out < MIN_DUTY)
+        Volt_comtroller_3p3z.Voltage_Loop_Out = MIN_DUTY;
+
+    // Send Duty Register
+    TIM1->CCR1 = Volt_comtroller_3p3z.Voltage_Loop_Out;
 }
 
 /*Singal Voltage loop*/
@@ -119,31 +171,22 @@ inline void idle_state_handler(void)
 //
 inline void relay_bounce_state_handler(void)
 {
-    // here need fix chack ac and check the bulk volt if it boost right
-    if (Vac_peak > Bwron_in_point)
+    // here need fix chack ac and check the bulk volt if it boost to the right sqrt2 of the Vac
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > Bwron_in_point)
     {
-        // check AC and set bulk target
-        Vac_Check_Bulk_Cap_Target();
         Vac_Bwron_in_Cnt++;
         if (Vac_Bwron_in_Cnt > Charging_Time)
         {
-            Bwrom_IN_Flag = True;
+            // here need to save the bulk voltage for the saving data to do soft start ramp up
+            PFC_Variables.VBulk_command = PFC_Variables.adc_raw[VBUS_CHANNEL];
+            Vac_Bwron_in_Cnt = 0;
+            Bwrom_IN_Flag = False;
+            turn_on_pfc();
+            PFC_Variables.supply_state = STATE_RAMP_UP;
         }
     }
     else
-    {
         Vac_Bwron_in_Cnt = 0;
-    }
-    /*等待PFC電壓升到對應Vac該值才開啟PFC*/
-    if (Bwrom_IN_Flag == True)
-    {
-        // here need to save the bulk voltage for the saving data to do soft start ramp up
-        PFC_Variables.VBulk_command = PFC_Variables.adc_raw[VBUS_CHANNEL];
-        Vac_Bwron_in_Cnt = 0;
-        Bwrom_IN_Flag = False;
-        turn_on_pfc();
-        PFC_Variables.supply_state = STATE_RAMP_UP;
-    }
 }
 // VBULK 爬升 送PGI致2次側
 inline void ramp_up_state_handler(void)
@@ -230,33 +273,7 @@ void turn_off_pfc(void)
     //     HAL_TIM_OC_Stop(&htim2, TIM_CHANNEL_4);  // Trigger Master for Phase B
 }
 /*********************Vac_Bulk******************************/
-/*
- * Bulk_Volt_Targe              AC開啟後等待VBUS升到對應值
- *  Power_good_PFC_Bulk_Target  PGI送的電壓目標
- */
-void Vac_Check_Bulk_Cap_Target(void)
-{
-    if (real_ac >= 240) // 264
-    {
-        Bulk_Volt_Target = 0x080F;
-        Power_good_PFC_Bulk_Target = Vref;
-    }
-    else if ((real_ac >= 185) && (real_ac < 240)) // 230
-    {
-        Bulk_Volt_Target = 0x0796;
-        Power_good_PFC_Bulk_Target = Vref;
-    }
-    else if ((real_ac > 105) && (real_ac < 185)) // 115
-    {
-        Bulk_Volt_Target = 0x0380;
-        Power_good_PFC_Bulk_Target = Vref;
-    }
-    else // 90
-    {
-        Bulk_Volt_Target = 0x02BE;
-        Power_good_PFC_Bulk_Target = Vref;
-    }
-}
+
 /*********************PFC supply state*********************/
 inline void supply_state_handler(void)
 {
@@ -304,7 +321,8 @@ void PFC_TASK_STATE(void)
     switch (PFC_Variables.task_state)
     {
     case I_STATE_1: // 電壓環 TYPE3
-        proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
+       // proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
+        Volt_Controller_3p3z();
         PFC_Variables.task_state = I_STATE_2;
         break;
 

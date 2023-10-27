@@ -103,6 +103,25 @@ extern int16_t D_temp;
 extern uint16_t DPWM_TEMP;
 
 /*****************Voltage Controller****************/
+typedef struct Volt_Controller_3p3z
+{
+    //Array for input and output
+    uint32_t Yn[3];
+    uint32_t Xn[3];
+    //Coeffiect for B is Input  
+    uint32_t B0;
+    uint32_t B1;
+    uint32_t B2;
+    uint32_t B3;
+    //Coeffiect for A is output
+    uint32_t A1;
+    uint32_t A2;
+    uint32_t A3;
+    //Output to PWM register
+    uint32_t Voltage_Loop_Out;
+};
+
+
 
 
 #endif

@@ -116,6 +116,9 @@ int main(void)
   // MX_TIM3_Init();     /*Phase B*/
   MX_TIM10_Init();   /*ISR*/
   Initail_Variable();
+
+  Volt_Loop_Controller_Coeffiect_Init();
+
   /* USER CODE BEGIN 2 */
   Vac_temp = 0;
 

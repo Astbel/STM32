@@ -138,8 +138,8 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 //Slew Rate point
 #define Boost_Slew_Rate (0x080F)//370V
 
-
-
+//Sample Rate Cnt For Controller And IIR Filiter
+#define Sample (3)
 
 
 
