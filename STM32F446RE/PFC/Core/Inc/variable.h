@@ -11,7 +11,7 @@ extern float real_ac;
 extern uint16_t Vac_temp;
 extern uint16_t Vac_PP;
 extern uint16_t Sample_cnt;
-
+extern uint16_t Vac_plug_cnt;
 /***********************Vac************************/
 extern uint16_t Vac_peak;
 extern uint16_t Vac_peak_temp;
@@ -26,7 +26,6 @@ typedef enum
     STATE_RAMP_UP,
     STATE_PFC_ON,
     STATE_PFC_HICCUP,
-    STATE_PFC_HICCUP1,
     STATE_PFC_SHUT_DOWN,
     STATE_AC_DROP_RAMP_UP
 } SUPPLY_STATE;
@@ -40,6 +39,16 @@ typedef enum
     I_STATE_5
 } TASK_STATE;
 
+//AC Channel
+typedef enum 
+{
+   STATE_90, 
+   STATE_115,
+   STATE_230, 
+   STATE_264
+
+}AC_channel;
+
 /********************STRUCT***************************/
 struct PFC_VARIABLES
 {
@@ -52,13 +61,8 @@ struct PFC_VARIABLES
     uint32_t vin_squared;
     uint32_t vin_squared_slow_average;
     uint32_t vin_squared_average;
-    
-    /*Vac 跌落*/
-    uint32_t ac_drop_count;
-    uint32_t ac_drop;
-    uint32_t ac_drop_recovery_not_complete;
-    uint32_t vin_squared_for_ac_drop;
-
+    /*5Vsb */
+    uint32_t Standby_Charging_Target;
     /*Vac state */
     uint8_t AC_STATE;
 
@@ -106,8 +110,8 @@ extern uint16_t DPWM_TEMP;
 typedef struct Volt_Controller_3p3z
 {
     //Array for input and output
-    uint32_t Yn[3];
-    uint32_t Xn[3];
+    uint32_t Yn[4];
+    uint32_t Xn[4];
     //Coeffiect for B is Input  
     uint32_t B0;
     uint32_t B1;
@@ -126,12 +130,11 @@ typedef struct AC_Drop
     //ac counter
     uint16_t ac_drop_cnt;
 
-    //ac rect drop target
-    uint32_t ac_rect_drop_target;
-
-    
+    //ac drop flag
+    uint8_t ac_drop_happen_flag;
 
 };
+
 
 
 

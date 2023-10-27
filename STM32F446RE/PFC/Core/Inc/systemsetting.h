@@ -20,10 +20,10 @@ extern ADC_HandleTypeDef hadc1;
 
 extern DAC_HandleTypeDef hdac;
 
-extern TIM_HandleTypeDef htim1; // Master no use
-extern TIM_HandleTypeDef htim2; // Salver 1 for  PhaseA
-extern TIM_HandleTypeDef htim3; // Salver 2 for  PhaseB
-extern TIM_HandleTypeDef htim10;//ISR TIM 
+extern TIM_HandleTypeDef htim1;  // Master no use
+extern TIM_HandleTypeDef htim2;  // Salver 1 for  PhaseA
+extern TIM_HandleTypeDef htim3;  // Salver 2 for  PhaseB
+extern TIM_HandleTypeDef htim10; // ISR TIM
 
 extern UART_HandleTypeDef huart1; // 打log
 extern UART_HandleTypeDef huart3; // C#調整溝通
@@ -38,7 +38,7 @@ extern TaskHandle_t START_TASK_Handle;
 #define Low (0)
 
 /*Enable and Disable*/
-#define Enable  (1)
+#define Enable (1)
 #define Disable (0)
 
 /*Reset*/
@@ -66,7 +66,7 @@ extern TaskHandle_t START_TASK_Handle;
 // TaskHandle_t	TASK_2_Handle;
 /*ISR*/
 #define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
-#define Timer_PERIOD_VALUE (uint32_t)(10500 - 1)          /* Period Value  */
+#define Timer_PERIOD_VALUE (uint32_t)(10500 - 1) /* Period Value  */
 /*PWM Freq & DUTY*/
 #define PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 85000000) - 1)
 #define PERIOD_VALUE (uint32_t)(1000 - 1)          /* Period Value  */
@@ -81,20 +81,20 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 *Dmax =400/127 =1/1-Dmax    Dmax= 0.6825
 *Dmin =400/373 =1/1-Dmin    Dmin= 0.0675
 */
-#define MAX_DUTY  (680)
-#define MIN_DUTY  (0)
+#define MAX_DUTY (680)
+#define MIN_DUTY (0)
 /* Error 點設定 */
 /*
-*  以115Vac電容抽乾為例換算RMS後Bulk起點電壓為162V 目標命令啟動為380V ,計算其誤差量為380-162=218V
-*  Q12格式下設定最大值是400V換算後最大誤差量為(218*4096/400)=2231轉成HEX為008B7
-*  設定115Vac下的判斷點
-*/
-#define Error_limit (0x08B7)  
+ *  以115Vac電容抽乾為例換算RMS後Bulk起點電壓為162V 目標命令啟動為380V ,計算其誤差量為380-162=218V
+ *  Q12格式下設定最大值是400V換算後最大誤差量為(218*4096/400)=2231轉成HEX為008B7
+ *  設定115Vac下的判斷點
+ */
+#define Error_limit (0x08B7)
 /*AC 正負半周*/
 #define Postive (1)
 #define Negative (0)
 #define ADC_Sample_Rate (128)
-#define ADC_DC_OffSet  (0x6D)  /*0.06offset=(0.6*4095)/3.3*/
+#define ADC_DC_OffSet (0x6D) /*0.06offset=(0.6*4095)/3.3*/
 /*AC Vmax 定義*/
 // #define Vac_max (394)/*264*1.414*/
 // #define Vac_min (127)/*90*1.414*/
@@ -110,52 +110,49 @@ Vin =127(90Vac~264Vac),VBulk Max 為400V
 // #define Vref (0x01000)     //測試用目標命令3.3V
 // #define Vref (0x0612)  //VBus目標命令 280Vac for 115Vac
 // #define Vref (0x0796)       //350
-#define Vref (0x0810)     //Vbus 電壓設定380V
-//PID I GAIN (MAX)  穩態誤差
+#define Vref (0x0810) // Vbus 電壓設定380V
+// PID I GAIN (MAX)  穩態誤差
 #define I_MAX (0x05F3)
-#define I_MIN (0x0000) 
-//PFC switching Freq
-#define T (1/85e3)
+#define I_MIN (0x0000)
+// PFC switching Freq
+#define T (1 / 85e3)
 /*AC level 判定*/
-#define Vac_90   (0x02BE)  //90Vac_rms   127
-#define Vac_115  (0x0380)  //115Vac_rms  162
-#define Vac_230  (0x0796)  //230Vac_rms  325
-#define Vac_264  (0x080F)  //264Vac_rms  373
+#define Vac_90 (0x02BE)  // 90Vac_rms   127
+#define Vac_115 (0x0380) // 115Vac_rms  162
+#define Vac_230 (0x0796) // 230Vac_rms  325
+#define Vac_264 (0x080F) // 264Vac_rms  373
 /*ADC OVP Point*/
-#define OVer_Voltage_VBULK (0x09A0)//(405*4096/450)
+#define OVer_Voltage_VBULK (0x0EEE) //(420*4096/450)
+// 打嗝模式
+#define HICCUP_ON_VBULK (0x0E65) //(405*4096/450 )
+// 解除打嗝模式
+#define HICCUP_OFF_VBULK (0x0D82) //( 380*4095/450)
 
-//Zero Cross Voltage Point
-//10Vac for zero cross
-#define Zero_Cross_Point (0x0049)//Vac  torleance inlcude 10%
+// Zero Cross Voltage Point
+// 10Vac for zero cross
+#define Zero_Cross_Point (0x0049) // Vac  torleance inlcude 10%
 
-//Charing Time  ISR timming  count with charing time
-#define Charging_Time  (100)
-//Send PGI to signal
-// #define PGI (GPIOA->BSRR)
-// #define PGI_Turn_ON (0x04)
+// Charing Time  ISR timming  count with charing time
+#define Charging_Time (100)
+// Send PGI to signal
+//  #define PGI (GPIOA->BSRR)
+//  #define PGI_Turn_ON (0x04)
 #define PGI (HAL_GPIO_WritePin(PGI_GPIO_PORT, Power_GOOD_PIN, GPIO_PIN_SET))
 
-//Slew Rate point
-#define Boost_Slew_Rate (0x080F)//370V
+// Slew Rate point
+#define Boost_Slew_Rate (0x080F) // 370V
 
-//Sample Rate Cnt For Controller And IIR Filiter
+// Sample Rate Cnt For Controller And IIR Filiter
 #define Sample (3)
 
-//AC Drop
+// AC Drop
 #define AC_Drop_CNT_ShutDown (6)
 
+// AC Alive
+#define AC_Alive_CNT (10)
 
-
-
-
-
-
-
-
-
-
-
-
+// AC Drop  Volt as
+#define AC_V_Drop_V  (0x015F)  // 63.5Vdc
 
 
 #endif

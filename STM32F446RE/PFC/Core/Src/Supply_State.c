@@ -14,7 +14,7 @@ int32_t Voltage_Kp;
 int32_t Voltage_Ki;
 uint32_t Bulk_Volt_Target;
 uint32_t Power_good_PFC_Bulk_Target;
-
+uint16_t Vac_plug_cnt;
 /**
  * @brief sweeping AC
  * Task 1 Find Peak Vac
@@ -44,15 +44,20 @@ AC_Sweeping_Method(void)
     //  Find Zero Cross
     while ((PFC_Variables.adc_raw[AC_L_CHANNEL] <= Zero_Cross_Point) || (PFC_Variables.adc_raw[AC_N_CHANNEL] <= Zero_Cross_Point))
     {
-        // here is find a Zero Cross do method here
+        // here is find a Zero Cross do method here single phase DPWM method
     }
     // Updata Peak Vac  reset Peak Vac temp
     if (Vac_peak < Vac_peak_temp)
     {
+        //Standby Cap Charging Target
+        PFC_Variables.Standby_Charging_Target = Vac_peak;
+        //Vac_peak
         Vac_peak = Vac_peak_temp;
+        
         Vac_peak_temp = Reset;
     }
 }
+
 /**
  * @brief Volt_Loop_Controller_Coeffiect_Init
  *
@@ -109,24 +114,24 @@ inline void Volt_Loop_Controller(void)
  */
 inline void AC_Drop_Method(void)
 {
-    //AC 整流判定低於特定Vac時開始計數
-    if (ac_rect_sum < AC_Drop.ac_rect_drop_target)
+    // AC 整流判定低於特定Vac時開始計數
+    if (Vac_peak < AC_V_Drop_V)
         AC_Drop.ac_drop_cnt++;
-    
-    //當Vac不見一段時間後
+
+    // 當Vac不見一段時間後
     while (AC_Drop.ac_drop_cnt > AC_Drop_CNT_ShutDown)
     {
-        //Consider limit the duty cycle
+        AC_Drop.ac_drop_happen_flag=True;
+        // Consider limit the duty cycle
         turn_off_pfc();
-        PFC_Variables.supply_state=STATE_IDLE;
+        PFC_Variables.supply_state = STATE_IDLE;
     }
-    
-    //Vac在一定時間賦歸
-    if(ac_rect_sum > AC_Drop.ac_rect_drop_target)
-     {
-        AC_Drop.ac_drop_cnt=RESET;
-     }   
 
+    // Vac在一定時間賦歸
+    if (Vac_peak > AC_V_Drop_V)
+    {
+        AC_Drop.ac_drop_cnt = RESET;
+    }
 }
 
 /*Singal Voltage loop*/
@@ -182,19 +187,21 @@ inline int32_t proportional_integral(int32_t error)
 // 確認是否進入Bwron in 點
 inline void idle_state_handler(void)
 {
-    //RESET Value here
-    AC_Drop.ac_drop_cnt=Reset;
-
-    if (Vac_peak > Bwron_in_point)
+    // RESET Value here
+    AC_Drop.ac_drop_cnt = Reset;
+    // Check if Vac if is really is apperaed a timing
+    do
     {
-        PFC_Variables.supply_state = STATE_RELAY_BOUNCE;
-    }
+        Vac_plug_cnt++;
+        if (Vac_plug_cnt > AC_Alive_CNT)
+            PFC_Variables.supply_state = STATE_RELAY_BOUNCE;
+    } while (Vac_peak > Bwron_in_point);
 }
 //
 inline void relay_bounce_state_handler(void)
 {
     // here need fix chack ac and check the bulk volt if it boost to the right sqrt2 of the Vac
-    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > Bwron_in_point)
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] >= PFC_Variables.Standby_Charging_Target)
     {
         Vac_Bwron_in_Cnt++;
         if (Vac_Bwron_in_Cnt > Charging_Time)
@@ -254,7 +261,12 @@ inline void pfc_on_state_handler(void)
         PFC_Variables.supply_state = STATE_IDLE; // PFC Back IDLE WAIT FOR AC
     }
 
-    /**/
+    /*VBulk 致打嗝模式 */
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] > HICCUP_ON_VBULK)
+    {
+        turn_off_pfc();
+        PFC_Variables.supply_state = STATE_PFC_HICCUP;
+    }
 }
 //
 
@@ -266,9 +278,14 @@ inline void pfc_shut_down_state_handler(void)
     // Initail_Variable();
 }
 
-//
+// PFC 打嗝模式
 inline void pfc_hiccup_state_handler(void)
 {
+    if (PFC_Variables.adc_raw[VBUS_CHANNEL] < HICCUP_OFF_VBULK)
+    {
+        turn_on_pfc();
+        PFC_Variables.supply_state = STATE_PFC_ON;
+    }
 }
 
 // PWM enable
@@ -343,20 +360,20 @@ void PFC_TASK_STATE(void)
     switch (PFC_Variables.task_state)
     {
     case I_STATE_1: // 電壓環 TYPE3
-       // proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
+                    // proportional_integral(PFC_Variables.VBulk_command - PFC_Variables.adc_raw[VBUS_CHANNEL]);
         Volt_Loop_Controller();
         PFC_Variables.task_state = I_STATE_2;
         break;
 
-    case I_STATE_2: // 
+    case I_STATE_2: //
 
         PFC_Variables.task_state = I_STATE_3;
         break;
 
-        case I_STATE_3: // AC 跌落
-            AC_Drop_Method();
-            PFC_Variables.task_state = I_STATE_5;
-            break;
+    case I_STATE_3: // AC 跌落
+        AC_Drop_Method();
+        PFC_Variables.task_state = I_STATE_5;
+        break;
 
         // case I_STATE_4: // EMI dithering
 
@@ -382,15 +399,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); /*觀測點確認ISR執行*/
 
-        //ADC Scan
+        // ADC Scan
         Multi_ADC_Sample();
 
-        //負載變化條壓
+        // 負載變化條壓
 
-        //Sweeping Ac 
+        // Sweeping Ac
         AC_Sweeping_Method();
 
-        //PFC Task 
+        // PFC Task
         PFC_TASK_STATE();
     }
 }

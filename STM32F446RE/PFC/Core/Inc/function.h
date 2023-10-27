@@ -36,8 +36,8 @@ extern inline void Volt_Loop_Controller_Coeffiect_Init(void);
 
 /***********************AC Drop************************************/
 extern inline void AC_Drop_Method(void);
-
-
+/*******************AC Level AC Drop Level***********************************/
+extern inline void AC_Level_AC_Drop(uint16_t vac);
 
 
 
