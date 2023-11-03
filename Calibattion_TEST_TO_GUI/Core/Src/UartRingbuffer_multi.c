@@ -597,50 +597,73 @@ void Search_String(char s[], char out[], uint16_t p, uint16_t l)
 	}
 }
 
-/*debug log 要放置在這 */
-/*C# 接收指令
-  指令定義:
-  String搜索:從buffer內搜索特定字元
-			 Get_5V_Min
-			 Get_5V_Max
-*/
+// 命令处理函数
+void Get5VMinCommand(void)
+{
+	printf("Saving 5V min ADC value to Flash memory\n");
+	// 处理 Get_5V_Min 命令储存当前ADC值
+	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+}
 
-// 比對字符
+void Get5VMaxCommand(void)
+{
+	printf("Saving 5V max ADC value to Flash memory\n");
+	// 处理 Get_5V_Max 命令储存当前ADC值
+	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+}
+
+
+void Get12VMinCommand(void)
+{
+	printf("Saving 12V min ADC value to Flash memory\n");
+	// 处理 Get_12V_Min 命令
+	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+}
+
+void Get12VMaxCommand(void)
+{
+	printf("Saving 12V max ADC value to Flash memory\n");
+	// 处理 Get_12V_Max 命令
+	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+}
+
+
+void EraseFlashMemoryCommand(void)
+{
+	printf("Erasing Flash memory\n");
+	// 处理 Erase Flash memory 命令
+	Flash_Erase_Sectors(ADDR_FLASH_SECTOR_6, ADDR_FLASH_SECTOR_7);
+}
+
+/**Command 窗口 擴充命令在這**/
+CommandEntry commandTable[] = {
+	{"Get_5V_Min", Get5VMinCommand},
+	{"Get_5V_Max", Get5VMaxCommand},
+	{"Get_12V_Min", Get12VMinCommand},
+	{"Get_12V_Max", Get12VMaxCommand},
+	{"Erase Flash memory", EraseFlashMemoryCommand},
+	// 添加其他命令...
+};
+
+//執行來自C# Uart的指標函數命令
 void ProcessCommand(const char *command)
 {
-	if (strcmp(command, "Get_5V_Min") == 0)
+	for (int i = 0; i < sizeof(commandTable) / sizeof(commandTable[0]); i++)
 	{
-		Uart_sendstring("Saving 5V min ADC value to Flash memory",device_uart);
-		// 处理 Get_5V_Min 命令儲存當前ADC值
-		
+		if (strcmp(command, commandTable[i].commandName) == 0)
+		{
+			commandTable[i].handler();
+			return;
+		}
 	}
-	else if (strcmp(command, "Get_5V_Max") == 0)
-	{
-		Uart_sendstring("Saving 5V max ADC value to Flash memory",device_uart);
-		// 处理其他命令
-
-	}
-	else if (strcmp(command,"Earse Flash memmory")==0)
-	{
-		Uart_sendstring("Earsing Flash memory",device_uart);
-		/* code */
-		
-	}
-	
-	else
-	{
-		// 未知命令  default command debug log 回傳 error message 在textbox上
-		
-
-	}
+	printf("UnKnown Command not going do anything\n");
 }
 
-
-//查找C# Uart Serial 的Command 指令
-void Get_Command_From_C_sharp(void) {
-    char command_buffer[UART_BUFFER_SIZE];
-    // 假设 _rx_buffer1->buffer 包含了接收到的命令
-    strncpy(command_buffer, (const char*)_rx_buffer1->buffer, UART_BUFFER_SIZE);
-    ProcessCommand(command_buffer);
+// 查找C# Uart Serial 的Command 指令
+void Get_Command_From_C_sharp(void)
+{
+	char command_buffer[UART_BUFFER_SIZE];
+	// 假设 _rx_buffer1->buffer 包含了接收到的命令
+	strncpy(command_buffer, (const char *)_rx_buffer1->buffer, UART_BUFFER_SIZE);
+	ProcessCommand(command_buffer);
 }
-

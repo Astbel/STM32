@@ -21,87 +21,16 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.1.0.0
 Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-C:\Users\astbe\OneDrive\Desktop\STM32F3\Calibattion_TEST_TO_GUI\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
+C:\Users\astbe\OneDrive\Desktop\STM32G474_Project\Calibattion_TEST_TO_GUI\MDK-ARM\Calibattion_TEST_TO_GUI.uvprojx
 Project File Date:  11/01/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Calibattion_TEST_TO_GUI'
-../Core/Src/Variable.c(1): warning: In file included from...
-../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
-compiling Variable.c...
-../Core/Src/stm32f4xx_it.c(21): warning: In file included from...
-../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
-compiling stm32f4xx_it.c...
-../Core/Src/ADC.c(1): warning: In file included from...
-../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
-compiling ADC.c...
-../Core/Src/ISR.c(1): warning: In file included from...
-../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
-compiling ISR.c...
-../Core/Src/stm32f4xx_hal_msp.c(22): warning: In file included from...
-../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
-compiling stm32f4xx_hal_msp.c...
 ../Core/Src/main.c(34): warning: In file included from...
 ../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct Allert_Portect
-^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
 ^~~~~~~
 ../Core/Src/main.c(34): warning: In file included from...
 ../Core/Inc/main.h(32): warning: In file included from...
@@ -111,39 +40,62 @@ extern inline void Initail_Variable(void);
 ../Core/Src/main.c(117): note: used here
   Initail_Variable();
   ^
-4 warnings generated.
+2 warnings generated.
 compiling main.c...
-../Core/Src/Flash.c(2): warning: In file included from...
+../Core/Src/ISR.c(1): warning: In file included from...
 ../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct Allert_Portect
 ^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
+1 warning generated.
+compiling ISR.c...
+../Core/Src/Variable.c(1): warning: In file included from...
+../Core/Inc/main.h(33): warning: In file included from...
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Allert_Portect
 ^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
+1 warning generated.
+compiling Variable.c...
+../Core/Src/stm32f4xx_it.c(21): warning: In file included from...
+../Core/Inc/main.h(33): warning: In file included from...
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Allert_Portect
 ^~~~~~~
-3 warnings generated.
+1 warning generated.
+compiling stm32f4xx_it.c...
+../Core/Src/ADC.c(1): warning: In file included from...
+../Core/Inc/main.h(33): warning: In file included from...
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Allert_Portect
+^~~~~~~
+1 warning generated.
+compiling ADC.c...
+../Core/Src/stm32f4xx_hal_msp.c(22): warning: In file included from...
+../Core/Inc/main.h(33): warning: In file included from...
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Allert_Portect
+^~~~~~~
+1 warning generated.
+compiling stm32f4xx_hal_msp.c...
+../Core/Src/Flash.c(2): warning: In file included from...
+../Core/Inc/main.h(33): warning: In file included from...
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
+typedef struct Allert_Portect
+^~~~~~~
+1 warning generated.
 compiling Flash.c...
 ../Core/Src/UartRingbuffer_multi.c(8): warning: In file included from...
 ../Core/Inc/UartRingbuffer_multi.h(11): warning: In file included from...
 ../Core/Inc/main.h(33): warning: In file included from...
-../Core/Inc/variable.h(23): warning: typedef requires a name [-Wmissing-declarations]
+../Core/Inc/variable.h(22): warning: typedef requires a name [-Wmissing-declarations]
 typedef struct Allert_Portect
 ^~~~~~~
-../Core/Inc/variable.h(38): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct Volt_Controller_3p3z
-^~~~~~~
-../Core/Inc/variable.h(56): warning: typedef requires a name [-Wmissing-declarations]
-typedef struct AC_Drop
-^~~~~~~
-3 warnings generated.
+1 warning generated.
 compiling UartRingbuffer_multi.c...
 linking...
 Program Size: Code=8408 RO-data=532 RW-data=12 ZI-data=6108  
 FromELF: creating hex file...
-"Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.axf" - 0 Error(s), 25 Warning(s).
+"Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -167,7 +119,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

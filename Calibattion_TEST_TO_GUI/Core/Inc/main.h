@@ -56,8 +56,7 @@ extern FLASH_EraseInitTypeDef flashstruct;
 #define FLASH_USER_START_ADDR   ADDR_FLASH_SECTOR_2   /* Start @ of user Flash area */
 #define FLASH_USER_END_ADDR     ADDR_FLASH_SECTOR_7  //+  GetSectorSize(ADDR_FLASH_SECTOR_7) -1 /* End @ of user Flash area : sector start address + sector size -1 */
 
-#define DATA_32                 ((uint32_t)0x12345678)
-#define DATA_64                 ((uint64_t)0x1234567812345678)
+#define data_size_adc (4)
 
 /* USER CODE END EC */
 /* Base address of the Flash sectors */

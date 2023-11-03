@@ -7,12 +7,15 @@ extern void Multi_ADC_Sample(void);
 /**Inital Variable**/
 extern inline void Initail_Variable(void);
 /**Flash**/
-extern void Flash_Init(void);
-extern void Flash_Erase_Flash_Memory(void);
-extern void Flash_Write_Flash_Memory(void);
-/****/
-
-
+extern void Flash_Erase_Sectors(uint32_t startSector, uint32_t endSector);
+extern void Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startAddr);
+extern uint32_t Flash_Find_Data(uint32_t *targetData, uint32_t size, uint32_t flashAddress);
+/**Uart command ptr function**/
+extern void Get5VMinCommand(void);
+extern void Get5VMaxCommand(void);
+extern void Get12VMinCommand(void);
+extern void Get12VMaxCommand(void);
+extern void EraseFlashMemoryCommand(void);
 
 
 // void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars);
