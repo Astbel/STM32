@@ -5,8 +5,8 @@ void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars);
 
 /*ADC Select Channel*/
 /**ADC1 GPIO Configuration
-PA0-    ------> ADC1_IN0   Vac_N
-PA1     ------> ADC1_IN1        Vac_L
+PA0-    ------> ADC1_IN0   12V
+PA1     ------> ADC1_IN1   5 V
 */
 inline void ADC_Select_Channel(uint32_t channel)
 {
@@ -59,8 +59,9 @@ void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars)
 void Dynamic_Interpolation_ADC(void)
 {
     //Value from Flash Max multi the dynamic Gain
-    Dyanmic_Portect.Protect_12V=PFC_Variables.adc_raw[0]*Dynmaic_Gain;
-    Dyanmic_Portect.Portect_5V =PFC_Variables.adc_raw[1]*Dynmaic_Gain;
+    Protect_12V =Dyanmic_Portect.Protect_12V_Max*Dynmaic_Gain;
+    Protect_5V  =Dyanmic_Portect.Portect_5V_max*Dynmaic_Gain;
+
 
 }
 

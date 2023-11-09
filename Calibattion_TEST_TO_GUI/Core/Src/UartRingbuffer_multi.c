@@ -602,14 +602,14 @@ void Get5VMinCommand(void)
 {
 	printf("Saving 5V min ADC value to Flash memory\n");
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+	Dyanmic_Portect.Portect_5V_min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
 }
 
 void Get5VMaxCommand(void)
 {
 	printf("Saving 5V max ADC value to Flash memory\n");
 	// 处理 Get_5V_Max 命令储存当前ADC值
-	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+	Dyanmic_Portect.Portect_5V_max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
 }
 
 
@@ -617,14 +617,14 @@ void Get12VMinCommand(void)
 {
 	printf("Saving 12V min ADC value to Flash memory\n");
 	// 处理 Get_12V_Min 命令
-	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+	Dyanmic_Portect.Protect_12V_Min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
 }
 
 void Get12VMaxCommand(void)
 {
 	printf("Saving 12V max ADC value to Flash memory\n");
 	// 处理 Get_12V_Max 命令
-	Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+	Dyanmic_Portect.Protect_12V_Max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
 }
 
 
@@ -660,10 +660,10 @@ void ProcessCommand(const char *command)
 }
 
 // 查找C# Uart Serial 的Command 指令
-void Get_Command_From_C_sharp(void)
+void Get_Command_From_C_shrap(void)
 {
 	char command_buffer[UART_BUFFER_SIZE];
-	// 假设 _rx_buffer1->buffer 包含了接收到的命令
+	// _rx_buffer1->buffer 包含了接收到的命令
 	strncpy(command_buffer, (const char *)_rx_buffer1->buffer, UART_BUFFER_SIZE);
 	ProcessCommand(command_buffer);
 }

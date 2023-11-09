@@ -7,7 +7,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         //ADC Scan
         Multi_ADC_Sample();
-       
+        
+        // C# LOG獲得命令
+        Get_Command_From_C_shrap();
         
     }
 }

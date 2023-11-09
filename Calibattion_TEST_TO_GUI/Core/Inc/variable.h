@@ -12,19 +12,22 @@ extern struct Allert_Portect Dyanmic_Portect;
 /**********************C# command 指標函數************************/
 typedef void (*CommandHandler)(void);
 /***********************Flash**********************/
-extern uint32_t FirstSector, NbOfSectors, Address, SECTORError;
-extern __IO uint32_t data32, MemoryProgramStatus;
+
 /********************STRUCT***************************/
 struct PFC_VARIABLES
 {
     uint32_t adc_raw[5];
 };
-typedef struct Allert_Portect
+struct Allert_Portect
 {
-    uint16_t Protect_12V;
-    uint16_t Portect_5V;
+    uint32_t Protect_12V_Max;
+    uint32_t Protect_12V_Min;
+    uint32_t Portect_5V_max;
+    uint32_t Portect_5V_min;
 };
 
+//保護點設置
+extern uint32_t Protect_12V,Protect_5V;
 /*command 結構體*/
 // 定义命令-处理函数映射表
 typedef struct {

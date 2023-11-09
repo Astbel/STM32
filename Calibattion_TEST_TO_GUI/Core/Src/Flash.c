@@ -11,33 +11,31 @@ FLASH_EraseInitTypeDef flashstruct;
  * @param size  資料大小
  * @param startAddr 資料扇曲
  */
-void Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startAddr)
+uint32_t Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startAddr)
 {
     HAL_FLASH_Unlock();
     flashstruct.TypeErase = FLASH_TYPEERASE_SECTORS;
     flashstruct.Sector = startAddr;
     flashstruct.NbSectors = 1;
-    flashstruct.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 选择适当的电压范围
+    flashstruct.VoltageRange = FLASH_VOLTAGE_RANGE_3; 
 
     uint32_t sectorError = 0;
     if (HAL_FLASHEx_Erase(&flashstruct, &sectorError) != HAL_OK)
     {
-        // 擦除失败
-        // 在此处处理错误
+       
     }
-
     uint32_t flashAddress = startAddr;
     for (uint32_t i = 0; i < size; i++)
     {
         if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, flashAddress, data[i]) != HAL_OK)
         {
-            // 编程失败
-            // 在此处处理错误
+           
         }
-        flashAddress += 4; // 因为我们在这里使用32位字（4个字节）
+        flashAddress += 4; 
     }
 
     HAL_FLASH_Lock();
+    return startAddr; // 返回写入的Flash地址
 }
 
 //
