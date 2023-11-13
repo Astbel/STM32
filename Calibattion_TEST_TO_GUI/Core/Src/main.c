@@ -118,7 +118,7 @@ int main(void)
   Ringbuf_init();
   Initail_Variable();
   /* Start ISR */
-  // HAL_TIM_Base_Start_IT(&htim10);
+  HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -135,10 +135,10 @@ int main(void)
       
 
       //測試C#指令
-      Get_Command_From_C_shrap();
+      // Get_Command_From_C_shrap();
     
-      HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
-      HAL_Delay(100);
+      // HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+      // HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
@@ -265,9 +265,9 @@ static void MX_TIM10_Init(void)
 
   /* USER CODE END TIM10_Init 1 */
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = Timer_PRESCALER_VALUE;
+  htim10.Init.Prescaler = 20000-1;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim10.Init.Period = Timer_PERIOD_VALUE;
+  htim10.Init.Period = 16000-1;
   htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
