@@ -110,22 +110,35 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
-  MX_ADC1_Init();
-  MX_TIM10_Init();
+  MX_USART2_UART_Init();//Uart2 clk 異常不能使用
   MX_USART3_UART_Init();
+  // MX_ADC1_Init();
+  MX_TIM10_Init();
   /* Ring Buffer Init */
   Ringbuf_init();
   Initail_Variable();
   /* Start ISR */
-  HAL_TIM_Base_Start_IT(&htim10);
+  // HAL_TIM_Base_Start_IT(&htim10);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+      //測適用傳輸看功能是否正常
+      // Uart_sendstring("Test Uart function",pc_uart);
 
-    /* USER CODE BEGIN 3 */
+      //測試UART接收回傳  Receive 和 Transmint正常
+      // if (IsDataAvailable(pc_uart))
+      // {
+      //   int data =Uart_read(pc_uart);
+      //   Uart_write(data,pc_uart);
+      // }
+      
+
+      //測試C#指令
+      Get_Command_From_C_shrap();
+    
+      HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+      HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

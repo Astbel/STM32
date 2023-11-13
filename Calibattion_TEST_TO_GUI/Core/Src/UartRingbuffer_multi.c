@@ -17,7 +17,8 @@ extern void Uart_isr (UART_HandleTypeDef *huart);
 */
 
 /**************** =====================================>>>>>>>>>>>> NO chnages after this **********************/
-uint16_t MQTT_TxLen;
+// 執行標記
+volatile uint8_t Process_Excecuted_Flag;
 
 ring_buffer rx_buffer1 = {{0}, 0, 0};
 ring_buffer tx_buffer1 = {{0}, 0, 0};
@@ -33,6 +34,13 @@ void store_char(unsigned char c, ring_buffer *buffer);
 
 void Ringbuf_init(void)
 {
+
+	Process_Excecuted_Flag = False;
+	/*
+	buffer1 -> Uart1
+
+	buffer2	-> Uart2
+	*/
 	_rx_buffer1 = &rx_buffer1;
 	_tx_buffer1 = &tx_buffer1;
 	_rx_buffer2 = &rx_buffer2;
@@ -600,39 +608,57 @@ void Search_String(char s[], char out[], uint16_t p, uint16_t l)
 // 命令处理函数
 void Get5VMinCommand(void)
 {
-	printf("Saving 5V min ADC value to Flash memory\n");
+	// printf("Saving 5V min ADC value to Flash memory\n");
+	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Dyanmic_Portect.Portect_5V_min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+	// Dyanmic_Portect.Portect_5V_min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
+
+	// 清空buffer
+	Process_Excecuted_Flag = True;
 }
 
 void Get5VMaxCommand(void)
 {
-	printf("Saving 5V max ADC value to Flash memory\n");
+	// printf("Saving 5V max ADC value to Flash memory\n");
+	Uart_sendstring("Saving 5V max ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Max 命令储存当前ADC值
-	Dyanmic_Portect.Portect_5V_max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
-}
+	// Dyanmic_Portect.Portect_5V_max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
 
+	// 清空buffer
+	Process_Excecuted_Flag = True;
+}
 
 void Get12VMinCommand(void)
 {
-	printf("Saving 12V min ADC value to Flash memory\n");
+	// printf("Saving 12V min ADC value to Flash memory\n");
+	Uart_sendstring("Saving 12V min ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_12V_Min 命令
-	Dyanmic_Portect.Protect_12V_Min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+	// Dyanmic_Portect.Protect_12V_Min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+
+	// 清空buffer
+	Process_Excecuted_Flag = True;
 }
 
 void Get12VMaxCommand(void)
 {
-	printf("Saving 12V max ADC value to Flash memory\n");
+	// printf("Saving 12V max ADC value to Flash memory\n");
+	Uart_sendstring("Saving 12V max ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_12V_Max 命令
-	Dyanmic_Portect.Protect_12V_Max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
-}
+	// Dyanmic_Portect.Protect_12V_Max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
 
+	// 清空buffer
+	Process_Excecuted_Flag = True;
+}
 
 void EraseFlashMemoryCommand(void)
 {
-	printf("Erasing Flash memory\n");
+	// printf("Erasing Flash memory\n");
+	Uart_sendstring("Erasing Flash memory\n", pc_uart);
 	// 处理 Erase Flash memory 命令
-	Flash_Erase_Sectors(ADDR_FLASH_SECTOR_6, ADDR_FLASH_SECTOR_7);
+	// Flash_Erase_Sectors(ADDR_FLASH_SECTOR_6, ADDR_FLASH_SECTOR_7);
+
+	// 清空buffer
+	Process_Excecuted_Flag = True;
 }
 
 /**Command 窗口 擴充命令在這**/
@@ -645,7 +671,7 @@ CommandEntry commandTable[] = {
 	// 添加其他命令...
 };
 
-//執行來自C# Uart的指標函數命令
+// 執行來自C# Uart的指標函數命令
 void ProcessCommand(const char *command)
 {
 	for (int i = 0; i < sizeof(commandTable) / sizeof(commandTable[0]); i++)
@@ -656,14 +682,32 @@ void ProcessCommand(const char *command)
 			return;
 		}
 	}
-	printf("UnKnown Command not going do anything\n");
+
+	// printf("UnKnown Command not going do anything\n");
+	// Uart_sendstring("UnKnown Command not going do anything\n",pc_uart);
 }
 
 // 查找C# Uart Serial 的Command 指令
 void Get_Command_From_C_shrap(void)
 {
-	char command_buffer[UART_BUFFER_SIZE];
-	// _rx_buffer1->buffer 包含了接收到的命令
-	strncpy(command_buffer, (const char *)_rx_buffer1->buffer, UART_BUFFER_SIZE);
-	ProcessCommand(command_buffer);
+	if (Process_Excecuted_Flag != True)
+	{
+		char command_buffer[UART_BUFFER_SIZE];
+		// _rx_buffer1->buffer 包含了接收到的命令
+		strncpy(command_buffer, (const char *)_rx_buffer2->buffer, UART_BUFFER_SIZE);
+		ProcessCommand(command_buffer);
+
+		// 執行完後呼叫清空環型緩衝 指標 以及 buffer
+		Reset_Rx_Buffer();
+	}
+}
+
+/*重制圓形緩衝buffer和head和tail*/
+void Reset_Rx_Buffer(void)
+{
+	// 當cmd執行完就呼叫執行
+	memset(_rx_buffer2->buffer, '\0', UART_BUFFER_SIZE);
+	_rx_buffer2->head = 0;
+	_rx_buffer2->tail = 0;
+	Process_Excecuted_Flag = False;
 }

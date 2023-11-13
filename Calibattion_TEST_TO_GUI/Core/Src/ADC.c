@@ -48,7 +48,7 @@ void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars)
     convert_data2=pfc_vars->adc_raw[1];
     // 使用结构体指针访问结构体成员
 	sprintf(buffer, "volt is %d, curr is %d", convert_data1, convert_data2);
-	Uart_sendstring(buffer,device_uart);
+	Uart_sendstring(buffer,pc_uart);
 }
 
 //內差法取Flash值計算保護點

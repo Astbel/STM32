@@ -91,6 +91,6 @@ void Uart_isr (UART_HandleTypeDef *huart);
 void Search_String(char s[],char out[],uint16_t p,uint16_t l);
 void ProcessCommand(const char *command);
 void Get_Command_From_C_shrap(void);
-
-
+//清除圓形緩衝後的值
+void Reset_Rx_Buffer(void);
 #endif /* UARTRINGBUFFER_H_ */

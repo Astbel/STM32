@@ -80,7 +80,9 @@ void Error_Handler(void);
 #define Dynmaic_Gain (2)
 
 /* USER CODE BEGIN EFP */
-
+/*Boolean define*/
+#define True  (1)
+#define False (0) 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
