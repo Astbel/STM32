@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.h
+ * @brief          : Header for main.c file.
+ *                   This file contains the common defines of the application.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2023 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -23,7 +23,8 @@
 #define __MAIN_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -37,15 +38,15 @@ extern "C" {
 #include "stdlib.h"
 #include "FLASH_SECTOR_F4.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+  /* Private includes ----------------------------------------------------------*/
+  /* USER CODE BEGIN Includes */
 
-/* USER CODE END Includes */
-extern UART_HandleTypeDef huart2;
-extern UART_HandleTypeDef huart3;
-extern TIM_HandleTypeDef htim10;
-extern ADC_HandleTypeDef hadc1;
-extern FLASH_EraseInitTypeDef flashstruct;
+  /* USER CODE END Includes */
+  extern UART_HandleTypeDef huart2;
+  extern UART_HandleTypeDef huart3;
+  extern TIM_HandleTypeDef htim10;
+  extern ADC_HandleTypeDef hadc1;
+  extern FLASH_EraseInitTypeDef flashstruct;
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 #define Timer_PRESCALER_VALUE (uint32_t)(((SystemCoreClock) / 45000000) - 1)
@@ -55,38 +56,38 @@ extern FLASH_EraseInitTypeDef flashstruct;
 #define pc_uart &huart3
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-//記憶體儲存地址區域
-#define FLASH_USER_START_ADDR   ADDR_FLASH_SECTOR_2   /* Start @ of user Flash area */
-#define FLASH_USER_END_ADDR     ADDR_FLASH_SECTOR_7  //+  GetSectorSize(ADDR_FLASH_SECTOR_7) -1 /* End @ of user Flash area : sector start address + sector size -1 */
+// 記憶體儲存地址區域
+#define FLASH_USER_START_ADDR ADDR_FLASH_SECTOR_2 /* Start @ of user Flash area */
+#define FLASH_USER_END_ADDR ADDR_FLASH_SECTOR_7   //+  GetSectorSize(ADDR_FLASH_SECTOR_7) -1 /* End @ of user Flash area : sector start address + sector size -1 */
 
 #define data_size_adc (4)
 
 /* USER CODE END EC */
 /* Base address of the Flash sectors */
-#define ADDR_FLASH_SECTOR_0     ((uint32_t)0x08000000) /* Base address of Sector 0, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_1     ((uint32_t)0x08004000) /* Base address of Sector 1, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_2     ((uint32_t)0x08008000) /* Base address of Sector 2, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_3     ((uint32_t)0x0800C000) /* Base address of Sector 3, 16 Kbytes */
-#define ADDR_FLASH_SECTOR_4     ((uint32_t)0x08010000) /* Base address of Sector 4, 64 Kbytes */
-#define ADDR_FLASH_SECTOR_5     ((uint32_t)0x08020000) /* Base address of Sector 5, 128 Kbytes */
-#define ADDR_FLASH_SECTOR_6     ((uint32_t)0x08040000) /* Base address of Sector 6, 128 Kbytes */
-#define ADDR_FLASH_SECTOR_7     ((uint32_t)0x08060000) /* Base address of Sector 7, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_0 ((uint32_t)0x08000000) /* Base address of Sector 0, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_1 ((uint32_t)0x08004000) /* Base address of Sector 1, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_2 ((uint32_t)0x08008000) /* Base address of Sector 2, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_3 ((uint32_t)0x0800C000) /* Base address of Sector 3, 16 Kbytes */
+#define ADDR_FLASH_SECTOR_4 ((uint32_t)0x08010000) /* Base address of Sector 4, 64 Kbytes */
+#define ADDR_FLASH_SECTOR_5 ((uint32_t)0x08020000) /* Base address of Sector 5, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_6 ((uint32_t)0x08040000) /* Base address of Sector 6, 128 Kbytes */
+#define ADDR_FLASH_SECTOR_7 ((uint32_t)0x08060000) /* Base address of Sector 7, 128 Kbytes */
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
 /*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */
-#define ADC_Driver_Gain  (3.3/4095)
+#define ADC_Driver_Gain (3.3 / 4095)
 
-/* Exported functions prototypes ---------------------------------------------*/
-void Error_Handler(void);
+  /* Exported functions prototypes ---------------------------------------------*/
+  void Error_Handler(void);
 #define Dynmaic_Gain (2)
 
 /* USER CODE BEGIN EFP */
 /*Boolean define*/
-#define True  (1)
-#define False (0) 
+#define True (1)
+#define False (0)
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -108,9 +109,13 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-/* USER CODE BEGIN Private defines */
+  /* USER CODE BEGIN Private defines */
 
-/* USER CODE END Private defines */
+  /* USER CODE END Private defines */
+
+  /*條件編譯DEBUG區*/
+  // #define DEBUG_MODE_FLASH 1
+  //  #define DEBUG_MODE_UART  1
 
 #ifdef __cplusplus
 }

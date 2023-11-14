@@ -12,7 +12,11 @@ extern struct Allert_Portect Dyanmic_Portect;
 /**********************C# command 指標函數************************/
 typedef void (*CommandHandler)(void);
 /***********************Flash**********************/
-
+extern float val,Rxval;
+extern int number;
+extern char string[100];
+extern uint32_t Rx_Data[30],data2[9];
+extern char *data;
 /********************STRUCT***************************/
 struct PFC_VARIABLES
 {
