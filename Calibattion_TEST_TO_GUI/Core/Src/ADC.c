@@ -34,7 +34,7 @@ void Multi_ADC_Sample(void)
     }
    
     //傳送訊息
-   Uart_send_ADC_Result(&PFC_Variables);
+//    Uart_send_ADC_Result(&PFC_Variables);
 }
 
 /*傳送ADC採樣值給C#*/
@@ -43,7 +43,6 @@ void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars)
 	char buffer[50];
     static uint16_t convert_data1,convert_data2;
     //換算對應的數值
-
     convert_data1=pfc_vars->adc_raw[0];
     convert_data2=pfc_vars->adc_raw[1];
     // 使用结构体指针访问结构体成员

@@ -133,6 +133,8 @@ int main(void)
       //   Uart_write(data,pc_uart);
       // }
       
+      //Test Multi ADC
+      Multi_ADC_Sample();
 
       //測試C#指令
       // Get_Command_From_C_shrap();
@@ -265,7 +267,7 @@ static void MX_TIM10_Init(void)
 
   /* USER CODE END TIM10_Init 1 */
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = 20000-1;
+  htim10.Init.Prescaler = 10625-1;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim10.Init.Period = 16000-1;
   htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

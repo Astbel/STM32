@@ -37,4 +37,5 @@ calibattion_test_to_gui/flash.o: ..\Core\Src\Flash.c ..\Core\Inc\main.h \
   ..\Core\Inc\UartRingbuffer_multi.h ..\Core\Inc\function.h \
   ..\Core\Inc\variable.h C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\Core\Inc\FLASH_SECTOR_F4.h

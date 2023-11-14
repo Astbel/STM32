@@ -435,6 +435,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\Flash.c</FilePath>
             </File>
+            <File>
+              <FileName>FLASH_SECTOR_F4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FLASH_SECTOR_F4.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

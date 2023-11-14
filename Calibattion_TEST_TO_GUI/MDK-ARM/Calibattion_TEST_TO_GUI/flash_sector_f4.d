@@ -1,4 +1,4 @@
-calibattion_test_to_gui/stm32f4xx_it.o: ..\Core\Src\stm32f4xx_it.c \
+calibattion_test_to_gui/flash_sector_f4.o: FLASH_SECTOR_F4.c \
   ..\Core\Inc\main.h ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
   ..\Core\Inc\stm32f4xx_hal_conf.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
@@ -38,4 +38,4 @@ calibattion_test_to_gui/stm32f4xx_it.o: ..\Core\Src\stm32f4xx_it.c \
   ..\Core\Inc\variable.h C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  ..\Core\Inc\FLASH_SECTOR_F4.h ..\Core\Inc\stm32f4xx_it.h
+  ..\Core\Inc\FLASH_SECTOR_F4.h

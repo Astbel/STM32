@@ -35,6 +35,8 @@ extern "C" {
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
+#include "FLASH_SECTOR_F4.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -74,7 +76,8 @@ extern FLASH_EraseInitTypeDef flashstruct;
 
 /*ADC OCP TEST Gain*/
 
-/* USER CODE END EM */
+/* ADC Gain transfer back to float number */
+#define ADC_Driver_Gain  (3.3/4095)
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
