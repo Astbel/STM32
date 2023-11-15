@@ -42,8 +42,8 @@ typedef struct {
     CommandHandler handler;
 } CommandEntry;
 
-/*********************Flag***************************/
-
+/*********************Flash***************************/
+extern int check_data;
 /*********************Counter**********************/
 
 

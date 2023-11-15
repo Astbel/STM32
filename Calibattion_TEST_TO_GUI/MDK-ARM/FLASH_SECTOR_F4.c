@@ -23,7 +23,7 @@
  *  Sector 4 as 64KB
  *  Sector 5 to Sector 7 each 128KB
  */
-
+int check_data;
 uint32_t GetSector(uint32_t Address)
 {
   uint32_t sector = 0;
@@ -190,10 +190,13 @@ uint32_t Flash_Write_Data(uint32_t StartSectorAddress, uint32_t *Data, uint16_t 
      you have to make sure that these data are rewritten before they are accessed during code
      execution. If this cannot be done safely, it is recommended to flush the caches by setting the
      DCRST and ICRST bits in the FLASH_CR register. */
-  if (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
-  {
-    return HAL_FLASH_GetError();
-  }
+     
+     /*這裡不執行擦除flash層會導致先前寫入的資料遺失*/
+  
+  // if (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
+  // {
+  //   return HAL_FLASH_GetError();
+  // }
 
   /* Program the user Flash area word by word
     (area defined by FLASH_USER_START_ADDR and FLASH_USER_END_ADDR) ***********/
@@ -269,7 +272,6 @@ float Flash_Read_NUM(uint32_t StartSectorAddress)
 uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
 {
   /*確認data是否存在如果存在則向後移動4個地址,如果資料為null則不變跟地址*/
-  int check_data;
   check_data=Flash_Read_NUM(StartSectorAddress);
   if (check_data !=False)
   {

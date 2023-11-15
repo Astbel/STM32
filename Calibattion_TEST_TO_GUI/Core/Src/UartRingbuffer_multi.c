@@ -609,9 +609,9 @@ void Search_String(char s[], char out[], uint16_t p, uint16_t l)
 void Get5VMinCommand(void)
 {
 	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
-	//確認地址內資料是否存在
-	uint32_t Data_5V_Min_Addr=0x0800C100;
-	Data_5V_Min_Addr=Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
+	// 確認地址內資料是否存在
+	uint32_t Data_5V_Min_Addr = 0x0800C100;
+	// Data_5V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	Flash_Write_NUM(Data_5V_Min_Addr, number);
 	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
@@ -624,21 +624,23 @@ void Get5VMaxCommand(void)
 	Uart_sendstring("Saving 5V max ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Max 命令储存当前ADC值
 	char buffer[50];
-	//Read Flash data
+	// Read Flash data
 	int value;
-	value = Flash_Read_NUM(0x0800C100);
+	value = Flash_Read_NUM(0x0800C104);
 	sprintf(buffer, "volt is %d", value);
-    Uart_sendstring(buffer, pc_uart);
+	Uart_sendstring(buffer, pc_uart);
 	// 清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
 
 void Get12VMinCommand(void)
 {
-	// printf("Saving 12V min ADC value to Flash memory\n");
+	int test=12;
 	Uart_sendstring("Saving 12V min ADC value to Flash memory\n", pc_uart);
-	// 处理 Get_12V_Min 命令
-	// Dyanmic_Portect.Protect_12V_Min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[1], data_size_adc, ADDR_FLASH_SECTOR_7);
+	uint32_t Data_12V_Min_Addr = 0x0800C104;
+	// Data_12V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Min_Addr);
+	// 处理 Get_5V_Min 命令储存当前ADC值
+	Flash_Write_NUM(Data_12V_Min_Addr, test);
 
 	// 清空buffer
 	Process_Excecuted_Flag = True;
@@ -666,6 +668,20 @@ void EraseFlashMemoryCommand(void)
 	Process_Excecuted_Flag = True;
 }
 
+void Check_Flash_Memory_Data(void)
+{
+	Uart_sendstring("Test the write Flash memory\n", pc_uart);
+	// Read Flash data
+	char buffer[50];
+	int value;
+	value = Flash_Read_NUM(0x0800C104);
+	sprintf(buffer, "data is %d", value);
+	Uart_sendstring(buffer, pc_uart);
+	// 清空buffer旗標
+	Process_Excecuted_Flag = True;
+}
+
+
 /**Command 窗口 擴充命令在這**/
 CommandEntry commandTable[] = {
 	{"Get_5V_Min", Get5VMinCommand},
@@ -673,6 +689,7 @@ CommandEntry commandTable[] = {
 	{"Get_12V_Min", Get12VMinCommand},
 	{"Get_12V_Max", Get12VMaxCommand},
 	{"Erase Flash memory", EraseFlashMemoryCommand},
+	{"Check Flash Data",Check_Flash_Memory_Data},
 	// 添加其他命令...
 };
 
