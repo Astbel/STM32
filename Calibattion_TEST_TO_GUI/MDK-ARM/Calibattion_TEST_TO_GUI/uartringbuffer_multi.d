@@ -1,6 +1,6 @@
 calibattion_test_to_gui/uartringbuffer_multi.o: \
-  ..\Core\Src\UartRingbuffer_multi.c ..\Core\Inc\UartRingbuffer_multi.h \
-  ..\Core\Inc\main.h ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
+  ..\Core\Src\UartRingbuffer_multi.c ..\Core\Inc\main.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
   ..\Core\Inc\stm32f4xx_hal_conf.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h \
@@ -35,8 +35,8 @@ calibattion_test_to_gui/uartringbuffer_multi.o: \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
-  ..\Core\Inc\function.h ..\Core\Inc\variable.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  ..\Core\Inc\UartRingbuffer_multi.h ..\Core\Inc\function.h \
+  ..\Core\Inc\variable.h C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Core\Inc\FLASH_SECTOR_F4.h

@@ -73,8 +73,8 @@ extern "C"
 #define ADDR_FLASH_SECTOR_6 ((uint32_t)0x08040000) /* Base address of Sector 6, 128 Kbytes */
 #define ADDR_FLASH_SECTOR_7 ((uint32_t)0x08060000) /* Base address of Sector 7, 128 Kbytes */
 /* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
+/* Flash define */
+#define Flash_Addr_size (4)
 /*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */

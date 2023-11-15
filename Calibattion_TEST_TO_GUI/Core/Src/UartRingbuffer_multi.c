@@ -4,7 +4,7 @@
  *  Created on: 10-Jul-2019
  *      Author: Controllerstech
  */
-
+#include "main.h"
 #include "UartRingbuffer_multi.h"
 #include <string.h>
 
@@ -609,8 +609,11 @@ void Search_String(char s[], char out[], uint16_t p, uint16_t l)
 void Get5VMinCommand(void)
 {
 	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
+	//確認地址內資料是否存在
+	uint32_t Data_5V_Min_Addr=0x0800C100;
+	Data_5V_Min_Addr=Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_NUM(0x0800C100, number);
+	Flash_Write_NUM(Data_5V_Min_Addr, number);
 	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
