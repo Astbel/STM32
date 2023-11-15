@@ -608,27 +608,24 @@ void Search_String(char s[], char out[], uint16_t p, uint16_t l)
 // 命令处理函数
 void Get5VMinCommand(void)
 {
-	// printf("Saving 5V min ADC value to Flash memory\n");
 	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	// Dyanmic_Portect.Portect_5V_min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
-	// Flash_Write_Data(0x08004100 , (uint32_t *)data2, sizeof(data2));
-	Flash_Write_Data(0x08004100 , (uint32_t *)Min_5V_Data, sizeof(Min_5V_Data));
-	//測試Serial CMD
-	HAL_GPIO_WritePin(LD2_GPIO_Port,LD2_Pin,GPIO_PIN_SET);
-	// 清空buffer旗標
+	Flash_Write_NUM(0x0800C100, number);
+	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
+	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
 
 void Get5VMaxCommand(void)
 {
-	// printf("Saving 5V max ADC value to Flash memory\n");
 	Uart_sendstring("Saving 5V max ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Max 命令储存当前ADC值
-	// Dyanmic_Portect.Portect_5V_max=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
-	
-	//
-	HAL_GPIO_WritePin(LD2_GPIO_Port,LD2_Pin,GPIO_PIN_RESET);
+	char buffer[50];
+	//Read Flash data
+	int value;
+	value = Flash_Read_NUM(0x0800C100);
+	sprintf(buffer, "volt is %d", value);
+    Uart_sendstring(buffer, pc_uart);
 	// 清空buffer旗標
 	Process_Excecuted_Flag = True;
 }

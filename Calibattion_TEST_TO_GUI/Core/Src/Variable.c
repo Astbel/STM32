@@ -10,7 +10,7 @@ uint32_t Rx_Data[30];
 
 char string[100];
 
-int number = 123;
+int number = 10;
 
 float val = 123.456;
 
@@ -44,7 +44,7 @@ void Initail_Variable(void)
 
     char string[100];
 
-    int number = 123;
+    int number = 10;
 
     float val = 123.456;
 
