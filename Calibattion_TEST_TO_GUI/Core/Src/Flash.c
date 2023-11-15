@@ -17,21 +17,19 @@ uint32_t Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startA
     flashstruct.TypeErase = FLASH_TYPEERASE_SECTORS;
     flashstruct.Sector = startAddr;
     flashstruct.NbSectors = 1;
-    flashstruct.VoltageRange = FLASH_VOLTAGE_RANGE_3; 
+    flashstruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
     uint32_t sectorError = 0;
     if (HAL_FLASHEx_Erase(&flashstruct, &sectorError) != HAL_OK)
     {
-       
     }
     uint32_t flashAddress = startAddr;
     for (uint32_t i = 0; i < size; i++)
     {
         if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, flashAddress, data[i]) != HAL_OK)
         {
-           
         }
-        flashAddress += 4; 
+        flashAddress += 4;
     }
 
     HAL_FLASH_Lock();
@@ -47,12 +45,16 @@ uint32_t Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startA
  */
 void Flash_Erase_Sectors(uint32_t startSector, uint32_t endSector)
 {
-    HAL_FLASH_Unlock();
+    /*起始終點宣告*/
+    static uint32_t Start_Address,End_Address;
 
+    HAL_FLASH_Unlock();
+    Start_Address = GetSector(startSector);
+    End_Address  =GetSector(endSector);
     //   FLASH_EraseInitTypeDef eraseInitStruct;
     flashstruct.TypeErase = FLASH_TYPEERASE_SECTORS;
-    flashstruct.Sector = startSector;
-    flashstruct.NbSectors = endSector - startSector + 1; // 计算要擦除的扇区数量
+    flashstruct.Sector = Start_Address;
+    flashstruct.NbSectors = End_Address - Start_Address + 1; // 计算要擦除的扇区数量
     flashstruct.VoltageRange = FLASH_VOLTAGE_RANGE_3;    // 选择适当的电压范围
 
     uint32_t sectorError = 0;

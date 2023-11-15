@@ -16,6 +16,10 @@ float val = 123.456;
 
 float Rxval;
 uint32_t Protect_12V, Protect_5V;
+
+/*Flash 變數申明區*/
+uint32_t Min_5V_Data;
+
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨
@@ -30,7 +34,7 @@ void Initail_Variable(void)
 
     Protect_12V = 0, Protect_5V = 0;
 
-    /*Flash Test variable delcare here*/
+    /*Flash 測試變數使用區*/
     char *data = "hello FLASH from Astbel\
 			  This is a test to see how many words can we work with";
 
@@ -45,4 +49,7 @@ void Initail_Variable(void)
     float val = 123.456;
 
     float RxVal;
+
+    /*Flash 宣告變數區*/
+    Min_5V_Data = 1752;
 }

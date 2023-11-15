@@ -24,7 +24,7 @@
  *  Sector 5 to Sector 7 each 128KB
  */
 
-static uint32_t GetSector(uint32_t Address)
+uint32_t GetSector(uint32_t Address)
 {
   uint32_t sector = 0;
 

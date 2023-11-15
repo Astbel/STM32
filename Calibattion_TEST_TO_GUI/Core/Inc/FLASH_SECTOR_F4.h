@@ -29,5 +29,5 @@ void Flash_Write_NUM (uint32_t StartSectorAddress, float Num);
 
 float Flash_Read_NUM (uint32_t StartSectorAddress);
 
-
+uint32_t GetSector(uint32_t Address);
 #endif /* INC_FLASH_SECTOR_F4_H_ */

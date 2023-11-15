@@ -612,7 +612,8 @@ void Get5VMinCommand(void)
 	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	// Dyanmic_Portect.Portect_5V_min=Flash_Write_Flash_Memory(&PFC_Variables.adc_raw[0], data_size_adc, ADDR_FLASH_SECTOR_7);
-	
+	// Flash_Write_Data(0x08004100 , (uint32_t *)data2, sizeof(data2));
+	Flash_Write_Data(0x08004100 , (uint32_t *)Min_5V_Data, sizeof(Min_5V_Data));
 	//測試Serial CMD
 	HAL_GPIO_WritePin(LD2_GPIO_Port,LD2_Pin,GPIO_PIN_SET);
 	// 清空buffer旗標
@@ -659,7 +660,7 @@ void EraseFlashMemoryCommand(void)
 	// printf("Erasing Flash memory\n");
 	Uart_sendstring("Erasing Flash memory\n", pc_uart);
 	// 处理 Erase Flash memory 命令
-	Flash_Erase_Sectors(ADDR_FLASH_SECTOR_6, ADDR_FLASH_SECTOR_7);
+	Flash_Erase_Sectors(ADDR_FLASH_SECTOR_1, ADDR_FLASH_SECTOR_7);
 
 	// 清空buffer
 	Process_Excecuted_Flag = True;
