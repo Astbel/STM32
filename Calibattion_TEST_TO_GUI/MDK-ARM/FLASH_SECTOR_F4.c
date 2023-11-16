@@ -284,3 +284,19 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
   }
   return StartSectorAddress;
 }
+
+/**
+ * @brief Sloping_Method_From_Two_Point
+ * 兩點校正抓取 方法取地址值
+ * @param readAddr_start
+ * @param readAddr_end
+ */
+void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_end)
+{
+  /*取止取值*/
+  uint32_t *readAddr_flash_start = &readAddr_start;
+  uint32_t *readAddr_flash_end = &readAddr_end;
+
+  /*slope method 兩點差值*/
+  Slope_value= readAddr_flash_start - readAddr_flash_end;
+}

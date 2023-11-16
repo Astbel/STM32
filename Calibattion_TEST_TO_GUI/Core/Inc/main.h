@@ -81,6 +81,8 @@ extern "C"
 #define Flash_Addr_5V_Max (0x0800C110)
 #define Flash_Addr_12V_Min (0x0800C120)
 #define Flash_Addr_12V_Max (0x0800C130)
+/*傳輸buffer 大小配置*/
+#define Uart_Buffer (200)
 /*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */
@@ -122,6 +124,8 @@ extern "C"
   /*條件編譯DEBUG區*/
   // #define DEBUG_MODE_FLASH 1
   //  #define DEBUG_MODE_UART  1
+  // #define DEBUG_MODE_UART_ADC_Message 1
+
 
 #ifdef __cplusplus
 }

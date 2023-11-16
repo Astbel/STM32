@@ -24,6 +24,10 @@ uint32_t Data_5V_Min_Addr;
 uint32_t Data_5V_Max_Addr;
 uint32_t Data_12V_Min_Addr;
 uint32_t Data_12V_Max_Addr;
+/**/
+uint32_t Slope_value;
+
+
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨
