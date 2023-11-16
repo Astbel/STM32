@@ -158,7 +158,7 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>check_data</ItemText>
+          <ItemText>Data_12V_Min_Addr</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

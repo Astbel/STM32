@@ -75,6 +75,7 @@ extern "C"
 /* Exported macro ------------------------------------------------------------*/
 /* Flash define */
 #define Flash_Addr_size (4)
+#define Flash_Memory_Empty (0xFFFFFFFF)
 /*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */

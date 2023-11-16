@@ -44,6 +44,8 @@ typedef struct {
 
 /*********************Flash***************************/
 extern int check_data;
+//Addr for memory
+extern uint32_t Data_5V_Min_Addr;
 /*********************Counter**********************/
 
 

@@ -610,8 +610,8 @@ void Get5VMinCommand(void)
 {
 	Uart_sendstring("Saving 5V min ADC value to Flash memory\n", pc_uart);
 	// 確認地址內資料是否存在
-	uint32_t Data_5V_Min_Addr = 0x0800C100;
-	// Data_5V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
+	Data_5V_Min_Addr = 0x0800C100;
+	Data_5V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	Flash_Write_NUM(Data_5V_Min_Addr, number);
 	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
@@ -637,8 +637,8 @@ void Get12VMinCommand(void)
 {
 	int test=12;
 	Uart_sendstring("Saving 12V min ADC value to Flash memory\n", pc_uart);
-	uint32_t Data_12V_Min_Addr = 0x0800C104;
-	// Data_12V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Min_Addr);
+	uint32_t Data_12V_Min_Addr = 0x0800C110;
+	Data_12V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	Flash_Write_NUM(Data_12V_Min_Addr, test);
 
@@ -704,9 +704,6 @@ void ProcessCommand(const char *command)
 			return;
 		}
 	}
-
-	// printf("UnKnown Command not going do anything\n");
-	// Uart_sendstring("UnKnown Command not going do anything\n",pc_uart);
 }
 
 // 查找C# Uart Serial 的Command 指令

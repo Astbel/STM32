@@ -8,7 +8,7 @@ extern void Multi_ADC_Sample(void);
 extern void Initail_Variable(void);
 /**Flash**/
 extern void Flash_Erase_Sectors(uint32_t startSector, uint32_t endSector);
-extern uint32_t Flash_Write_Flash_Memory(uint32_t *data, uint32_t size, uint32_t startAddr);
+extern uint32_t Flash_Write_Flash_Memory(uint32_t *data,uint32_t startAddr, uint16_t numberofwords);
 extern uint32_t Flash_Find_Data(uint32_t *targetData, uint32_t size, uint32_t flashAddress);
 /**Uart command ptr function**/
 extern void Get5VMinCommand(void);

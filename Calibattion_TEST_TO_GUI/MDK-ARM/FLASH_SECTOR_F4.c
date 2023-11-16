@@ -190,9 +190,9 @@ uint32_t Flash_Write_Data(uint32_t StartSectorAddress, uint32_t *Data, uint16_t 
      you have to make sure that these data are rewritten before they are accessed during code
      execution. If this cannot be done safely, it is recommended to flush the caches by setting the
      DCRST and ICRST bits in the FLASH_CR register. */
-     
-     /*這裡不執行擦除flash層會導致先前寫入的資料遺失*/
-  
+
+  /*這裡不執行擦除flash層會導致先前寫入的資料遺失*/
+
   // if (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)
   // {
   //   return HAL_FLASH_GetError();
@@ -271,11 +271,13 @@ float Flash_Read_NUM(uint32_t StartSectorAddress)
  */
 uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
 {
+  uint32_t *Addr = (uint32_t *)StartSectorAddress;
+  // uint32_t **data =&Addr;
   /*確認data是否存在如果存在則向後移動4個地址,如果資料為null則不變跟地址*/
-  check_data=Flash_Read_NUM(StartSectorAddress);
-  if (check_data !=False)
-  {
+  // check_data=Flash_Read_NUM(StartSectorAddress);
+  if (*Addr == Flash_Memory_Empty) // 如果資料不存在的話
     return StartSectorAddress;
-  }
-  return StartSectorAddress + Flash_Addr_size;
+
+    StartSectorAddress += Flash_Addr_size;
+  return StartSectorAddress;
 }
