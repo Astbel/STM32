@@ -76,6 +76,11 @@ extern "C"
 /* Flash define */
 #define Flash_Addr_size (4)
 #define Flash_Memory_Empty (0xFFFFFFFF)
+/*定義資料儲存地址*/
+#define Flash_Addr_5V_Min (0x0800C100) 
+#define Flash_Addr_5V_Max (0x0800C110)
+#define Flash_Addr_12V_Min (0x0800C120)
+#define Flash_Addr_12V_Max (0x0800C130)
 /*ADC OCP TEST Gain*/
 
 /* ADC Gain transfer back to float number */

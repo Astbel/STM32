@@ -46,6 +46,9 @@ typedef struct {
 extern int check_data;
 //Addr for memory
 extern uint32_t Data_5V_Min_Addr;
+extern uint32_t Data_5V_Max_Addr;
+extern uint32_t Data_12V_Min_Addr;
+extern uint32_t Data_12V_Max_Addr;
 /*********************Counter**********************/
 
 

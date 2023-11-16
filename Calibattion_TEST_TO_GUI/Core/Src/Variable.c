@@ -20,9 +20,10 @@ uint32_t Protect_12V, Protect_5V;
 /*Flash 變數申明區*/
 uint32_t Min_5V_Data;
 /*Flash 地址申明區*/
-uint32_t Data_5V_Min_Addr ;
-
-
+uint32_t Data_5V_Min_Addr;
+uint32_t Data_5V_Max_Addr;
+uint32_t Data_12V_Min_Addr;
+uint32_t Data_12V_Max_Addr;
 /*
  * 初始化變數變量
  * 請區分 所有結構體 為一組 以利於分辨
