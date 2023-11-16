@@ -265,19 +265,22 @@ float Flash_Read_NUM(uint32_t StartSectorAddress)
 
 /**
  * @brief 確認當前地址是否有資料
- *
  * @param StartSectorAddress 檢測地址
  * @return uint32_t  回傳地址
  */
 uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
 {
+  int i;
   uint32_t *Addr = (uint32_t *)StartSectorAddress;
-  // uint32_t **data =&Addr;
   /*確認data是否存在如果存在則向後移動4個地址,如果資料為null則不變跟地址*/
-  // check_data=Flash_Read_NUM(StartSectorAddress);
-  if (*Addr == Flash_Memory_Empty) // 如果資料不存在的話
-    return StartSectorAddress;
+
+  for (i = 0; i < 3; ++i)
+  {
+    if (*Addr == Flash_Memory_Empty) // 如果資料不存在的話
+      return StartSectorAddress;
 
     StartSectorAddress += Flash_Addr_size;
+    Addr = (uint32_t *)StartSectorAddress;
+  }
   return StartSectorAddress;
 }
