@@ -81,6 +81,9 @@ extern "C"
 #define Flash_Addr_5V_Max (0x0800C110)
 #define Flash_Addr_12V_Min (0x0800C120)
 #define Flash_Addr_12V_Max (0x0800C130)
+/*兩點校正MAX MIN*/
+#define MAX_5V (20)
+#define MIN_5V (5)
 /*傳輸buffer 大小配置*/
 #define Uart_Buffer (200)
 /*ADC OCP TEST Gain*/

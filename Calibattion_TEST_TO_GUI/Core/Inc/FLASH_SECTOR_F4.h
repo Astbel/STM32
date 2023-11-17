@@ -33,5 +33,4 @@ uint32_t GetSector(uint32_t Address);
 
 uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress);
 
-float calibrate(float raw_value, float slope, float intercept);
 #endif /* INC_FLASH_SECTOR_F4_H_ */

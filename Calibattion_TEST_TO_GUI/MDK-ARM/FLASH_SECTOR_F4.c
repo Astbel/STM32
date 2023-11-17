@@ -290,34 +290,29 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
  * 兩點校正抓取 方法取地址值
  * @param readAddr_start
  * @param readAddr_end
+ * *實際值=Min+(原始值−Min_adc)×
+ *Max_adc−Min_adc
+ *Max−Min
  */
 void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_end)
 {
   /*buffer for uart send*/
   char buffer[Uart_Buffer];
+  /*打印serial 傳輸*/
+  static int vaule_convert;
   /* 讀取兩點的ADC值 */
-  uint32_t adc_value_start = Flash_Read_NUM(readAddr_start);
-  uint32_t adc_value_end = Flash_Read_NUM(readAddr_end);
-
-  /* 計算斜率和截距 */
-  float slope = (float)(adc_value_end - adc_value_start) / (float)(readAddr_end - readAddr_start);
-  float intercept = (float)adc_value_start - slope * (float)readAddr_start;
-
-  /* 使用兩點校正進行其他操作（這裡只是一個示例） */
-  float raw_value = 123; // 未經校正的原始值
-  float calibrated_value = calibrate(raw_value, slope, intercept);
-
+  uint32_t adc_value_min = Flash_Read_NUM(readAddr_start);
+  uint32_t adc_value_max = Flash_Read_NUM(readAddr_end);
+  /*回算斜率上的實際值*/
+  vaule_convert=MIN_5V+(PFC_Variables.adc_raw[0]-adc_value_min)*((MAX_5V-MIN_5V)/(adc_value_max-adc_value_min));
+  
   /* 在這裡使用校正後的數據進行其他操作 */
   // ...
 
   /* 打印結果（這只是一個示例） */
-  sprintf(buffer,"未經校正的原始值：%f\n", raw_value);
-  Uart_sendstring(buffer, pc_uart);  
-  sprintf(buffer,"校正後的實際值：%f\n", calibrated_value);
-  Uart_sendstring(buffer, pc_uart);  // 訊息至veturial serial
+  // sprintf(buffer, "未經校正的原始值：%f\n", raw_value);
+  // Uart_sendstring(buffer, pc_uart);
+  sprintf(buffer, "校正後的實際值：%d\n", vaule_convert);
+  Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
 }
-/*斜率計算*/
-float calibrate(float raw_value, float slope, float intercept)
-{
-  return (raw_value - intercept) / slope;
-}
+
