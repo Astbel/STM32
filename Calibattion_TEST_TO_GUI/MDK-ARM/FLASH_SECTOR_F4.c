@@ -293,10 +293,31 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
  */
 void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_end)
 {
-  /*取止取值*/
-  uint32_t *readAddr_flash_start = &readAddr_start;
-  uint32_t *readAddr_flash_end = &readAddr_end;
+  /*buffer for uart send*/
+  char buffer[Uart_Buffer];
+  /* 讀取兩點的ADC值 */
+  uint32_t adc_value_start = Flash_Read_NUM(readAddr_start);
+  uint32_t adc_value_end = Flash_Read_NUM(readAddr_end);
 
-  /*slope method 兩點差值*/
-  Slope_value= readAddr_flash_start - readAddr_flash_end;
+  /* 計算斜率和截距 */
+  float slope = (float)(adc_value_end - adc_value_start) / (float)(readAddr_end - readAddr_start);
+  float intercept = (float)adc_value_start - slope * (float)readAddr_start;
+
+  /* 使用兩點校正進行其他操作（這裡只是一個示例） */
+  float raw_value = 123; // 未經校正的原始值
+  float calibrated_value = calibrate(raw_value, slope, intercept);
+
+  /* 在這裡使用校正後的數據進行其他操作 */
+  // ...
+
+  /* 打印結果（這只是一個示例） */
+  sprintf(buffer,"未經校正的原始值：%f\n", raw_value);
+  Uart_sendstring(buffer, pc_uart);  
+  sprintf(buffer,"校正後的實際值：%f\n", calibrated_value);
+  Uart_sendstring(buffer, pc_uart);  // 訊息至veturial serial
+}
+/*斜率計算*/
+float calibrate(float raw_value, float slope, float intercept)
+{
+  return (raw_value - intercept) / slope;
 }
