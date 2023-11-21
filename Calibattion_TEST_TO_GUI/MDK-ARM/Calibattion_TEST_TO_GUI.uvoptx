@@ -160,6 +160,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>Data_12V_Min_Addr</ItemText>
         </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Slope_value</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>

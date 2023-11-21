@@ -25,7 +25,7 @@ uint32_t Data_5V_Max_Addr;
 uint32_t Data_12V_Min_Addr;
 uint32_t Data_12V_Max_Addr;
 /**/
-uint32_t Slope_value;
+float Slope_value;
 
 
 /*

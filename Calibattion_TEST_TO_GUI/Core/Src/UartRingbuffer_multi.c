@@ -675,7 +675,7 @@ void Check_Flash_Memory_Data(void)
 	// Read Flash data
 	char buffer[50];
 	int value;
-	value = Flash_Read_NUM(0x0800C104);
+	value = Flash_Read_NUM(0x0800C110);
 	sprintf(buffer, "data is %d", value);
 	Uart_sendstring(buffer, pc_uart);
 	// 清空buffer旗標
@@ -700,12 +700,14 @@ CommandEntry commandTable[] = {
 void ProcessCommand(const char *command)
 {
 	for (int i = 0; i < sizeof(commandTable) / sizeof(commandTable[0]); i++)
-	{
+	{	
+		//正常搜索字串執行cmd
 		if (strcmp(command, commandTable[i].commandName) == 0)
 		{
 			commandTable[i].handler();
 			return;
 		}
+		
 	}
 }
 

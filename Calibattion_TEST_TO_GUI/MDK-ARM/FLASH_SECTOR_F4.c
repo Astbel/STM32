@@ -314,24 +314,36 @@ void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_en
 
 /**
  * @brief
- * 測試用 Serial 輸入值轉換回 hex
- * 上Serial 串口上
- *
+ * 測試用 Serial 輸入值轉換回 hex 上Serial 串口上
+ * 計算兩點校正並且轉換回對應校正值
+ * 
  */
 void Seria_Testing_slopping_Method(void)
 {
   /*uart buffer 變數*/
   char buffer[Uart_Buffer];
   /*靜態變數*/
-  static int vaule_convert;
+  static uint32_t vaule_convert;
   /*從buffer內搜尋字串值並存入占存*/
-
+  /*Test value 測試校正值*/
+  uint32_t test_adc = 1100;
   /*從地址內取兩點校正的上下限值*/
   uint32_t adc_value_min = Flash_Read_NUM(Flash_Addr_5V_Min);
   uint32_t adc_value_max = Flash_Read_NUM(Flash_Addr_5V_Max);
+
   /*實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min*/
-  vaule_convert = MIN_5V + (PFC_Variables.adc_raw[0] - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
+  /*Spreate Block in to 3 peciecs*/
+  float block_c = ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min)); // maybhe too small
+  float block_b = (test_adc - adc_value_min);                            // this block is fine
+  float block_a = block_b * block_c;
+  Slope_value = (MIN_5V + block_a) / Flash_Gain;
+  // Slope_value = MIN_5V + (test_adc - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
+
+  sprintf(buffer, "volt is %f, curr is %d", Slope_value, PFC_Variables.adc_raw[1]);
+
+  Uart_sendstring(buffer, pc_uart);
+
   /*Uart 打印製serial端口上*/
-  sprintf(buffer, "Calibration value:%d\n", vaule_convert);
+  sprintf(buffer, "Calibration value:%f\n", Slope_value);
   Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
 }
