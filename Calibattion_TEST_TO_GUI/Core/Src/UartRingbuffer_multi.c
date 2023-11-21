@@ -613,8 +613,8 @@ void Get5VMinCommand(void)
 	Data_5V_Min_Addr = Flash_Addr_5V_Min;
 	Data_5V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_NUM(Data_5V_Min_Addr, number);
-	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
+	Flash_Write_NUM(Data_5V_Min_Addr, Flash_5V_Min_Hex);
+	
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
@@ -626,8 +626,8 @@ void Get5VMaxCommand(void)
 	Data_5V_Max_Addr = Flash_Addr_5V_Max;
 	Data_5V_Max_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Max_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_NUM(Data_5V_Max_Addr, number);
-	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
+	Flash_Write_NUM(Data_5V_Max_Addr, Flash_5V_Max_Hex);
+
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
@@ -640,7 +640,7 @@ void Get12VMinCommand(void)
 	Data_12V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	Flash_Write_NUM(Data_12V_Min_Addr, number);
-	// Flash_Write_Data(0x0800C100 , (uint32_t *)data2, 9);
+
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
@@ -681,6 +681,7 @@ void Check_Flash_Memory_Data(void)
 	// 清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
+/*測試兩點校正線性方程打印回C#上函式*/
 
 /**Command 窗口 擴充命令在這**/
 CommandEntry commandTable[] = {
@@ -690,6 +691,8 @@ CommandEntry commandTable[] = {
 	{"Get_12V_Max", Get12VMaxCommand},
 	{"Erase Flash memory", EraseFlashMemoryCommand},
 	{"Check Flash Data", Check_Flash_Memory_Data},
+	//below is testing the calibration 
+	{"Test Value is",Seria_Testing_slopping_Method},
 	// 添加其他命令...
 };
 

@@ -17,6 +17,7 @@ extern void Get12VMinCommand(void);
 extern void Get12VMaxCommand(void);
 extern void EraseFlashMemoryCommand(void);
 extern void Check_Flash_Memory_Data(void);
+extern void Seria_Testing_slopping_Method(void);
 
 // void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars);
 #endif

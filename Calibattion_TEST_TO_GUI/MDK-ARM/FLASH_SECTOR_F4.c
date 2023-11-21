@@ -290,9 +290,7 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
  * 兩點校正抓取 方法取地址值
  * @param readAddr_start
  * @param readAddr_end
- * *實際值=Min+(原始值−Min_adc)×
- *Max_adc−Min_adc
- *Max−Min
+ * *實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min
  */
 void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_end)
 {
@@ -304,15 +302,36 @@ void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_en
   uint32_t adc_value_min = Flash_Read_NUM(readAddr_start);
   uint32_t adc_value_max = Flash_Read_NUM(readAddr_end);
   /*回算斜率上的實際值*/
-  vaule_convert=MIN_5V+(PFC_Variables.adc_raw[0]-adc_value_min)*((MAX_5V-MIN_5V)/(adc_value_max-adc_value_min));
-  
+  vaule_convert = MIN_5V + (PFC_Variables.adc_raw[0] - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
+
   /* 在這裡使用校正後的數據進行其他操作 */
   // ...
 
   /* 打印結果（這只是一個示例） */
-  // sprintf(buffer, "未經校正的原始值：%f\n", raw_value);
-  // Uart_sendstring(buffer, pc_uart);
-  sprintf(buffer, "校正後的實際值：%d\n", vaule_convert);
+  sprintf(buffer, "Calibration value:%d\n", vaule_convert);
   Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
 }
 
+/**
+ * @brief
+ * 測試用 Serial 輸入值轉換回 hex
+ * 上Serial 串口上
+ *
+ */
+void Seria_Testing_slopping_Method(void)
+{
+  /*uart buffer 變數*/
+  char buffer[Uart_Buffer];
+  /*靜態變數*/
+  static int vaule_convert;
+  /*從buffer內搜尋字串值並存入占存*/
+
+  /*從地址內取兩點校正的上下限值*/
+  uint32_t adc_value_min = Flash_Read_NUM(Flash_Addr_5V_Min);
+  uint32_t adc_value_max = Flash_Read_NUM(Flash_Addr_5V_Max);
+  /*實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min*/
+  vaule_convert = MIN_5V + (PFC_Variables.adc_raw[0] - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
+  /*Uart 打印製serial端口上*/
+  sprintf(buffer, "Calibration value:%d\n", vaule_convert);
+  Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
+}

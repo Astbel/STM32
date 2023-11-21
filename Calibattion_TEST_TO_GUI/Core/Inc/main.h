@@ -129,6 +129,9 @@ extern "C"
   //  #define DEBUG_MODE_UART  1
   // #define DEBUG_MODE_UART_ADC_Message 1
 
+/*Flash Test Define value*/
+#define Flash_5V_Max_Hex (2201)
+#define Flash_5V_Min_Hex (23)
 
 #ifdef __cplusplus
 }
