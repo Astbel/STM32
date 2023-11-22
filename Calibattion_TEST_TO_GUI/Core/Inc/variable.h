@@ -35,23 +35,15 @@ struct Allert_Portect
 // Flash 結構體
 struct Flash_Dynamic
 {
-    /*兩點校正參數*/
-    float block_c_5V;
-    float block_b_5V;
-    float block_a_5V;
-    float block_c_12V;
-    float block_b_12V;
-    float block_a_12V;
-    /*記憶體儲存位置*/
-    uint32_t adc_value_5V_min;
-    uint32_t adc_value_5V_max;
-    uint32_t adc_value_12V_min;
-    uint32_t adc_value_12V_max;
-    uint32_t adc_value_3_3V_min;
-    uint32_t adc_value_3_3V_max;
-    /*兩點校正輸出*/
-    float Slope_Value_5V;
-    float Slope_Value_12V;
+    /*兩點校正公式參數*/
+    float block_c;
+    float block_b;
+    float block_a;
+    /*兩點Max min上下限存取*/
+    uint32_t adc_value_min;
+    uint32_t adc_value_max;
+    /*2點校正輸出*/
+    float slope_value;
 };
 
 // 保護點設置

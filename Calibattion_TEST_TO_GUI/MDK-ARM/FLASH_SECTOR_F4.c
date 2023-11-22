@@ -24,6 +24,9 @@
  *  Sector 5 to Sector 7 each 128KB
  */
 int check_data;
+
+void calculateSlope(struct Flash_Dynamic *flashMemory, uint32_t test_adc, uint32_t flashAddrMin, uint32_t flashAddrMax, float max, float min);
+
 uint32_t GetSector(uint32_t Address)
 {
   uint32_t sector = 0;
@@ -286,100 +289,47 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
 }
 
 /**
- * @brief Sloping_Method_From_Two_Point
- * 兩點校正抓取 方法取地址值
- * @param readAddr_start
- * @param readAddr_end
- * *實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min
- */
-void Sloping_Method_From_Two_Point(uint32_t readAddr_start, uint32_t readAddr_end)
-{
-  /*buffer for uart send*/
-  char buffer[Uart_Buffer];
-  /*打印serial 傳輸*/
-  static int vaule_convert;
-  /* 讀取兩點的ADC值 */
-  uint32_t adc_value_min = Flash_Read_NUM(readAddr_start);
-  uint32_t adc_value_max = Flash_Read_NUM(readAddr_end);
-  /*回算斜率上的實際值*/
-  vaule_convert = MIN_5V + (PFC_Variables.adc_raw[0] - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
-
-  /* 在這裡使用校正後的數據進行其他操作 */
-  // ...
-
-  /* 打印結果（這只是一個示例） */
-  sprintf(buffer, "Calibration value:%d\n", vaule_convert);
-  Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
-}
-
-/**
- * @brief
- * 測試用 Serial 輸入值轉換回 hex 上Serial 串口上
- * 計算兩點校正並且轉換回對應校正值
- *
- * Bug 存在再單獨print serial log時候會印出亂碼
- * 
- */
-void Seria_Testing_slopping_Method(void)
-{
-  /*uart buffer 變數*/
-  char buffer[Uart_Buffer];
-  /*靜態變數*/
-  static uint32_t vaule_convert;
-  /*從buffer內搜尋字串值並存入占存*/
-  /*Test value 測試校正值*/
-  uint32_t test_adc = 2200;
-  /*從地址內取兩點校正的上下限值*/
-  uint32_t adc_value_min = Flash_Read_NUM(Flash_Addr_5V_Min);
-  uint32_t adc_value_max = Flash_Read_NUM(Flash_Addr_5V_Max);
-
-  /*實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min*/
-  /*Spreate Block in to 3 peciecs*/
-  float block_c = (((MAX_5V - MIN_5V) * Flash_Gain) / (adc_value_max - adc_value_min)); // maybhe too small
-  float block_b = (test_adc - adc_value_min);                                           // this block is fine
-  float block_a = block_b * block_c;
-  Slope_value = (MIN_5V + block_a) / Flash_Gain;
-  // Slope_value = MIN_5V + (test_adc - adc_value_min) * ((MAX_5V - MIN_5V) / (adc_value_max - adc_value_min));
-
-  sprintf(buffer, "volt is %f, curr is %d", Slope_value, PFC_Variables.adc_raw[1]);
-  Uart_sendstring(buffer, pc_uart);
-
-  /*Uart 打印製serial端口上*/
-  sprintf(buffer, "Calibration value:%f\n", Slope_value);
-  Uart_sendstring(buffer, pc_uart); // 訊息至veturial serial
-}
-
-/**
  * @brief
  * 測試兩點校正結構體版本
  * 修要優化結構體
- *
+ *實際值=Min+(原始值−Min_adc)xMax_adc−Min_adc/Max−Min
  */
 void Serial_Slopping_Method(void)
 {
   /*測試參數*/
-  uint32_t test_adc_5V = 2200;
-  uint32_t test_adc_12V = 1100;
+  uint32_t test_adc_5V = 1000;
+  uint32_t test_adc_12V = 3000;
   /*uart buffer 變數*/
   char buffer[Uart_Buffer];
-  /*結構體load 記憶體 flash data*/
-  Flash_Memory.adc_value_5V_min = Flash_Read_NUM(Flash_Addr_5V_Min);
-  Flash_Memory.adc_value_5V_max = Flash_Read_NUM(Flash_Addr_5V_Max);
-  Flash_Memory.adc_value_12V_min = Flash_Read_NUM(Flash_Addr_12V_Min);
-  Flash_Memory.adc_value_12V_max = Flash_Read_NUM(Flash_Addr_12V_Max);
-  /*5V校正計算*/
-  Flash_Memory.block_c_5V = (((MAX_5V - MIN_5V) * Flash_Gain) / (Flash_Memory.adc_value_5V_max - Flash_Memory.adc_value_5V_min)); // maybhe too small
-  Flash_Memory.block_b_5V = (test_adc_5V - Flash_Memory.adc_value_5V_min);                                                        // this block is fine
-  Flash_Memory.block_a_5V = Flash_Memory.block_b_5V * Flash_Memory.block_c_5V;
-  Flash_Memory.Slope_Value_5V = (MIN_5V + Flash_Memory.block_a_5V) / Flash_Gain;
-   /*12V校正計算*/
-  Flash_Memory.block_c_12V = (((MAX_12V - MIN_12V) * Flash_Gain) / (Flash_Memory.adc_value_12V_max - Flash_Memory.adc_value_5V_min)); // maybhe too small
-  Flash_Memory.block_b_12V = (test_adc_12V - Flash_Memory.adc_value_12V_min);                                                        // this block is fine
-  Flash_Memory.block_a_12V = Flash_Memory.block_b_12V * Flash_Memory.block_c_12V;
-  Flash_Memory.Slope_Value_12V = (MIN_12V + Flash_Memory.block_a_12V) / Flash_Gain;
-  
-  /*Serial log打印*/
-  sprintf(buffer, "volt is %f, curr is %f", Flash_Memory.Slope_Value_5V, Flash_Memory.Slope_Value_12V);
-  Uart_sendstring(buffer, pc_uart);
 
+  /*申明類別*/
+  struct Flash_Dynamic flashMemory_5V;
+  struct Flash_Dynamic flashMemory_12V;
+  // 5V
+  calculateSlope(&flashMemory_5V, test_adc_5V, Flash_Addr_5V_Min, Flash_Addr_5V_Max, MAX_5V, MIN_5V);
+  // 12V
+  calculateSlope(&flashMemory_12V, test_adc_12V, Flash_Addr_12V_Min, Flash_Addr_12V_Max, MAX_12V, MIN_12V);
+
+  /*Serial log打印*/
+  sprintf(buffer, "volt is %f, curr is %f", flashMemory_5V.slope_value, flashMemory_12V.slope_value);
+  Uart_sendstring(buffer, pc_uart);
+}
+/**
+ * @brief 
+ * 
+ * @param flashMemory 結構體申明
+ * @param test_adc    ADC讀取值
+ * @param flashAddrMin Min flash adc
+ * @param flashAddrMax Max flash adc
+ * @param max 實際值上限
+ * @param min 實際值下限
+ */
+void calculateSlope(struct Flash_Dynamic *flashMemory, uint32_t test_adc, uint32_t flashAddrMin, uint32_t flashAddrMax, float max, float min)
+{
+  flashMemory->adc_value_min = Flash_Read_NUM(flashAddrMin);
+  flashMemory->adc_value_max = Flash_Read_NUM(flashAddrMax);
+  flashMemory->block_c = (((max - min) * Flash_Gain) / (flashMemory->adc_value_max - flashMemory->adc_value_min));
+  flashMemory->block_b = (test_adc - flashMemory->adc_value_min);
+  flashMemory->block_a = flashMemory->block_b * flashMemory->block_c;
+  flashMemory->slope_value = (min + flashMemory->block_a) / Flash_Gain;
 }
