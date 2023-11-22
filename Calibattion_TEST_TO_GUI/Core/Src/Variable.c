@@ -1,5 +1,6 @@
 #include "main.h"
 struct PFC_VARIABLES PFC_Variables;
+struct Flash_Dynamic Flash_Memory;
 // 申明變數
 char *data = "hello FLASH from Astbel\
 			  This is a test to see how many words can we work with";

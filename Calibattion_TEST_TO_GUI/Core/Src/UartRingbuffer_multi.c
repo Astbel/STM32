@@ -639,7 +639,7 @@ void Get12VMinCommand(void)
 	Data_12V_Min_Addr = Flash_Addr_12V_Min;
 	Data_12V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_NUM(Data_12V_Min_Addr, number);
+	Flash_Write_NUM(Data_12V_Min_Addr, Flash_12V_Min_Hex);
 
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
@@ -652,7 +652,7 @@ void Get12VMaxCommand(void)
 	Data_12V_Max_Addr = Flash_Addr_12V_Max;
 	Data_12V_Max_Addr = Flash_Read_Addr_Data_Exit(Data_12V_Max_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
-	Flash_Write_NUM(Data_12V_Max_Addr, number);
+	Flash_Write_NUM(Data_12V_Max_Addr, Flash_12V_Max_Hex);
 
 	// 清空buffer
 	Process_Excecuted_Flag = True;
@@ -692,7 +692,7 @@ CommandEntry commandTable[] = {
 	{"Erase Flash memory", EraseFlashMemoryCommand},
 	{"Check Flash Data", Check_Flash_Memory_Data},
 	//below is testing the calibration 
-	{"Test Value is",Seria_Testing_slopping_Method},
+	{"Test Value is",Serial_Slopping_Method},
 	// 添加其他命令...
 };
 
