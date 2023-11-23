@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Calibattion_TEST_TO_GUI\Calibattion_TEST_TO_GUI.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Thu Nov 23 09:51:16 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Thu Nov 23 13:47:11 2023
 <BR><P>
 <H3>Maximum Stack Usage =       1080 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -751,12 +751,11 @@ Global Symbols
 
 <P><STRONG><a name="[114]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[6e]"></a>Black_Box_Write_Message_Status</STRONG> (Thumb, 180 bytes, Stack size 224 bytes, uartringbuffer_multi.o(.text.Black_Box_Write_Message_Status))
-<BR><BR>[Stack]<UL><LI>Max Depth = 344 + Unknown Stack Size
+<P><STRONG><a name="[6e]"></a>Black_Box_Write_Message_Status</STRONG> (Thumb, 140 bytes, Stack size 208 bytes, uartringbuffer_multi.o(.text.Black_Box_Write_Message_Status))
+<BR><BR>[Stack]<UL><LI>Max Depth = 328 + Unknown Stack Size
 <LI>Call Chain = Black_Box_Write_Message_Status &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Read_NUM
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> uartringbuffer_multi.o(.data.commandTable)
 </UL>
@@ -817,8 +816,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9e]"></a>Flash_Read_NUM</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, flash_sector_f4.o(.text.Flash_Read_NUM))
-<BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Black_Box_Write_Message_Status
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Flash_Memory_Data
+<BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Flash_Memory_Data
 </UL>
 
 <P><STRONG><a name="[a6]"></a>Flash_Write_NUM</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, flash_sector_f4.o(.text.Flash_Write_NUM))
@@ -1193,24 +1191,24 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f446xx.o(RESET)
 </UL>
-<P><STRONG><a name="[6c]"></a>OCP_Protect_Event</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, uartringbuffer_multi.o(.text.OCP_Protect_Event))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = OCP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
+<P><STRONG><a name="[6c]"></a>OCP_Protect_Event</STRONG> (Thumb, 308 bytes, Stack size 24 bytes, uartringbuffer_multi.o(.text.OCP_Protect_Event))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = OCP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_NUM
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Read_Addr_Data_Exit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> uartringbuffer_multi.o(.data.commandTable)
 </UL>
-<P><STRONG><a name="[6b]"></a>OTP_Protect_Event</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, uartringbuffer_multi.o(.text.OTP_Protect_Event))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = OTP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
+<P><STRONG><a name="[6b]"></a>OTP_Protect_Event</STRONG> (Thumb, 308 bytes, Stack size 24 bytes, uartringbuffer_multi.o(.text.OTP_Protect_Event))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = OTP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_NUM
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Read_Addr_Data_Exit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> uartringbuffer_multi.o(.data.commandTable)
 </UL>
-<P><STRONG><a name="[6d]"></a>OVP_Protect_Event</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, uartringbuffer_multi.o(.text.OVP_Protect_Event))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = OVP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
+<P><STRONG><a name="[6d]"></a>OVP_Protect_Event</STRONG> (Thumb, 308 bytes, Stack size 24 bytes, uartringbuffer_multi.o(.text.OVP_Protect_Event))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = OVP_Protect_Event &rArr; Flash_Write_NUM &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Write_NUM
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Read_Addr_Data_Exit
@@ -1235,7 +1233,7 @@ Global Symbols
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(.text.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f446xx.o(RESET)
 </UL>
-<P><STRONG><a name="[6f]"></a>Serial_Slopping_Method</STRONG> (Thumb, 220 bytes, Stack size 232 bytes, flash_sector_f4.o(.text.Serial_Slopping_Method))
+<P><STRONG><a name="[6f]"></a>Serial_Slopping_Method</STRONG> (Thumb, 216 bytes, Stack size 232 bytes, flash_sector_f4.o(.text.Serial_Slopping_Method))
 <BR><BR>[Stack]<UL><LI>Max Depth = 352 + Unknown Stack Size
 <LI>Call Chain = Serial_Slopping_Method &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>

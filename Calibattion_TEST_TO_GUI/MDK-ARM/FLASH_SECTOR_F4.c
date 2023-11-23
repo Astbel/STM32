@@ -297,8 +297,8 @@ uint32_t Flash_Read_Addr_Data_Exit(uint32_t StartSectorAddress)
 void Serial_Slopping_Method(void)
 {
   /*測試參數*/
-  uint32_t test_adc_5V = 1000;
-  uint32_t test_adc_12V = 3000;
+  uint32_t test_adc_5V = 2201;
+  uint32_t test_adc_12V = 0;
   /*uart buffer 變數*/
   char buffer[Uart_Buffer];
 
@@ -311,7 +311,7 @@ void Serial_Slopping_Method(void)
   calculateSlope(&flashMemory_12V, test_adc_12V, Flash_Addr_12V_Min, Flash_Addr_12V_Max, MAX_12V, MIN_12V);
 
   /*Serial log打印*/
-  sprintf(buffer, "volt is %f, curr is %f", flashMemory_5V.slope_value, flashMemory_12V.slope_value);
+  sprintf(buffer, "volt is %f, curr is %f\n", flashMemory_5V.slope_value, flashMemory_12V.slope_value);
   Uart_sendstring(buffer, pc_uart);
 }
 /**

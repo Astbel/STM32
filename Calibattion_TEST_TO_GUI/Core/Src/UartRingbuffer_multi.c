@@ -685,6 +685,7 @@ void Check_Flash_Memory_Data(void)
 /*OTP 事件存入*/
 void OTP_Protect_Event(void)
 {
+	Uart_sendstring("Test the OTP TASK\n", pc_uart);
 	/*測試用目前暫定當接收到則旗標cnt++*/
 	Dyanmic_Portect.OTP = True;
 	// 設定地址
@@ -699,6 +700,7 @@ void OTP_Protect_Event(void)
 /*OCP 事件存入*/
 void OCP_Protect_Event(void)
 {
+	Uart_sendstring("Test the OCP TASK\n", pc_uart);
 	/*測試用目前暫定當接收到則旗標cnt++*/
 	Dyanmic_Portect.OCP = True;
 	// 設定地址
@@ -713,6 +715,7 @@ void OCP_Protect_Event(void)
 /*OVP 事件存入*/
 void OVP_Protect_Event(void)
 {
+	Uart_sendstring("Test the OVP TASK\n", pc_uart);
 	/*測試用目前暫定當接收到則旗標cnt++*/
 	Dyanmic_Portect.OVP = True;
 	// 設定地址
@@ -728,19 +731,22 @@ void OVP_Protect_Event(void)
  * @brief
  * 黑盒子功能 紀錄上一次保護時並且傳遞給GUI上
  * 從所有保護中搜索遍歷後當GUI下達指令後回傳訊息跟新
- *
+ * 取止後再用黑盒子造成錯誤
  */
 void Black_Box_Write_Message_Status(void)
 {
 	// Uart buffer
 	char buffer[Uart_Buffer];
 	// 檢索當前flash層中保護狀態值
-	uint32_t otp_boolean = Flash_Read_NUM(Flash_Addr_OTP);
-	uint32_t ocp_boolean = Flash_Read_NUM(Flash_Addr_OCP);
-	uint32_t ovp_boolean = Flash_Read_NUM(Flash_Addr_OVP);
+	uint32_t otp_boolean = Dyanmic_Portect.OTP;
+	uint32_t ocp_boolean = Dyanmic_Portect.OCP;
+	uint32_t ovp_boolean = Dyanmic_Portect.OVP;
 	// Uart buffer 傳送至serial message 端顯示當前狀態列ex 是什麼保護
-	sprintf(buffer, "otp is %d ocp is %d ovp is %d", otp_boolean,ocp_boolean,ovp_boolean);
+	
+	sprintf(buffer, "otp is %d, ocp is %d\n", otp_boolean, ocp_boolean);
 	Uart_sendstring(buffer, pc_uart);
+
+	// Process_Excecuted_Flag = True;
 }
 
 /**Command 窗口 擴充命令在這**/
