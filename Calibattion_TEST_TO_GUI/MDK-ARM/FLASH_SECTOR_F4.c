@@ -315,8 +315,8 @@ void Serial_Slopping_Method(void)
   Uart_sendstring(buffer, pc_uart);
 }
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @param flashMemory 結構體申明
  * @param test_adc    ADC讀取值
  * @param flashAddrMin Min flash adc
@@ -333,3 +333,5 @@ void calculateSlope(struct Flash_Dynamic *flashMemory, uint32_t test_adc, uint32
   flashMemory->block_a = flashMemory->block_b * flashMemory->block_c;
   flashMemory->slope_value = (min + flashMemory->block_a) / Flash_Gain;
 }
+
+

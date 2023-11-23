@@ -93,4 +93,7 @@ void ProcessCommand(const char *command);
 void Get_Command_From_C_shrap(void);
 //清除圓形緩衝後的值
 void Reset_Rx_Buffer(void);
+/*保護事件*/
+void OTP_Protect_Event(void);
+
 #endif /* UARTRINGBUFFER_H_ */

@@ -81,6 +81,11 @@ extern "C"
 #define Flash_Addr_5V_Max (0x0800C110)
 #define Flash_Addr_12V_Min (0x0800C120)
 #define Flash_Addr_12V_Max (0x0800C130)
+
+/*保護地址用來記錄上一次保護原因*/
+#define Flash_Addr_OTP (0x0800C140)
+#define Flash_Addr_OCP (0x0800C150)
+#define Flash_Addr_OVP (0x0800C160)
 /*兩點校正MAX MIN*/
 #define MAX_5V   (20)
 #define MIN_5V   (0)
@@ -91,9 +96,10 @@ extern "C"
 #define Flash_5V_Min_Hex  (23)
 #define Flash_12V_Max_Hex (3986)
 #define Flash_12V_Min_Hex (23)
-/*初始尚未flash*/
-
+/*Flash 縮放增益因為int型別在C上計算要放大的關西*/
 #define Flash_Gain (1000)
+
+
 
 /*傳輸buffer 大小配置*/
 #define Uart_Buffer (200)

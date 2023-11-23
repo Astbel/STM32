@@ -18,5 +18,8 @@ extern void Get12VMaxCommand(void);
 extern void EraseFlashMemoryCommand(void);
 extern void Check_Flash_Memory_Data(void);
 extern void Serial_Slopping_Method(void);
-// void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars);
+extern void OTP_Protect_Event(void);
+extern void OCP_Protect_Event(void);
+extern void OVP_Protect_Event(void);
+extern void Black_Box_Write_Message_Status(void);
 #endif

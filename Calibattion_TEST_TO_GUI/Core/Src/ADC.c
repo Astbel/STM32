@@ -1,5 +1,5 @@
 #include "main.h"
-struct Allert_Portect Dyanmic_Portect;
+
 /*Variable*/
 void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars);
 
@@ -58,8 +58,7 @@ void Uart_send_ADC_Result(struct PFC_VARIABLES *pfc_vars)
 void Dynamic_Interpolation_ADC(void)
 {
     //Value from Flash Max multi the dynamic Gain
-    Protect_12V =Dyanmic_Portect.Protect_12V_Max*Dynmaic_Gain;
-    Protect_5V  =Dyanmic_Portect.Portect_5V_max*Dynmaic_Gain;
+
 
 
 }

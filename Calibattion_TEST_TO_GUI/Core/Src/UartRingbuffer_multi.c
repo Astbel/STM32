@@ -614,7 +614,7 @@ void Get5VMinCommand(void)
 	Data_5V_Min_Addr = Flash_Read_Addr_Data_Exit(Data_5V_Min_Addr);
 	// 处理 Get_5V_Min 命令储存当前ADC值
 	Flash_Write_NUM(Data_5V_Min_Addr, Flash_5V_Min_Hex);
-	
+
 	//  清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
@@ -668,7 +668,7 @@ void EraseFlashMemoryCommand(void)
 	// 清空buffer
 	Process_Excecuted_Flag = True;
 }
-
+/*測試記憶體寫入值*/
 void Check_Flash_Memory_Data(void)
 {
 	Uart_sendstring("Test the write Flash memory\n", pc_uart);
@@ -681,7 +681,67 @@ void Check_Flash_Memory_Data(void)
 	// 清空buffer旗標
 	Process_Excecuted_Flag = True;
 }
-/*測試兩點校正線性方程打印回C#上函式*/
+/*保護測試事件*/
+/*OTP 事件存入*/
+void OTP_Protect_Event(void)
+{
+	/*測試用目前暫定當接收到則旗標cnt++*/
+	Dyanmic_Portect.OTP = True;
+	// 設定地址
+	Data_OTP_Addr = Flash_Addr_OTP;
+	// 確認地址內是否有值有的話則往後
+	Data_OTP_Addr = Flash_Read_Addr_Data_Exit(Data_OTP_Addr);
+	// 寫入flash 地址
+	Flash_Write_NUM(Data_OTP_Addr, Dyanmic_Portect.OTP);
+	//  清空buffer旗標
+	Process_Excecuted_Flag = True;
+}
+/*OCP 事件存入*/
+void OCP_Protect_Event(void)
+{
+	/*測試用目前暫定當接收到則旗標cnt++*/
+	Dyanmic_Portect.OCP = True;
+	// 設定地址
+	Data_OCP_Addr = Flash_Addr_OCP;
+	// 確認地址內是否有值有的話則往後
+	Data_OCP_Addr = Flash_Read_Addr_Data_Exit(Data_OCP_Addr);
+	// 寫入flash 地址
+	Flash_Write_NUM(Data_OCP_Addr, Dyanmic_Portect.OCP);
+	//  清空buffer旗標
+	Process_Excecuted_Flag = True;
+}
+/*OVP 事件存入*/
+void OVP_Protect_Event(void)
+{
+	/*測試用目前暫定當接收到則旗標cnt++*/
+	Dyanmic_Portect.OVP = True;
+	// 設定地址
+	Data_OVP_Addr = Flash_Addr_OVP;
+	// 確認地址內是否有值有的話則往後
+	Data_OVP_Addr = Flash_Read_Addr_Data_Exit(Data_OVP_Addr);
+	// 寫入flash 地址
+	Flash_Write_NUM(Data_OVP_Addr, Dyanmic_Portect.OVP);
+	//  清空buffer旗標
+	Process_Excecuted_Flag = True;
+}
+/**
+ * @brief
+ * 黑盒子功能 紀錄上一次保護時並且傳遞給GUI上
+ * 從所有保護中搜索遍歷後當GUI下達指令後回傳訊息跟新
+ *
+ */
+void Black_Box_Write_Message_Status(void)
+{
+	// Uart buffer
+	char buffer[Uart_Buffer];
+	// 檢索當前flash層中保護狀態值
+	uint32_t otp_boolean = Flash_Read_NUM(Flash_Addr_OTP);
+	uint32_t ocp_boolean = Flash_Read_NUM(Flash_Addr_OCP);
+	uint32_t ovp_boolean = Flash_Read_NUM(Flash_Addr_OVP);
+	// Uart buffer 傳送至serial message 端顯示當前狀態列ex 是什麼保護
+	sprintf(buffer, "otp is %d ocp is %d ovp is %d", otp_boolean,ocp_boolean,ovp_boolean);
+	Uart_sendstring(buffer, pc_uart);
+}
 
 /**Command 窗口 擴充命令在這**/
 CommandEntry commandTable[] = {
@@ -691,8 +751,14 @@ CommandEntry commandTable[] = {
 	{"Get_12V_Max", Get12VMaxCommand},
 	{"Erase Flash memory", EraseFlashMemoryCommand},
 	{"Check Flash Data", Check_Flash_Memory_Data},
-	//below is testing the calibration 
-	{"Test Value is",Serial_Slopping_Method},
+	// below is  save protect event this only test for serial saving flash
+	{"OTP EVENT", OTP_Protect_Event},
+	{"OCP EVENT", OCP_Protect_Event},
+	{"OVP EVENT", OVP_Protect_Event},
+	//
+	{"Black Box Status", Black_Box_Write_Message_Status},
+	// below is testing the calibration
+	{"Test Value is", Serial_Slopping_Method},
 	// 添加其他命令...
 };
 
@@ -700,14 +766,13 @@ CommandEntry commandTable[] = {
 void ProcessCommand(const char *command)
 {
 	for (int i = 0; i < sizeof(commandTable) / sizeof(commandTable[0]); i++)
-	{	
-		//正常搜索字串執行cmd
+	{
+		// 正常搜索字串執行cmd
 		if (strcmp(command, commandTable[i].commandName) == 0)
 		{
 			commandTable[i].handler();
 			return;
 		}
-		
 	}
 }
 

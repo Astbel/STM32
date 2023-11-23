@@ -13,13 +13,9 @@ extern struct Flash_Dynamic Flash_Memory;
 typedef void (*CommandHandler)(void);
 /***********************Flash**********************/
 // 測試函數 變數宣告
-extern float val, Rxval;
-extern int number;
-extern char string[100];
-extern uint32_t Rx_Data[30], data2[9];
-extern char *data;
+
 // 正式使用函數 變數宣告
-extern uint32_t Min_5V_Data;
+
 /********************STRUCT***************************/
 struct PFC_VARIABLES
 {
@@ -27,10 +23,10 @@ struct PFC_VARIABLES
 };
 struct Allert_Portect
 {
-    uint32_t Protect_12V_Max;
-    uint32_t Protect_12V_Min;
-    uint32_t Portect_5V_max;
-    uint32_t Portect_5V_min;
+    uint8_t OVP;
+    uint8_t OCP;
+    uint8_t OTP;
+
 };
 // Flash 結構體
 struct Flash_Dynamic
@@ -63,7 +59,10 @@ extern uint32_t Data_5V_Min_Addr;
 extern uint32_t Data_5V_Max_Addr;
 extern uint32_t Data_12V_Min_Addr;
 extern uint32_t Data_12V_Max_Addr;
+extern uint32_t Data_OTP_Addr;
+extern uint32_t Data_OCP_Addr;
+extern uint32_t Data_OVP_Addr;
 /*********************Slope method**********************/
-extern float Slope_value;
+
 
 #endif
